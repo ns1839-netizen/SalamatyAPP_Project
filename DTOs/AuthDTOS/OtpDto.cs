@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Salamaty.API.DTOs
+namespace Salamaty.API.DTOs.AuthDTOS
 {
     public class OtpDto
     {

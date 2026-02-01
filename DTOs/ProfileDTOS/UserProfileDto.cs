@@ -2,7 +2,7 @@
 using Salamaty.API.Models.Enums;
 using Swashbuckle.AspNetCore.Annotations; // لإضافة وصف في Swagger
 
-namespace Salamaty.API.DTOs
+namespace Salamaty.API.DTOs.ProfileDTOS
 {
     public class UserProfileDto
     {

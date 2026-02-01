@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Salamaty.API.Services;
+using Salamaty.API.Services.HomeServices;
 
 namespace Salamaty.API.Controllers
 {
@@ -21,18 +21,6 @@ namespace Salamaty.API.Controllers
             return Ok(banners);
         }
 
-        [HttpGet("products/new-arrivals")]
-        public async Task<IActionResult> GetNewArrivals()
-        {
-            var products = await _homeService.GetNewArrivalsAsync();
-            return Ok(products);
-        }
 
-        [HttpGet("products/search")]
-        public async Task<IActionResult> SearchProducts([FromQuery] string query)
-        {
-            var products = await _homeService.SearchProductsAsync(query);
-            return Ok(products);
-        }
     }
 }

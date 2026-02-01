@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Salamaty.API.Models.Enums;
 
-namespace Salamaty.API.Models
+namespace Salamaty.API.Models.ProfileModels
 {
     public class ApplicationUser : IdentityUser
     {

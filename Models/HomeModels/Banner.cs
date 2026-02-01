@@ -1,4 +1,4 @@
-﻿namespace Salamaty.API.Models
+﻿namespace Salamaty.API.Models.HomeModels
 {
     public class Banner
     {
