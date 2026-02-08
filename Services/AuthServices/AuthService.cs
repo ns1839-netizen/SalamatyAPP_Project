@@ -149,8 +149,8 @@ namespace Salamaty.API.Services.AuthServices
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWT:Key"]!));
 
             var token = new JwtSecurityToken(
-                issuer: config["JWT:ValidIssuer"],
-                audience: config["JWT:ValidAudience"],
+                issuer: config["JWT:Issuer"],
+                audience: config["JWT:Audience"],
                 expires: DateTime.UtcNow.AddDays(1),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)

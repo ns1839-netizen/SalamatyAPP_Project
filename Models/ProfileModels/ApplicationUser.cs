@@ -13,7 +13,7 @@ namespace Salamaty.API.Models.ProfileModels
 
         // ================== Optional fields ==================
         [Url(ErrorMessage = "Image URL must be a valid URL.")]
-        public string? ImageUrl { get; set; } = string.Empty;
+        public string ImageUrl { get; set; } = string.Empty;
 
 
         [Url(ErrorMessage = "Link must be a valid URL.")]

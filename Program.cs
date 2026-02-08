@@ -64,6 +64,10 @@ builder.Services.AddAuthentication(options =>
 // ===== 4. Custom Application Services =====
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+
+
+
+
 // تسجيل خدمة الـ Home
 builder.Services.AddScoped<IHomeService, HomeService>();
 // ===== 5. Swagger with JWT Support =====
