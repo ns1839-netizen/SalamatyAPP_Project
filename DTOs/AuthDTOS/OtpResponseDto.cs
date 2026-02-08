@@ -1,4 +1,4 @@
-﻿namespace Salamaty.API.DTOs
+﻿namespace Salamaty.API.DTOs.AuthDTOS
 {
     public class OtpResponseDto
     {

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Salamaty.API.Models.Enums;
 
-namespace Salamaty.API.Models
+namespace Salamaty.API.Models.ProfileModels
 {
     public class ApplicationUser : IdentityUser
     {
@@ -13,7 +13,7 @@ namespace Salamaty.API.Models
 
         // ================== Optional fields ==================
         [Url(ErrorMessage = "Image URL must be a valid URL.")]
-        public string? ImageUrl { get; set; } = string.Empty;
+        public string ImageUrl { get; set; } = string.Empty;
 
 
         [Url(ErrorMessage = "Link must be a valid URL.")]

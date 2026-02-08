@@ -1,7 +1,7 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
 
-namespace Salamaty.API.Services
+namespace Salamaty.API.Services.AuthServices
 {
     // استخدام الـ Primary Constructor لجلب الـ IConfiguration مباشرة
     public class EmailService(IConfiguration config) : IEmailService

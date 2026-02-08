@@ -1,4 +1,4 @@
-﻿namespace Salamaty.API.Services
+﻿namespace Salamaty.API.Services.AuthServices
 {
     public interface IEmailService
     {

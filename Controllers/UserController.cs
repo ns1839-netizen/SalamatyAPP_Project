@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Salamaty.API.DTOs;
-using Salamaty.API.Models;
+using Salamaty.API.DTOs.ProfileDTOS;
+using Salamaty.API.Models.ProfileModels;
 using SalamatyAPI.Data;
 
 namespace Salamaty.API.Controllers
@@ -87,5 +87,6 @@ namespace Salamaty.API.Controllers
 
             return Ok(new { Success = true, ImageUrl = user.ImageUrl });
         }
+
     }
 }
