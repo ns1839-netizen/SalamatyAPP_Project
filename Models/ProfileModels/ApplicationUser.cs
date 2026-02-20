@@ -9,6 +9,8 @@ namespace Salamaty.API.Models.ProfileModels
         // ================== Required fields ==================
         [Required(ErrorMessage = "Full Name is required.")]
         [MaxLength(100, ErrorMessage = "Full Name cannot exceed 100 characters.")]
+        [RegularExpression(@"^[\u0600-\u06FFa-zA-Z\s]+$", ErrorMessage = "Full Name must contain only letters and spaces.")]
+
         public string FullName { get; set; } = null!;
 
         // ================== Optional fields ==================
@@ -24,9 +26,9 @@ namespace Salamaty.API.Models.ProfileModels
         public DateTime? OtpExpiry { get; set; }
 
         // ================== Profile fields ==================
-        public Gender Gender { get; set; }
+        public Gender Gender { get; set; } = Gender.NotSpecified;
 
-        public DateTime? BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
         [MaxLength(200)]
         public string? Address { get; set; }

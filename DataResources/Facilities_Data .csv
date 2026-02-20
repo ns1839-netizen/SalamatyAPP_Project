@@ -1,0 +1,352 @@
+﻿ID,nameAr,nameEn,typeAr,typeEn,addressAr,addressEn,phoneEn,phoneAr,governorateAr,governorateEn
+PH-1,صيدليات العزبي,Ezzaby Pharmacy,صيدلية,Pharmacy,شارع عباس العقاد – مدينة نصر,Abbas Al-Akkad Street – Madinet Nasr,19100,19100,القاهرة,Cairo
+PH-2,صيدلية سيف,Seif Pharmacy,صيدلية,Pharmacy,ش التحرير – الدقي,"
+Al-Tahrir Street – Dokki",19199,19199,الجيزة,Giza
+PH-3,صيدليات مصر,Misr Pharmacy,صيدلية,Pharmacy,ش فيصل الرئيسي,El-Faisal Main Street,19110,19110,الجيزة,Giza
+PH-4,صيدليات رشدي,Roshdy Pharmacy,صيدلية,Pharmacy,شارع الهرم,Al-Haram Street,16121,16121,الجيزة,Giza
+PH-5,صيدلية المتحدة,Al-Muttahida Pharmacy,صيدلية,Pharmacy,ش جمال عبد الناصر – سموحة,Gamal Abdel Nasser Street – Smouha,34567890,34567890,الإسكندرية,Alexandria
+PH-6,صيدلية نور,Nour Pharmacy,صيدلية,Pharmacy,ش الجيش – طنطا,El-Geish Street – Tanta,401234567,401234567,الغربية,Gharbia
+PH-7,صيدلية الحياة,Al-Hayah Pharmacy,صيدلية,Pharmacy,ش الكورنيش – المنصورة,El-Kornish Street – Mansoura,509876543,509876543,الدقهلية,Dakahlia
+PH-8,صيدلية الشفاء,Al-Shifa Pharmacy,صيدلية,Pharmacy,ش الجمهورية – الزقازيق,El-Gomhouria Street – Zagazig,552345678,552345678,الشرعية,Sharqia
+H-9,مستشفى السلام الدولي,Al-Salam International Hospital,مستشفى,Hospital,المعادي – كورنيش النيل,Maadi – Nile Corniche,19885,19885,القاهرة,Cairo
+H-10,مستشفى دار الفؤاد,Dar Al-Fouad Hospital,مستشفى,Hospital,6 أكتوبر – المحور المركزي,6th of October – Central Axis,16121,16121,الجيزة,Giza
+H-11,مستشفى بهية,Bahiya Hospital,مستشفى,Hospital,ش الهرم – الطالبية,Al-Haram Street – Al-Talabiya,16602,16602,الجيزة,Giza
+H-12,مستشفى 57357,57357 Hospital,مستشفى,Hospital,زهراء المعادي,Zahraa Al-Maadi,57357,57357,القاهرة,Cairo
+H-13,مستشفى السعودي الألماني,Saudi German Hospital,مستشفى,Hospital,الإسكندرية – سموحة,Alexandria – Smouha,16259,16259,الإسكندرية,Alexandria
+H-14,مستشفى كليوباترا,Cleopatra Hospital,مستشفى,Hospital,ش صلاح سالم,Salah Salem Street,19668,19668,القاهرة,Cairo
+LAB-15,معمل البرج,Al-Borg Laboratory,معمل تحاليل,Lab,ش مصطفى النحاس,Mostafa El-Nahas Street,19911,19911,القاهرة,Cairo
+LAB-16,معامل المختبر,Al-Mokhtabar Laboratory,معمل تحاليل,Lab,ش فيصل,Faisal Street,19014,19014,الجيزة,Giza
+LAB-17,معامل ألفا,Alpha Laboratory,معمل تحاليل,Lab,ش الجمهورية,El-Gomhouria Street,16191,16191,المنصورة,Mansoura
+LAB-18,معامل كايرو سكان,Cairo Scan Laboratory,معمل تحاليل,Lab,ش جامعة الدول,El-Gamaa El-Duwal Street,16121,16121,الجيزة,Giza
+LAB-19,معامل البرهان,Al-Burhan Laboratory,معمل تحاليل,Lab,ش سعد زغلول,Saad Zaghloul Street,456677889,456677889,البحيرة,Beheira
+LAB-20,معمل النيل,Al-Nile Laboratory,معمل تحاليل,Lab,ش خالد بن الوليد,Khalid Ibn Al-Waleed Street,35551234,35551234,الإسكندرية,Alexandria
+H-21,مستشفى عين شمس التخصصي,Ain Shams Specialized Hospital,مستشفى,Hospital,العباسية – أمام كلية الطب,Abbasiya – In front of Faculty of Medicine,223456789,223456789,القاهرة,Cairo
+H-22,مستشفى النزهة الدولي,Al-Nuzha International Hospital,مستشفى,Hospital,شارع طومان باي – مصر الجديدة,Tuman Bay Street – Heliopolis,224012345,224012345,القاهرة,Cairo
+H-23,مستشفى الجوي التخصصي,Al-Gawwi Specialized Hospital,مستشفى,Hospital,كوبري القبة,Kobri Al-Qobba,222688888,222688888,القاهرة,Cairo
+H-24,مستشفى وادي النيل,Wadi Al-Nil Hospital,مستشفى,Hospital,ش جامعة الدول العربية,El-Gamaa El-Duwal Al-Arabia Street,237600000,237600000,الجيزة,Giza
+H-25,مستشفى الصفوة,Al-Safwa Hospital,مستشفى,Hospital,المهندسين – ش شهاب,Mohandiseen – Shehab Street,233456677,233456677,الجيزة,Giza
+H-26,مستشفى الزهراء الجامعي,Al-Zahraa University Hospital,مستشفى,Hospital,جامعة الأزهر – مدينة نصر,Al-Azhar University – Madinet Nasr,222876543,222876543,القاهرة,Cairo
+H-27,مستشفى المنصورة الدولي,Mansoura International Hospital,مستشفى,Hospital,ش الجيش – المنصورة,El-Geish Street – Mansoura,502223334,502223334,الدقهلية,Dakahlia
+H-28,مستشفى طنطا الجامعي,Tanta University Hospital,مستشفى,Hospital,ش البحر – طنطا,El-Bahr Street – Tanta,403332211,403332211,الغربية,Gharbia
+H-29,مستشفى أسيوط الجامعي,Assiut University Hospital,مستشفى,Hospital,شارع الجامعة,University Street,882345678,882345678,أسيوط,Assiut
+H-30,مستشفى سوهاج العام,Sohag General Hospital,مستشفى,Hospital,ش الجمهورية,El-Gomhouria Street,931239876,931239876,سوهاج,Sohag
+LAB-31,معمل المختبر فرع مدينة نصر,Al-Mokhtabar Branch - Madinet Nasr,معمل تحاليل,Lab,ش عباس العقاد,Abbas Al-Akkad Street,19014,19014,القاهرة,Cairo
+LAB-32,معمل البرج فرع الدقي,Al-Borg Branch - Dokki,معمل تحاليل,Lab,ش التحرير,Al-Tahrir Street,19911,19911,الجيزة,Giza
+LAB-33,معمل ألفا فرع الإسكندرية,Alpha Branch - Alexandria,معمل تحاليل,Lab,ش فؤاد – محطة الرمل,Fouad Street – Mahattet Al-Raml,34567123,34567123,الإسكندرية,Alexandria
+LAB-34,معمل كايرو لاب,Cairo Lab,معمل تحاليل,Lab,ش مصطفى كامل,Mostafa Kamel Street,35551122,35551122,الإسكندرية,Alexandria
+LAB-35,معمل تاون لاب,Town Lab,معمل تحاليل,Lab,ش فيصل,Faisal Street,235698741,235698741,الجيزة,Giza
+LAB-36,معمل النخبة للتحاليل,Al-Nokhba Laboratory,معمل تحاليل,Lab,ش الجمهورية,El-Gomhouria Street,552221110,552221110,الشرعية,Sharqia
+LAB-37,معمل سما للتحاليل,Sama Laboratory,معمل تحاليل,Lab,ش سعد زغلول,Saad Zaghloul Street,509988776,509988776,الدقهلية,Dakahlia
+LAB-38,معمل النور,Al-Nour Laboratory,معمل تحاليل,Lab,ش الكورنيش,El-Kornish Street,653445566,653445566,البحر الأحمر,Red Sea
+PH-39,صيدليات المتحدة,Al-Muttahida Pharmacies,صيدلية,Pharmacy,ش الجيش – أسيوط,El-Geish Street – Assiut,887654321,887654321,أسيوط,Assiut
+PH-40,صيدليات الحياة,Al-Hayah Pharmacies,صيدلية,Pharmacy,ش الثلاثيني – بورسعيد,El-Thalathini Street – Port Said,663344556,663344556,بورسعيد,Port Said
+PH-41,صيدليات الشروق,Al-Shorouk Pharmacies,صيدلية,Pharmacy,الحي السابع – مدينة الشروق,District 7 – Madinet Al-Shorouk,1012345678,1012345678,القاهرة,Cairo
+PH-42,صيدليات الدواء,Al-Dawa Pharmacies,صيدلية,Pharmacy,ش جمال عبد الناصر,Gamal Abdel Nasser Street,34443322,34443322,الإسكندرية,Alexandria
+PH-43,صيدليات الرحمة,Al-Rahma Pharmacies,صيدلية,Pharmacy,ش البحر – طنطا,El-Bahr Street – Tanta,408765432,408765432,الغربية,Gharbia
+PH-44,صيدليات البركة,Al-Baraka Pharmacies,صيدلية,Pharmacy,ش قناة السويس,Suez Canal Street,643332211,643332211,الإسماعيلية,Ismailia
+PH-45,صيدليات النيل,Al-Nile Pharmacies,صيدلية,Pharmacy,كورنيش النيل,Nile Corniche,865554443,865554443,المنيا,Minya
+PH-46,صيدليات الفؤاد,Al-Fouad Pharmacies,صيدلية,Pharmacy,ش صلاح سالم,Salah Salem Street,222998877,222998877,القاهرة,Cairo
+PH-47,صيدليات الأمل,Al-Amal Pharmacies,صيدلية,Pharmacy,ش فيصل,Faisal Street,233344556,233344556,الجيزة,Giza
+PH-48,صيدليات الياسمين,Al-Yasmine Pharmacies,صيدلية,Pharmacy,ش خالد بن الوليد,Khalid Ibn Al-Waleed Street,356677889,356677889,الإسكندرية,Alexandria
+PH-49,صيدليات الشفا,Al-Shifa Pharmacies,صيدلية,Pharmacy,ش الجمهورية,El-Gomhouria Street,923456677,923456677,قنا,Qena
+PH-50,صيدليات المستقبل,Al-Mustaqbal Pharmacies,صيدلية,Pharmacy,الحي الأول – العبور,District 1 – Al-Obour,1099887766,1099887766,القليوبية,Qalyubia
+PH-51,صيدليات بدر الدين,Badr El-Din Pharmacies,صيدلية,Pharmacy,الحي الأول – 6 أكتوبر,District 1 – 6th of October,238223344,238223344,الجيزة,Giza
+PH-52,صيدلية الشهابي,Al-Shahaby Pharmacy,صيدلية,Pharmacy,ش الهرم – الطالبية,Al-Haram Street – Al-Talabiya,233451122,233451122,الجيزة,Giza
+PH-53,صيدلية الدكتور,Al-Doctor Pharmacy,صيدلية,Pharmacy,ش العشرين – فيصل,Al-Eshreen Street – Faisal,235688991,235688991,الجيزة,Giza
+PH-54,صيدلية القدس,Al-Quds Pharmacy,صيدلية,Pharmacy,ش جمال عبد الناصر,Gamal Abdel Nasser Street,345566778,345566778,الإسكندرية,Alexandria
+PH-55,صيدلية الأقصى,Al-Aqsa Pharmacy,صيدلية,Pharmacy,ش خالد بن الوليد,Khalid Ibn Al-Waleed Street,354411223,354411223,الإسكندرية,Alexandria
+PH-56,صيدلية اليقين,Al-Yaqeen Pharmacy,صيدلية,Pharmacy,ش مصطفى النحاس,Mostafa El-Nahas Street,224019988,224019988,القاهرة,Cairo
+PH-57,صيدلية الهداية,Al-Hidaya Pharmacy,صيدلية,Pharmacy,ش أحمد عرابي – المهندسين,Ahmed Orabi Street – Mohandiseen,237609988,237609988,الجيزة,Giza
+PH-58,صيدلية الكوثر,Al-Kawthar Pharmacy,صيدلية,Pharmacy,ش الجيش,El-Geish Street,502221188,502221188,الدقهلية,Dakahlia
+PH-59,صيدلية الفتح,Al-Fath Pharmacy,مستشفى,Hospital,ش سعد زغلول,Saad Zaghloul Street,456677001,456677001,البحيرة,Beheira
+PH-60,صيدلية ابن سينا,Ibn Sina Pharmacy,مستشفى,Hospital,ش الجمهورية,El-Gomhouria Street,931122334,931122334,سوهاج,Sohag
+H-61,مستشفى الرحمة,Al-Rahma Hospital,مستشفى,Hospital,ش البحر الأعظم,El-Bahr Al-Aazam Street,233456671,233456671,الجيزة,Giza
+H-62,مستشفى الصفا,Al-Safa Hospital,مستشفى,Hospital,ش فيصل الرئيسي,El-Faisal Main Street,233344771,233344771,الجيزة,Giza
+H-63,مستشفى النيل بدراوي,Al-Nil Badrawi Hospital,مستشفى,Hospital,كورنيش المعادي,Maadi Corniche,25242446,25242446,القاهرة,Cairo
+H-64,مستشفى العاصمة,Al-Asima Hospital,مستشفى,Hospital,17شارع تاج الدين السبكى - ارض الجولف - مصر الجديدة,17 Taj El-Din El-Sebki Street - Golf Land - Heliopolis,24159383- 24159384 - 01062111122,24159383- 24159384 - 01062111122,القاهرة,Cairo
+H-65,مستشفى المروة,Al-Marwa Hospital,مستشفى,Hospital,ش جمال عبد الناصر,Gamal Abdel Nasser Street,345577881,345577881,الإسكندرية,Alexandria
+H-66,مستشفى الشروق,Al-Shorouk Hospital,مستشفى,Hospital,ميدان الحرية الحى الثامن اما السنترال – مدينة الشروق,"Hurriya Square, District 8 in front of Central – Madinet Al-Shorouk",26888857,26888857,القاهرة,Cairo
+H-67,مستشفى الحياة,Al-Hayah Hospital,مستشفى,Hospital,ش الجيش,El-Geish Street,502311223,502311223,الدقهلية,Dakahlia
+H-68,مستشفى طيبة,Taiba Hospital,مستشفى,Hospital,ش الهلالي,El-Hilali Street,932223344,932223344,سوهاج,Sohag
+H-69,مستشفى الفردوس,Al-Firdaws Hospital,معمل تحاليل,Lab,ش التحرير,Al-Tahrir Street,882334455,882334455,أسيوط,Assiut
+H-70,مستشفى الكرمة,Al-Karma Hospital,معمل تحاليل,Lab,ش النصر,El-Nasr Street,973344556,973344556,الأقصر,Luxor
+LAB-71,معمل رويال لاب,Royal Lab,معمل تحاليل,Lab,53 ش المقريزى خلف مستشفى منشية البكرى برج الاطباء – مصرالجديدة,"53 Al-Maqrizi Street behind Manshiet El-Bakri Hospital, Doctors Tower – Heliopolis",24525066,24525066,القاهرة,Cairo
+LAB-72,معمل تكنو لاب,Techno Lab,معمل تحاليل,Lab,ش فيصل,Faisal Street,235699777,235699777,الجيزة,Giza
+LAB-73,معمل صحتي,Sehhaty Lab,معمل تحاليل,Lab,ش الجمهورية,El-Gomhouria Street,552233441,552233441,الشرعية,Sharqia
+LAB-74,معمل الشفاء,Al-Shifa Lab,معمل تحاليل,Lab,ش الجيش,El-Geish Street,403344551,403344551,الغربية,Gharbia
+LAB-75,معمل النبراس,Al-Nibras Lab,معمل تحاليل,Lab,ش الكورنيش,El-Kornish Street,653556677,653556677,البحر الأحمر,Red Sea
+LAB-76,معمل المستقبل,Al-Mustaqbal Lab,معمل تحاليل,Lab,ش النصر,El-Nasr Street,643332219,643332219,الإسماعيلية,Ismailia
+LAB-77,معمل الحياة,Al-Hayah Lab,معمل تحاليل,Lab,ش البحر,El-Bahr Street,509988123,509988123,الدقهلية,Dakahlia
+LAB-78,معمل الدقة,Al-Daqa Lab,معمل تحاليل,Lab,ش سعد زغلول,Saad Zaghloul Street,456699881,456699881,البحيرة,Beheira
+LAB-79,معمل الياسمين,Al-Yasmine Lab,مركز غسيل كلى,Specialized Clinic,ش مصطفى كامل,Mostafa Kamel Street,355566771,355566771,الإسكندرية,Alexandria
+LAB-80,معمل الأمان,Al-Aman Lab,مركز غسيل كلى,Pediatric Center,ش الثلاثيني,El-Thalathini Street,663221144,663221144,بورسعيد,Port Said
+SC-81,مركز القاهرة لامراض الكلي,Cairo Kidney Diseases Center,عيادات تخصصية,Oncology Center,3ش حسين المعمار متفرع من محمود بسيوني - قصرالنيل,3 Hussein El-Memar Street branching from Mahmoud Bassiouni - Qasr El-Nil,25790221,25790221,القاهرة,Cairo
+SC-82,مركز القاهرة لامراض الكلي,Cairo Kidney Diseases Center,مركز أطفال,Cardiac Catheterization Center,95ش9امام محطة مترو المعادى,95 Street 9 in front of Maadi Metro Station,23598970,23598970,القاهرة,Cairo
+SC-83,مركز كير كلينك,Care Clinic,مركز أورام,Ophthalmology Hospital,مركز خدمات التجمع الاول E 24,First Settlement Services Center E 24,1022270000,1022270000,القاهرة,Cairo
+SC-84,تينيز كلينك للرعاية الصحية,Tinis Clinic for Pediatric Care,مستشفى عيون,Ophthalmology Hospital,57ابراج زهراء المعادي,57 Zahraa Al-Maadi Towers,1110004554,1110004554,القاهرة,Cairo
+SC-85,مركز امل لعلاج الاورام,Amal Oncology Center,مستشفى عيون,Ophthalmology Hospital,ميديكال بارك-خلف مستشفي الجوي,Medical Park - behind Al-Gawwi Hospital,0228123642-01157177729-01013313371,0228123642-01157177729-01013313371,القاهرة,Cairo
+SC-86,مركز ايجيهارت الطبى (عيادات قلب و قسطرة),Egeheart Medical Center (Cardiology & Catheterization),مستشفى عيون,Ophthalmology Hospital,المركز الطبى – السراج مول– مكرم عبيد مدينة نصر ( عيادات خارجية فقط ),"Medical Center – Al-Siraj Mall – Makram Ebeid, Madinet Nasr (Outpatient clinics only)",22755577,22755577,القاهرة,Cairo
+OP-87,(19650) مستشفى العيون الدولى,(19650) International Eye Hospital,مستشفى عيون,Ophthalmology Hospital,21ش الاندلس خلف المريلاند - روكسى - مصر الجديدة,21 Al-Andalus Street behind Merryland – Roxy – Heliopolis,24554456,24554456,القاهرة,Cairo
+OP-88,(19505) مستشفيات و مراكز المغربى,(19505) Al-Maghrabi Hospitals & Centers,مستشفى عيون,Ophthalmology Hospital,ميدان السيدة نفيسة – مصرالقديمة,Al-Sayeda Nafisa Square – Old Cairo,23632024,23632024,القاهرة,Cairo
+OP-89,( 19980 ) المركز التخصصى للعيون,(19980) Specialized Eye Center,مستشفى عيون,Ophthalmology Hospital,18ش الخليفه المأمون - مصر الجديده,18 Al-Khalifa Al-Maamoun Street – Heliopolis,24549570,24549570,القاهرة,Cairo
+OP-90,مستشفى النور للعيون,Al-Nour Eye Hospital,مستشفى عيون,Ophthalmology Hospital,93ش مصطفى النحاس – مدينة نصر,93 Mostafa El-Nahas Street – Madinet Nasr,26702904,26702904,القاهرة,Cairo
+OP-91,مركز عناية العيون,Enaya Eye Center,بصريات,Optics,1ش دمشق ميدان سوارس - المعادى,"1 Damascus Street, Sawares Square – Maadi",1000015004,1000015004,القاهرة,Cairo
+OP-92,مركز نور الحياة للعيون,Nour Al-Hayah Eye Center,بصريات,Optics,93 ش الميرغنى بجوار سنترال الماظة - مصر الجديدة,93 Al-Mirghani Street next to Al-Maza Central – Heliopolis,24199630,24199630,القاهرة,Cairo
+OP-93,مركز قرطبة للعيون والليزك,Cordoba Eye & LASIK Center,بصريات,Optics,7ش عباس العقاد م.نصر,"7 Abbas Al-Akkad Street, Madinet Nasr",1111150032,1111150032,القاهرة,Cairo
+OP-94,جاما للبصريات,Gamma Optics,روماتيزم,Rheumatology,58 ابو بكر الصديق - م.الجديدة,58 Abu Bakr Al-Siddiq Street – Heliopolis,26368822,26368822,القاهرة,Cairo
+OP-95,نظارات منير نصيف,Munir Nassif Eyewear,روماتيزم,Rheumatology,30ش طلعت حرب- وسط البلد,30 Talaat Harb Street – Downtown,25745505,25745505,القاهرة,Cairo
+OP-96,مركز أي فاشون,I-Fashion Center,علاج طبيعي,Physical Therapy,3شارع الميرغني-مستشفي نور الحياة-الدورالثالث,3 Al-Mirghani Street – Nour Al-Hayah Hospital – 3rd Floor,0224199835-01275577139,0224199835-01275577139,القاهرة,Cairo
+CL-97,د/محمد محمد السودة,Dr. Mohamed Mohamed Al-Soda,علاج طبيعي,Physical Therapy,13ش البرازيل – الزمالك,13 Brazil Street – Zamalek,27374447,27374447,القاهرة,Cairo
+CL-98,د/يحيى محمود عبدالشافى,Dr. Yehia Mahmoud Abdel-Shafi,علاج طبيعي,Physical Therapy,:251ش بورسعيد السيدة زينب برج مركز الطاهرة,"251 Port Said Street, Al-Sayeda Zeinab, Al-Tahra Center Tower",01015004942 - 23900044,01015004942 - 23900044,القاهرة,Cairo
+TP-99,مركز الزايد للعلاج الطبيعى,Al-Zayed Physical Therapy Center,علاج طبيعي,Physical Therapy,6ش عدلى – ميدان الاوبرا – العتبة,6 Adly Street – Opera Square – Al-Ataba,23918491,23918491,القاهرة,Cairo
+TP-100,مركز الزايد للعلاج الطبيعى,Al-Zayed Physical Therapy Center,مركز أشعة,Radiology Center,100شارع 9 عمارة البنك الاهلي ملاصق لمحطة مترو المعادي - المعادي,"100 Street 9, National Bank Building adjacent to Maadi Metro Station – Maadi",1010559795,1010559795,القاهرة,Cairo
+TP-101,د/ اسامة محمد رشاد,Dr. Osama Mohamed Rashad,مركز أشعة,Radiology Center,ميدان الحرية 5 شارع 153 المعادى,"Hurriya Square, 5 Street 153 – Maadi",23809500,23809500,القاهرة,Cairo
+TP-102,مركز مكه للعلاج الطبيعى,Makkah Physical Therapy Center,مركز أشعة,Radiology Center,16ش صالح صبحى تقاطع ش مصطفى صفوت - حلوان,16 Saleh Sobhi Street intersection with Mostafa Safwat Street – Helwan,25551212,25551212,القاهرة,Cairo
+RA-103,مركز القاهرة للاشعة (كايروسكان) 19144,Cairo Radiology Center (CairoScan) 19144,مركز أشعة,Radiology Center,59ش شبرا,59 Shubra Street,27730029,27730029,القاهرة,Cairo
+RA-104,مركز تكنو سكان د/ اسامة خليل 19989,TechnoScan Dr. Osama Khalil 19989,مركز أشعة,Radiology Center,8ش رشيد ميدان صلاح الدين – مصر الجديدة,"8 Rashid Street, Salah El-Din Square – Heliopolis",1090102627,1090102627,القاهرة,Cairo
+RA-105,مركز مصر للاشعة,Misr Radiology Center,مستشفى,Hospital,8ش الخليفة المأمون - منشية البكرى,8 Al-Khalifa Al-Maamoun Street – Manshiet El-Bakri,24509772,24509772,القاهرة,Cairo
+RA-106,مركز الطاهرة للاشعة (19173),Al-Tahra Radiology Center (19173),مستشفى,Hospital,87 ش المقريزى خلف محطة موبيل - روكسى,87 Al-Maqrizi Street behind Mobil Station – Roxy,24529006,24529006,القاهرة,Cairo
+RA-107,كابيتال سكان,Capital Scan,مستشفى,Hospital,45ش النصر – ميدان الجزائر,45 El-Nasr Street – Algeria Square,25171115,25171115,القاهرة,Cairo
+H-108,مستشفى القاهرة التخصصى,Cairo Specialized Hospital,مستشفى,Hospital,4 شارع ابو عبيد البكري -من غرناطة - هيليوبوليس,4 Abu Obeid Al-Bakri Street – from Granada – Heliopolis,24504905- 24509800-24507500,24504905- 24509800-24507500,القاهرة,Cairo
+H-109,مستشفى السعودي الالماني,Saudi German Hospital,مستشفى,Hospital,تقاطع محور طه حسين مع ش جوزيف تيتو,Intersection of Taha Hussein Axis with Joseph Tito Street,16259-0226252400,16259-0226252400,القاهرة,Cairo
+H-110,مستشفى السلام الدولى,Al-Salam International Hospital,مستشفى,Hospital,كورنيش النيل المعادى,"Nile Corniche, Maadi",19885,19885,القاهرة,Cairo
+H-111,مستشفى أندلسية المعادى ( النخيل ),Andalusia Maadi Hospital (Al-Nakhil),مستشفى,Hospital,االمعادى الجديدة – تقسيم اللاسلكى,New Maadi – Al-Lasilki Division,227537773,227537773,القاهرة,Cairo
+H-112,المركز الطبي العالمي,International Medical Center,مستشفى,Hospital,الكيلو 42 طريق القاهرة الإسماعيلية الصحراوى,"Kilometer 42, Cairo-Ismailia Desert Road",24775902,24775902,القاهرة,Cairo
+H-113,مستشفى القوات المسلحه بالمعادى ( المجمع الطبي للقوات المسلحة بالمعادي ),Armed Forces Hospital in Maadi (Armed Forces Medical Complex in Maadi),مستشفى,Hospital,كورنيش النيل بالمعادى,"Nile Corniche, Maadi",1200193555,1200193555,القاهرة,Cairo
+H-114,مستشفى قصر العينى التعليمى,Kasr Al-Ainy Teaching Hospital,مستشفى,Hospital,شارع القصر العينى,Kasr El-Aini Street,23638839,23638839,القاهرة,Cairo
+H-115,مستشفى دار الحكمة,Dar Al-Hikma Hospital,مستشفى,Hospital,10ش محمد حسين هيكل عباس العقاد مدينة نصر,"10 Mohamed Hussein Heikal Abbas Al-Akkad Street, Madinet Nasr",26739050,26739050,القاهرة,Cairo
+H-116,مستشفى الجلاء ( لعائلات القوات المسلحه),Al-Galaa Hospital (For Armed Forces Families),مستشفى,Hospital,2ش العروبة - صلاح سالم – طريق المطار,2 Al-Uruba Street – Salah Salem – Airport Road,22673650,22673650,القاهرة,Cairo
+H-117,المستشفى الايطالى,Italian Hospital,مستشفى,Hospital,17ش السرايات بالعباسية,"17 Al-Sarayat Street, Abbasiya",24678191,24678191,القاهرة,Cairo
+H-118,مستشفى سان بيتر الدولى,San Peter International Hospital,مستشفى,Hospital,3 ش عبد الرحمن الرافعى ميدان الحجاز مصر الجديده,"3 Abdel Rahman Al-Rafei Street, Al-Hegaz Square – Heliopolis",26235797,26235797,القاهرة,Cairo
+H-119,مستشفى البدر التخصصى,Al-Badr Specialized Hospital,مستشفى,Hospital,37 ش مراد - ميدان صلاح الدين مصر الجديده,37 Mourad Street – Salah El-Din Square – Heliopolis,24155387,24155387,القاهرة,Cairo
+H-120,مستشفى المقاولون العرب (19660),Al-Mokawloon Arab Hospital (19660),مستشفى,Hospital,465 الجبل الاخضر -مدينة نصر,465 Al-Gabal Al-Akhdar – Madinet Nasr,24881475,24881475,القاهرة,Cairo
+H-121,مستشفى المعلمين,Al-Moallemin Hospital,مستشفى,Hospital,3ش محمود مختار ( المعرض سابقاً ) الجزيرة - القاهرة,3 Mahmoud Mokhtar Street (formerly Al-Maared) – El-Gezira – Cairo,27374725,27374725,القاهرة,Cairo
+H-122,مستشفى حسبو,Hasbo Hospital,مستشفى,Hospital,15ش احمد فخرى مدينة نصر المنطفه السادسه,"15 Ahmed Fakhry Street, Madinet Nasr, District 6",23520040,23520040,القاهرة,Cairo
+H-123,مستشفى الماسه,Al-Massa Hospital,مستشفى,Hospital,26ش متولي الشعراوي - الحي العاشر - مدينة نصر,26 Metwalli Al-Shaarawi Street – District 10 – Madinet Nasr,23575162,23575162,القاهرة,Cairo
+H-124,مستشفى فلسطين,Palestine Hospital,مستشفى,Hospital,64ش الثورة – مصر الجديدة,64 El-Thawra Street – Heliopolis,22909007,22909007,القاهرة,Cairo
+H-125,مستشفى الحلمية العسكرى للعظام,Al-Helmiya Military Orthopedic Hospital,مستشفى,Hospital,91ش سليم الاول - حلمية الزيتون,91 Selim I Street – Helmeya El-Zeitoun,26353162,26353162,القاهرة,Cairo
+H-126,مستشفى الهلال برمسيس,Al-Hilal Ramsis Hospital,مستشفى,Hospital,34ش رمسيس,34 Ramsis Street,25750171,25750171,القاهرة,Cairo
+H-127,مستشفى الامل بحدائق القبة,Al-Amal Hadayek Al-Qobba Hospital,مستشفى,Hospital,67ش عرفات حدائق القبة - تقسيم الرقابة الادارية بجوار مدرسة النقراشى الثانوية,"67 Arafat Street, Hadayek El-Qobba – Administrative Control Division next to Al-Nokrashi Secondary School",25431118,25431118,القاهرة,Cairo
+H-128,مستشفي جمعية الاقباط,Coptic Association Hospital,مستشفى,Hospital,37 ش سليم الاول الزيتون القاهرة,"37 Selim I Street, El-Zeitoun – Cairo",2257780,2257780,القاهرة,Cairo
+H-129,مستشفى المركز الدولى الطبى,International Medical Center Hospital,مستشفى,Hospital,26ميدان احمد حلمى برج المهندسين - خلف محطة مصر- شبرا,"26 Ahmed Helmy Square, Engineers Tower – behind Misr Station – Shubra",22362630,22362630,القاهرة,Cairo
+H-130,مستشفى الصفوة بشبرا,Al-Safwa Shubra Hospital,مستشفى,Hospital,3ش منية السيرج بجوار خير زمان – شارع شبرا,3 Menyet El-Serj Street next to Khair Zaman – Shubra Street,24302001,24302001,القاهرة,Cairo
+H-131,مستشفى المقطم التخصصى,Al-Muqattam Specialized Hospital,مستشفى,Hospital,نهاية شارع 9 - المقطم,End of Street 9 – Al-Mokattam,25079852,25079852,القاهرة,Cairo
+H-132,مستشفى الشرابيه (الجمعيه الطبيه الاسلاميه ),Al-Sharabiya Hospital (Islamic Medical Association),مستشفى,Hospital,12 ش عبد العزيز فج النور بجوار مسجد التقوى عزبة بلال - الشربيه,"12 Abdel Aziz Faj Al-Nour Street next to Al-Taqwa Mosque, Ezbet Bilaal – Al-Sharabiya",23582362,23582362,القاهرة,Cairo
+H-133,مستشفى جراحات اليوم الواحد بالزاوية,One-Day Surgeries Hospital in Al-Zawya,مستشفى,Hospital,ش بورسعيد الزاوية الحمراء,Port Said Street – Al-Zawya Al-Hamra,24231300,24231300,القاهرة,Cairo
+H-134,مستشفى القاهرة الفاطمية,Al-Qahira Al-Fatimiyah Hospital,مستشفى,Hospital,ش صالح الجعفرى خلف مشيخة الازهر - الدراسة,Saleh El-Gafari Street behind Al-Azhar Sheikhdom – Al-Darrasa,29241392,29241392,القاهرة,Cairo
+H-135,مستشفى مبرة مصر القديمة,Mabaret Misr Al-Qadima Hospital,مستشفى,Hospital,37ش ابى سيفين مصر القديمة اعلى نفق الملك الصالح,"37 Abi Sefeen Street, Old Cairo above King Al-Saleh Tunnel",23639665,23639665,القاهرة,Cairo
+H-136,مستشفى جامعة عين شمس التخصصى,Ain Shams University Specialized Hospital,مستشفى,Hospital,ش الخليفة المأمون العباسية,Al-Khalifa Al-Maamoun Street – Abbasiya,24826606,24826606,القاهرة,Cairo
+H-137,مستشفى الفتح الاسلامي,Al-Fath Al-Islami Hospital,مستشفى,Hospital,شارع 9 بالمعادى,Street 9 – Maadi,23585651,23585651,القاهرة,Cairo
+H-138,المستشفى الجوى العام,General Air Force Hospital,مستشفى,Hospital,شارع احمد سعيد - العباسية,Ahmed Saeed Street – Abbasiya,26825616,26825616,القاهرة,Cairo
+H-139,مستشفى الرحاب التخصصى,Al-Rehab Specialized Hospital,مستشفى,Hospital,مركز الرحاب الطبي 2 خلف مجمع البنوك – مدنة الرحاب,Al-Rehab Medical Center 2 behind Banks Complex – Madinet Al-Rehab,26077980,26077980,القاهرة,Cairo
+H-140,مستشفى فيفا العقاد,Viva Al-Akkad Hospital,مستشفى,Hospital,12ش محمدمصطفى حمام من ش عباس العقاد,12 Mohamed Mustafa Hammam Street from Abbas Al-Akkad Street,01026269494- 022610040,01026269494- 022610040,القاهرة,Cairo
+H-141,مستشفى فريد حبيب,Farid Habib Hospital,مستشفى,Hospital,محور الحى الخامس قطعة 5بلوك16081 مدينة العبور,"Axis of District 5, Piece 5, Block 16081 – Madinet Al-Obour",16784,16784,القاهرة,Cairo
+H-142,مستشفى السفارات,Al-Safarat Hospital,مستشفى,Hospital,119 ش عبد القاهر الجرجانى الحى السابع مدينة نصر,"119 Abdel Qaher El-Gurgani Street, District 7 – Madinet Nasr",01000683784-01224481015,01000683784-01224481015,القاهرة,Cairo
+GEN-143,مستشفي اللؤلؤة (مصر زهرة المدائن),Al-Lu'lu'a Hospital (Misr Zahrat Al-Mada'in),مستشفى,Hospital,رقم 12 20 ارض الاستثمار القطامية-زهراء المعادي,"No. 12 20 Investment Land, Al-Qatamiya – Zahraa Al-Maadi",15660,15660,القاهرة,Cairo
+GEN-144,جمعية الخلفاء الراشدين,Al-Khulafa' Al-Rashideen Association,مستشفى,Hospital,1شارع السباق-تقاطع الحجاز,1 Al-Sebaa Street – intersection with Al-Hegaz,1001614864,1001614864,القاهرة,Cairo
+H-145,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,3 ش حسين زهدى ارض الجولف ( حضانات ) ( المركز الرئيسى ),"3 Hussein Zohdi Street, Golf Land (Nurseries) (Main Center)",24184840,24184840,القاهرة,Cairo
+H-146,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,المقطم – ميدان النافورة ش 9 عمارة المقطم المميزة,"Al-Mokattam – Al-Nafoura Square, Street 9, Al-Mokattam Al-Mumayaz Building",25073700,25073700,القاهرة,Cairo
+H-147,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,السيدة زينب – 216ش بورسعيد,Al-Sayeda Zeinab – 216 Port Said Street,23926067,23926067,القاهرة,Cairo
+H-148,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,13ش روض الفرج شبرا ( حضانات و عمليات ),"13 Rod El-Farag Street, Shubra (Nurseries & Surgeries)",24586350,24586350,القاهرة,Cairo
+H-149,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,دار السلام – 76 ش الفيوم امام مجمع المدارس,Dar Al-Salam – 76 El-Fayoum Street in front of Schools Complex,27165390,27165390,القاهرة,Cairo
+H-150,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,الملك الصالح – 57ش حسن الانور,King Al-Saleh – 57 Hassan Al-Anwar Street,25329149,25329149,القاهرة,Cairo
+H-151,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,المعادى – 21ش 306 امام مرور المعادى صقر قريش( حضانات و عمليات ),"Maadi – 21 Street 306 in front of Maadi Traffic, Saqr Quraish (Nurseries & Surgeries)",27025523,27025523,القاهرة,Cairo
+H-152,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,حلوان – 26ش شريف برج دهب امام محطة مترو الانفاق ( حضانات و عمليات ),"Helwan – 26 Sharif Street, Dahab Tower in front of Metro Station (Nurseries & Surgeries)",27648012,27648012,القاهرة,Cairo
+H-153,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,53 ش عبد العزيز فهمى مصر الجديدة,53 Abdel Aziz Fahmy Street – Heliopolis,26388164,26388164,القاهرة,Cairo
+H-154,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,29 ش ولى العهد حدائق القبة,"29 Wali Al-Ahd Street, Hadayek El-Qobba",26015222,26015222,القاهرة,Cairo
+H-155,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,عين شمس – 97ش عزيز المصرى عين شمس( عمليات ),"Ein Shams – 97 Aziz El-Masry Street, Ein Shams (Surgeries)",22999705,22999705,القاهرة,Cairo
+H-156,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,16 ش يوسف الدجوى- عزبة النخل,16 Youssef El-Degwy Street – Ezbet El-Nakhl,24951127,24951127,القاهرة,Cairo
+H-157,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,7 ش محمد مهدى مدينة نصر,7 Mohamed Mahdi Street – Madinet Nasr,24114050,24114050,القاهرة,Cairo
+H-158,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,43 ش عبد اللة العربى امتداد الطيرا مدينة نصر,"43 Abdalla El-Araby Street, Extension of El-Tayaran Street – Madinet Nasr",24055677,24055677,القاهرة,Cairo
+H-159,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,9 ش انور المفتى خلف طيبة مول- عباس العقاد - مدينة نصر (حضانات و عمليات ),9 Anwar El-Mofti Street behind Tiba Mall – Abbas Al-Akkad – Madinet Nasr (Nurseries & Surgeries),24055030,24055030,القاهرة,Cairo
+H-160,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,161ش عين شمس امام معهد مندوبى الشرطة- عين شمس,161 Ein Shams Street in front of Police Delegates Institute – Ein Shams,24959050,24959050,القاهرة,Cairo
+H-161,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,154المرج - ش مؤسسة الزكاة,154 El-Marj – Al-Zakat Institution Street,26620690,26620690,القاهرة,Cairo
+H-162,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,مدينة السلام – طريق سبيكو امام مجمع الخريجيين,Madinet Al-Salam – Sebico Road in front of Graduates Complex,22781584,22781584,القاهرة,Cairo
+H-163,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,المطرية - ش عمر المختار بجوار شركة ريجوا,Al-Mataria – Omar Al-Mokhtar Street next to Rejwa Company,26528600,26528600,القاهرة,Cairo
+H-164,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,القاهرة الجديدة – الرحاب – وحدة 116 المركز الطبى الاول بالرحاب,"New Cairo – Al-Rehab – Unit 116, First Medical Center in Al-Rehab",26072772,26072772,القاهرة,Cairo
+H-165,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,الحرفيين – 72ش جمال عبد الناصر امام مودى سنتر,Al-Harafeyeen – 72 Gamal Abdel Nasser Street in front of Moody Center,26632122,26632122,القاهرة,Cairo
+H-166,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,النزهة الجديدة – 11 ش مجدى متفرع من ش المؤرخ محمد رفعت,New Nozha – 11 Magdy Street branching from Historian Mohamed Refaat Street,26204990,26204990,القاهرة,Cairo
+H-167,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,حلمية الزيتون – 115ش سليم الاول ابراج الزيتون,"Helmeya El-Zeitoun – 115 Selim I Street, El-Zeitoun Towers",26362267,26362267,القاهرة,Cairo
+H-168,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,جسر السويس - 97ش عزيز المصرى عين شمس ( عمليات فقط ),"Gesr El-Suez – 97 Aziz El-Masry Street, Ein Shams (Surgeries only)",22999802,22999802,القاهرة,Cairo
+H-169,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,المطرية 2 - ش المطرية الرئيسى فوق حاتى شيخ البلد,Al-Mataria 2 – Al-Mataria Main Street above Hati Sheikh El-Balad,22545176,22545176,القاهرة,Cairo
+H-170,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,حدائق القبة 2 - 2ش الصفا والمروة من ش امتداد ولى العهد - حدائق القبة,Hadayek El-Qobba 2 – 2 Al-Safa and Al-Marwa Street from Extension of Wali Al-Ahd Street – Hadayek El-Qobba,24554152,24554152,القاهرة,Cairo
+H-171,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,منشية ناصر - 50ش شرق السكة الحديد منشية ناصر,"Manshiet Nasser – 50 East Railway Street, Manshiet Nasser",28342090,28342090,القاهرة,Cairo
+H-172,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,الزاوية الحمراء - ش محمد خالد بجوار الشئون الاجتماعية,Al-Zawya Al-Hamra – Mohamed Khalid Street next to Social Affairs,24283090,24283090,القاهرة,Cairo
+H-173,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مركز غسيل كلى,Hospital,العبور - سنتر الحجاز الحى الاول,"Al-Obour – Al-Hegaz Center, District 1",44790030,44790030,القاهرة,Cairo
+H-174,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى طب نفسي,Hospital,مساكن شيراتون – 5ش الجامع,Sheraton Housing – 5 El-Gamea Street,22667221,22667221,القاهرة,Cairo
+H-175,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Dialysis Center,71ش محمد عبد الوهاب امام مساكن مظلوم - الشرابية,71 Mohamed Abdel Wahab Street in front of Mazloum Housing – Al-Sharabiya,22382487,22382487,القاهرة,Cairo
+H-176,مستشفى تبارك للاطفال,Tabarak Children's Hospital,عيادات تخصصية,Psychiatric Hospital,مركز خدمات التجمع الاول محور مصطفى كامل,"First Settlement Services Center, Mostafa Kamel Axis",1125555272,1125555272,القاهرة,Cairo
+H-177,مستشفى تبارك للاطفال,Al-Rawda Urology and Lithotripsy Center,عيادات تخصصية,Hospital,109ش العباسية - برج اللؤلؤه - العباسية,109 Abbasiya Street – Al-Lou’lou’a Tower – Abbasiya,26849318,26849318,القاهرة,Cairo
+H-178,مستشفى تبارك للاطفال,Dar Abul Azayem Psychiatric Hospital,عيادات تخصصية,Specialized Clinic,ميدان اسكندرية بلوك 6 مدخل 1 - مدينة السلام,"Alexandria Square, Block 6, Entrance 1 – Madinet Al-Salam",26273255,26273255,القاهرة,Cairo
+H-179,مستشفى تبارك للاطفال,Al-Batriq Specialized Hospital in Ain Shams,عيادات تخصصية,Specialized Clinic,50ش العشرين - عين شمس,50 Al-Eshreen Street – Ein Shams,1023971961,1023971961,القاهرة,Cairo
+SC-180,الروضة للمسالك البولية وتفتيت الحصوات,Dr. Amir Mahmoud Gamal El-Din Al-Sheikh (Doktory Specialized Clinics),مركز قسطرة قلب وأشعة تداخلية,Specialized Clinic,34ش الاخشيد منيل الروضة امام مستشفي الزهيري,"34 Al-Akhshid Street, Manyal Al-Roda in front of Al-Zuhairi Hospital",01223477727-25317329,01223477727-25317329,القاهرة,Cairo
+CL-181,مستشفي دار ابو العزايم للطب النفسي,Zaher Specialized Clinics (Zaher Zone),مركز أنف وأذن وحنجرة,Specialized Clinic,منطقة السبعين فدان الطريق الدائري خلف نادي الصيد هضبة المقطم,"70 Feddan Area, Ring Road behind Hunting Club, Mokattam Plateau",27272701,27272701,القاهرة,Cairo
+H-182,مستشفى البطريق التخصصى بعين شمس,IMC Clinics,مركز أنف وأذن وحنجرة,Cardiac Catheterization & Interventional Radiology Center,2ش محمد عباس من ش العشرين زهراء عين شمس,"2 Mohamed Abbas Street from Al-Eshreen Street, Zahraa Ein Shams",21850300,21850300,القاهرة,Cairo
+SC-183,د.امير محمود جمال الدين الشيخ(عيادات دكتوري التخصصية),National Center (Dr. Yousry Wasef Kamel Nada),مركز جهاز هضمي,ENT Center,رقم 110-الدور الاول-المركز الطبي رقم 1,No. 110 – First Floor – Medical Center No. 1,01118850905-21109303,01118850905-21109303,القاهرة,Cairo
+SC-184,عيادات زاهر التخصصيةر(زاهر زون),Shifa Center for Cardiac Catheterization & Interventional Radiology,مستشفى,ENT Center,3تقسيم مدينة زاهر الدور الاول شقة 17 مدخل ب,"3 Zaher City Division, First Floor, Apartment 17, Entrance B",01555331353-0220777000,01555331353-0220777000,القاهرة,Cairo
+SC-185,عيادات اي ام سي,Clinica Center for ENT,مستشفى,Gastroenterology Center,شارع التسعين الشمالي-داخل مبني cmc-خلف المستشفي الجوي,90th North Street – inside CMC Building – behind Al-Gawwi Hospital,01115379921-01095206843-01011044363,01115379921-01095206843-01011044363,القاهرة,Cairo
+SC-186,مركز وطني (د.يسري واصف كامل ندا),Endoscopy & ENT Surgeries Centers,مستشفى,Hospital,عمارة 1أ-220شارع 162 ب متفرع من مصر حلوان الزراعي-خلف مستشفي المعادي العسكري,Building 1A – 220 Street 162 B branching from Misr Helwan Agricultural Road – behind Maadi Military Hospital,0225252050-01270804225,0225252050-01270804225,القاهرة,Cairo
+SC-187,مركز شفاء للقسطرة القلبية والاشعة التداخلية,Alfa Scope Center for Gastrointestinal Endoscopy,مستشفى,Hospital,كورنيش النيل المعادي-اول ابراج عثمان,"Nile Corniche, Maadi – First Osman Towers",1200004367-15206-25259869-25259879,1200004367-15206-25259869-25259879,القاهرة,Cairo
+SC-188,مركز كلينيكا للأنف و الأذن و الحنجرة,Tabarak Children's Hospital,مستشفى,Hospital,مول CMC - ش التسعين الشمالي - خلف المستشفى الجوي التخصصي,CMC Mall – 90th North Street – behind Al-Gawwi Specialized Hospital,0225203151-01011654448-01123334400,0225203151-01011654448-01123334400,القاهرة,Cairo
+SC-189,مراكز مناظير وجراحات الأنف والأذن والحنجرة,Tabarak Children's Hospital,مستشفى,Hospital,ميديكال سنتر MC - الحى الأول - المنطقة الرابعة شارع 36 بجوار صيدلية د. أسماء ( الحياة سابقا ) أمام مسجد تقوى القلوب,"Medical Center MC – District 1 – Area 4, Street 36 next to Dr. Asmaa Pharmacy (formerly Al-Hayah) in front of Taqwa Al-Quloub Mosque",0226162402-0226162403-01015336667-01200764564,0226162402-0226162403-01015336667-01200764564,القاهرة,Cairo
+OP-190,مركز الفا سكوب لمناظير الجهاز الهضمى,Tabarak Children's Hospital,مستشفى,Hospital,برج الصفا الطبي-ميدان الحجاز من جامعة الدول العربية,Al-Safa Medical Tower – Al-Hegaz Square from Arab League Street,15431-0233366603,15431-0233366603,الجيزة,Giza
+H-191,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,4ش ترعة الزمر برج جوهر ارض اللواء,"4 Tur’at Al-Zomor Street, Gawhar Tower, Ard Al-Liwaa",37303347,37303347,الجيزة,Giza
+H-192,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,بولاق الدكرور- تقاطع ش ناهيا مع ش 6 اكتوبر بجوار مسجد عمرو زايد,Bulaq Al-Dakrur – intersection of Nahya Street with 6th of October Street next to Amr Zayed Mosque,1003552454,1003552454,الجيزة,Giza
+H-193,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,بشتيل – 1ش احمد رخا,Bashteel – 1 Ahmed Rakha Street,33519132,33519132,الجيزة,Giza
+H-194,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,الوراق – 1ش الوحدة العربية امام سنترال الوراق,Al-Waraq – 1 Al-Wehda Al-Arabia Street in front of Al-Waraq Central,35454780,35454780,الجيزة,Giza
+H-195,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,امبابة – 2ش محمد الامبابى من ش نادى الرماية,Imbaba – 2 Mohamed Al-Embaby Street from Shooting Club Street,37124477,37124477,الجيزة,Giza
+H-196,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,فيصل – 434ش الملك فيصل,Faisal – 434 King Faisal Street,35822244,35822244,الجيزة,Giza
+H-197,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,العمرانية – 63ش الثلاثين خلف قاعة سيد درويش,Al-Omraniya – 63 Al-Thalatheen Street behind Sayed Darwish Hall,35651300,35651300,الجيزة,Giza
+H-198,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,فيصل - 443ش فيصل فوق سوبر ماركت مترو محطة حسن محمد,"Faisal – 443 Faisal Street above Metro Supermarket, Hassan Mohamed Station",35822244,35822244,الجيزة,Giza
+H-199,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,المهندسين - 103ش العلميين مدينة الطلبة ( حضانات وعمليات ),"Mohandiseen – 103 Al-Alamein Street, Madinet Al-Talaba (Nurseries & Surgeries)",33047297,33047297,الجيزة,Giza
+H-200,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,الطلبية - 2 طريق كفر طهرمس - فيصل,Al-Talabiya – 2 Kafr Taharmos Road – Faisal,1115257150,1115257150,الجيزة,Giza
+H-201,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Hospital,صفت اللبن - 4ش ترعة عبد العال تقاطع شارع العشرين,Saft Al-Laban – 4 Tur’at Abdel Aal Street intersection with Al-Eshreen Street,39848426,39848426,الجيزة,Giza
+H-202,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Pharmacy,6 اكتوبر – مركز السفراء التجارى خلف مسجد الحصرى,6th of October – Al-Sofara Commercial Center behind Al-Hosary Mosque,38372188,38372188,الجيزة,Giza
+H-203,مستشفى تبارك للاطفال,Tabarak Children's Hospital,مستشفى,Pharmacy,الشيخ زايد - سيتى سنتر بجوار المستشفى العام فوق معمل البرج,Sheikh Zayed – City Center next to General Hospital above Al-Borg Laboratory,38519915,38519915,الجيزة,Giza
+H-204,مستشفى تبارك للاطفال,Ezzaby Pharmacy (19600),مستشفى,Pharmacy,1ش احمد ابراهيم الجزار من ش الكنيسة - المنيب,1 Ahmed Ibrahim El-Gazzar Street from Church Street – Al-Moneeb,33076246,33076246,الجيزة,Giza
+H-205,مستشفى تبارك للاطفال,Ezzaby Pharmacy (19600),مستشفى,Pharmacy,76ب مدخل خوفو فوق صيدلية رشدي - حدائق الاهرام,76B Khufu Entrance above Roshdy Pharmacy – Hadaek Al-Ahram,39745115,39745115,الجيزة,Giza
+H-206,مستشفى تبارك للاطفال,Ezzaby Pharmacy (19600),مستشفى,Pharmacy,412ب مدخل مينا بوابة 4 حدائق الاهرام,"412B Mina Entrance, Gate 4 – Hadaek Al-Ahram",1019019750,1019019750,الجيزة,Giza
+PH-207,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,36ميدان الحسين امام مسجد الحسين,36 Al-Hussein Square in front of Al-Hussein Mosque,25895551,25895551,القاهرة,Cairo
+PH-208,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,المنيل – 123ش عبدالعزيز ال سعود,Manyal – 123 Abdelaziz Al Saud Street,25329939,25329939,القاهرة,Cairo
+PH-209,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,مصر القديمه كورنيش النيل بجوار مستشفى أل محمود,"Old Cairo, Nile Corniche next to Al Mahmoud Hospital",23646325,23646325,القاهرة,Cairo
+PH-210,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,طلعت حرب - 1 ميدان طلعت حرب وسط البلد,Talaat Harb – 1 Talaat Harb Square – Downtown,23921053,23921053,القاهرة,Cairo
+PH-211,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,باب اللوق - 1 ش محمد محمود برج الاطباء,"Bab El-Louq – 1 Mohamed Mahmoud Street, Doctors Tower",27954418,27954418,القاهرة,Cairo
+PH-212,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,ميدان الفلكى - 24ش هدى شعراوى امام الغرفة التجارية,Al-Falaki Square – 24 Hoda Shaarawi Street in front of Chamber of Commerce,23962447,23962447,القاهرة,Cairo
+PH-213,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,شارع شبرا - 156 شارع شبرا,Shubra Street – 156 Shubra Street,24331135,24331135,القاهرة,Cairo
+PH-214,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,الزمالك – 46ش بهجت على,Zamalek – 46 Behjet Ali Street,27376739,27376739,القاهرة,Cairo
+PH-215,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,العباسية – 13ش على صدقى قرب ميدان العباسية,Abbasiya – 13 Ali Sedky Street near Abbasiya Square,24863399,24863399,القاهرة,Cairo
+PH-216,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,السيدة زينب - 2 ش خيرت قسم السيدة,Al-Sayeda Zeinab – 2 Kheiret El-Sayeda Street,27960723,27960723,القاهرة,Cairo
+PH-217,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,الوايلى - 99 ش العباسية بجوار قسم الوايلى,Al-Waily – 99 Abbasiya Street next to Al-Waily Police Station,26858425,26858425,القاهرة,Cairo
+PH-218,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,مدينة نصر – 6 ج تقسيم اسماء فهمى خلف الرقابة الادارية,Madinet Nasr – 6 G Asmaa Fahmy Division behind Administrative Control,22913048,22913048,القاهرة,Cairo
+PH-219,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,مدينة نصر – شارع البطراوى جنينة مول,"Madinet Nasr – Al-Batrawy Street, Genena Mall",22600486,22600486,القاهرة,Cairo
+PH-220,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,مدينة نصر - 8 عمارات نقابة المهندسين امام قسم مدينة نصر اول,Madinet Nasr – 8 Engineers Syndicate Buildings in front of First Madinet Nasr Police Station,24189239,24189239,القاهرة,Cairo
+PH-221,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,مدينة نصر - 8 عمارا ت الشركة السعودية ش النزهة,"Madinet Nasr – 8 Saudi Company Buildings, Al-Nozha Street",24196733,24196733,القاهرة,Cairo
+PH-222,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,مدينة نصر - 1 محل أ مشروع اسكان مدفعية الرئاسة العامة,"Madinet Nasr – 1 Shop A, Artillery Housing Project, General Presidency",22910862,22910862,القاهرة,Cairo
+PH-223,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,مدينة نصر - 94 ش حسن المأمون امام التادى الاهلى,Madinet Nasr – 94 Hassan Al-Maamoun Street in front of Al-Ahly Club,22875903,22875903,القاهرة,Cairo
+PH-224,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,مدينة نصر - تقاطع شارعى محمد متولى الشعراوى مع امتداد مصطفى النحاس,Madinet Nasr – Intersection of Mohamed Metwalli Al-Shaarawi Street with Extension of Mostafa El-Nahas Street,24733853,24733853,القاهرة,Cairo
+PH-225,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,مدينة نصر - 42ش مصطفى النحاس,Madinet Nasr – 42 Mostafa El-Nahas Street,24044335,24044335,القاهرة,Cairo
+PH-226,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,مدينتى - محل رقم 2 منطقة العمارات B1,"Madinaty – Shop No. 2, Buildings Area B1",1117778277,1117778277,القاهرة,Cairo
+PH-227,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,مطار القاهرة الدولى - مبنى الركاب رقم 3,Cairo International Airport – Terminal 3,26966743,26966743,القاهرة,Cairo
+PH-228,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,القطامية - سور نادى الصيد,Al-Qatamiya – Hunting Club Fence,27275178,27275178,القاهرة,Cairo
+PH-229,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,مدينة الرحاب - الرحاب مول 2,Madinet Al-Rehab – Al-Rehab Mall 2,26924002,26924002,القاهرة,Cairo
+PH-230,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,"مدينة الرحاب - السوق التجارى محل رقم 52،51 منطقة الخدمات المنزلية","Madinet Al-Rehab – Commercial Market Shops No. 51,52, Household Services Area",26924660,26924660,القاهرة,Cairo
+PH-231,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,القاهرة الجديدة – التجمع الخامس محل 9 الدور الارضى مول سلفر ستارز,"New Cairo – Fifth Settlement, Shop 9, Ground Floor, Silver Stars Mall",26161521,26161521,القاهرة,Cairo
+PH-232,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,القاهرة الجديدة – التجمع الثالث المجاورة الرابعة المنطقة الاولى عقار رقم 18,"New Cairo – Third Settlement, Fourth Neighborhood, Area 1, Property No. 18",27594955,27594955,القاهرة,Cairo
+PH-233,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,القاهرة الجديدة – التجمع الخامس منطقة الخدمات فيوتشر مول,"New Cairo – Fifth Settlement, Services Area, Future Mall",27578881,27578881,القاهرة,Cairo
+PH-234,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,1ش احمد تيسير كلية البنات – مدينة نصر,"1 Ahmed Taysir Street, Girls College – Madinet Nasr",24180838,24180838,القاهرة,Cairo
+PH-235,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,حدائق القبة - السراى مول شارع ولى العهد,"Hadayek El-Qobba – Al-Saray Mall, Wali Al-Ahd Street",26748892,26748892,القاهرة,Cairo
+PH-236,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,روكسى - 9 شارع القبة,Roxy – 9 Al-Qobba Street,22569128,22569128,القاهرة,Cairo
+PH-237,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,مساكن شيراتون - 69 شارع النصر,Sheraton Housing – 69 El-Nasr Street,22665659,22665659,القاهرة,Cairo
+PH-238,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,صن سيتى مول - محل رقم 8B الدور B - مصر الجديدة,"Sun City Mall – Shop No. 8B, Floor B – Heliopolis",22699014,22699014,القاهرة,Cairo
+PH-239,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,النزهة الجديدة - 36 ش محمد كامل حسين,New Nozha – 36 Mohamed Kamel Hussein Street,26218731,26218731,القاهرة,Cairo
+PH-240,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,161 ش النزهة - سانت فاتيما,161 El-Nozha Street – St. Fatima,26344415,26344415,القاهرة,Cairo
+PH-241,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,206 شارع الحجاز,206 Al-Hegaz Street,26218686,26218686,القاهرة,Cairo
+PH-242,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,مصر الجديدة – 19ش ابراهيم – الكوربة,Heliopolis – 19 Ibrahim Street – Al-Korba,24534426,24534426,القاهرة,Cairo
+PH-243,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,مصر الجديدة – 1شارع السباق داخل مستشفى الخلفاء الراشدين,Heliopolis – 1 Al-Sebaa Street inside Al-Khulafa Al-Rashideen Hospital,26332656,26332656,القاهرة,Cairo
+PH-244,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,58ش القصر العينى,58 Kasr El-Aini Street,27952311,27952311,القاهرة,Cairo
+PH-245,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,185 شارع رمسيس بجوار المستشفى القبطى - غمرة,185 Ramsis Street next to Coptic Hospital – Ghomra,25891864,25891864,القاهرة,Cairo
+PH-246,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,رمسيس داخل محطة السكة الحديد,Ramsis inside Train Station,25756282,25756282,القاهرة,Cairo
+PH-247,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,اركيديا مول كورنيش النيل شبرا,"Arcadia Mall, Nile Corniche, Shubra",25755235,25755235,القاهرة,Cairo
+PH-248,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,المقطم – 98شارع 9 بجوار التوحيد و النور,Al-Mokattam – 98 Street 9 next to Al-Tawheed wa Al-Nour,25052203,25052203,القاهرة,Cairo
+PH-249,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,المعادى - 23 ميدان الحرية,Maadi – 23 Hurriya Square,27507290,27507290,القاهرة,Cairo
+PH-250,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,كورنيش النيل - النايل مول وحدة 118 الدور الاول مبنى B,"Nile Corniche – Nile Mall, Unit 118, First Floor, Building B",25287705,25287705,القاهرة,Cairo
+PH-251,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,كورنيش النيل - 899 كورنيش النيل بجوار قسم مصر القديمة,Nile Corniche – 899 Nile Corniche next to Old Cairo Police Station,23628259,23628259,القاهرة,Cairo
+PH-252,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,المعادى الجديدة – 45ش النصر ميدان الجزائر,"New Maadi – 45 El-Nasr Street, Algeria Square",27535394,27535394,القاهرة,Cairo
+PH-253,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,1ش احمد تيسير كلية البنات مصر الجديدة,"1 Ahmed Taysir Street, Girls College – Heliopolis",24153409,24153409,القاهرة,Cairo
+PH-254,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,132ش النزهة تريومف مصر الجديدة,"132 El-Nozha Street, Triumph – Heliopolis",27759097/95,27759097/95,القاهرة,Cairo
+PH-255,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,قطعة 5 بلوك 21 المنطقة العاشرة ش احمد الزمر مدينة نصر,"Piece 5, Block 21, District 10, Ahmed El-Zomor Street – Madinet Nasr",24731213/14/15,24731213/14/15,القاهرة,Cairo
+PH-256,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,32 ش احمد فخرى مدينة نصر,32 Ahmed Fakhry Street – Madinet Nasr,24547055/6508,24547055/6508,القاهرة,Cairo
+PH-257,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,الوحدة 2-078 كايرو فيستيفال سيتى مول التجمع الخامس,"Unit 2-078, Cairo Festival City Mall, Fifth Settlement",26168165/166,26168165/166,القاهرة,Cairo
+PH-258,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,محل رقم r1.07 داون تاون مول ش التسعين التجمع الخامس,"Shop No. R1.07, Down Town Mall, 90th Street, Fifth Settlement",23146189,23146189,القاهرة,Cairo
+PH-259,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,"محل رقم 51,52 بالسوق التجارى مدينة الرحاب منطقة الخدمات المنزلية","Shops No. 51,52, Commercial Market, Madinet Al-Rehab, Household Services Area",26923312,26923312,القاهرة,Cairo
+PH-260,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,محل رقم 4 الدور الارضى المول التجارى2 مدينة الرحاب,"Shop No. 4, Ground Floor, Commercial Mall 2, Madinet Al-Rehab",26931096/97,26931096/97,القاهرة,Cairo
+PH-261,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,محل a217 الدور الارضى سكاى بلازا مول الشروق,"Shop A217, Ground Floor, Sky Plaza Mall, Al-Shorouk",1155206017,1155206017,القاهرة,Cairo
+PH-262,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,136ش سليم الاول بجوار سوبر ماركت خير زمان عين شمس,136 Selim I Street next to Khair Zaman Supermarket – Ein Shams,20676335,20676335,القاهرة,Cairo
+PH-263,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,317ش رمسيس اخر نزلة كوبرى احمد سعيد,"317 Ramsis Street, end of Ahmed Saeed Bridge Descent",24848010/110,24848010/110,القاهرة,Cairo
+PH-264,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,113ش شبرا,113 Shubra Street,24330160/161,24330160/161,القاهرة,Cairo
+PH-265,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,224ش الترعة البولاقية شبرا القاهرة,"224 El-Tur’a El-Boulaqia Street, Shubra – Cairo",22005544/5224,22005544/5224,القاهرة,Cairo
+PH-266,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,برج طيبة ش 15 مايو بجهة منشية الحرية حوض ابراهيم صالح شبرا الخيمة,"Tiba Tower, 15th of May Street, side of Manshiet Al-Hurriya, Ibrahim Saleh Basin – Shubra Al-Kheima",242220902/907,242220902/907,القاهرة,Cairo
+PH-267,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,241 ش جسر السويس القاهرة,241 Gesr El-Suez Street – Cairo,22402692/95,22402692/95,القاهرة,Cairo
+PH-268,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,24ش هدى الشعراوى خلف وزارة الاوقاف,24 Hoda Shaarawi Street behind Ministry of Awqaf,23962446,23962446,القاهرة,Cairo
+PH-269,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,69ش منيل الروضة ميدان الباشا المنيل,"69 Manyal Al-Roda Street, Al-Basha Square – Manyal",23648821/22,23648821/22,القاهرة,Cairo
+PH-270,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,6أ ش الملك الافضل الزمالك قصر النيل,"6A Al-Malik Al-Afdal Street, Zamalek – Qasr El-Nil",27350168,27350168,القاهرة,Cairo
+PH-271,صيدليات العزبى (19600),Ezzaby Pharmacy (19600),صيدلية,Pharmacy,125 ش النصر الشطر الثالث المعادى الجديدة,"125 El-Nasr Street, Third Section – New Maadi",225197791/92669,225197791/92669,القاهرة,Cairo
+PH-272,صيدليات العزبى (19600),Seif Pharmacy (19199),صيدلية,Pharmacy,الكيلو52 طريق مصر الاسماعلية الصحراوى بجوار هايبر ماركت العاشر من رمضان,"Kilometer 52, Cairo-Ismailia Desert Road next to Hypermarket of 10th of Ramadan",015/410930,015/410930,القاهرة,Cairo
+PH-273,صيدليات العزبى (19600),Seif Pharmacy (19199),صيدلية,Pharmacy,الحى الاول المجاورة التانية قطعة رقم 6 محل رقم 4 مدينة بدر,"District 1, Second Neighborhood, Piece No. 6, Shop No. 4 – Madinet Badr",28609235/236,28609235/236,القاهرة,Cairo
+PH-274,صيدليات العزبى (19600),Seif Pharmacy (19199),صيدلية,Pharmacy,حلوان- 38ش محمد سيد احمد,Helwan – 38 Mohamed Sayed Ahmed Street,25563805,25563805,القاهرة,Cairo
+PH-275,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Pharmacy,76 ش القصر العينى,76 Kasr El-Aini Street,27943678,27943678,القاهرة,Cairo
+PH-276,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Pharmacy,34 أ منيل الروضة,34A Manyal Al-Roda Street,23624505,23624505,القاهرة,Cairo
+PH-277,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Pharmacy,ص.هندام المعادى ش 9 ميدان المحطة - لمعادى,"Postal Code: Hendam Maadi, Street 9, Station Square – Maadi",23593846,23593846,القاهرة,Cairo
+PH-278,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Pharmacy,د.فاتن عبد الرحمن 73 ش الميرغنى - مصر الجديدة,"Dr. Faten Abdel Rahman, 73 Al-Mirghani Street – Heliopolis",24143010,24143010,القاهرة,Cairo
+PH-279,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Pharmacy,واحة عمر طريق مصر اسكندرية الصحراوى ك 111,"Wahat Omar, Cairo-Alexandria Desert Road, Kilometer 111",122218731,122218731,القاهرة,Cairo
+PH-280,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Pharmacy,د.بسنت سيتى ستارز-ش عمربن الخطاب -م.نصر,"Dr. Bassant, City Stars – Omar Ibn Al-Khattab Street – Madinet Nasr",24802148,24802148,القاهرة,Cairo
+PH-281,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Pharmacy,بدرامام مستشفى القوات المسلحة,"Badr, in front of Armed Forces Hospital",25249068/78,25249068/78,القاهرة,Cairo
+PH-282,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Pharmacy,دجلة 7عمارات الشرطة ش 233,"Tigris, 7 Police Buildings, Street 233",25168674/576/679,25168674/576/679,القاهرة,Cairo
+PH-283,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Pharmacy,المرشدى مول ريحانة زهراء المعادى,"Al-Murshedy Mall, Rihana, Zahraa Al-Maadi",25178212/3/4,25178212/3/4,القاهرة,Cairo
+PH-284,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Pharmacy,المعراج:47ش المركز الرئيسى المعراج العلوى,"Al-Mi’raj: 47 Main Center Street, Upper Mi’raj",24474272/3/4/5,24474272/3/4/5,القاهرة,Cairo
+PH-285,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Pharmacy,حلوان 55ش رايل تقاطع ش مسجد عزام بجوار كارفور,"Helwan, 55 Rail Street intersection with Al-Azzam Mosque Street next to Carrefour",25551128/38/62,25551128/38/62,القاهرة,Cairo
+PH-286,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Pharmacy,استراند 183 ميدان التحرير عمارة استراند,"Strand, 183 Tahrir Square, Strand Building",27929251,27929251,القاهرة,Cairo
+PH-287,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Pharmacy,السيدة زينب 4ش قدرى,"Al-Sayeda Zeinab, 4 Qadry Street",23930283/274/236,23930283/274/236,القاهرة,Cairo
+PH-288,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Pharmacy,صلاح الدين 44ش القلعة الحلمية الجديدة,"Salah El-Din, 44 Al-Qalaa Street, New Helmeya",23938798/6,23938798/6,القاهرة,Cairo
+PH-289,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,الميرغنى 73ش الميرغنى,"Al-Mirghani, 73 Al-Mirghani Street",24143010,24143010,القاهرة,Cairo
+PH-290,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,عثمان 120ش عثمان بن عفان,"Othman, 120 Othman Ibn Affan Street",27742834/52/53/54,27742834/52/53/54,القاهرة,Cairo
+PH-291,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,نادى الشمس امام بوابة 2,"Sun Club, in front of Gate 2",21805035/402,21805035/402,القاهرة,Cairo
+PH-292,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,صن سيتى مول لاوتوستراد المطار,"Sun City Mall, Airport Highway",22689636,22689636,القاهرة,Cairo
+PH-293,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,شيراتون المطار 24ش سيد زكريا شيراتون,"Sheraton Airport, 24 Sayed Zakaria Street, Sheraton",22697643,22697643,القاهرة,Cairo
+PH-294,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,وادى دجلة thedistrict مول نادى وادى دجلة المطار,"Wadi Degla The District Mall, Wadi Degla Club, Airport",1270677770,1270677770,القاهرة,Cairo
+PH-295,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,مكرم عبيد تقاطع ش النصر,"Makram Ebeid, intersection of El-Nasr Street",23521414/591,23521414/591,القاهرة,Cairo
+PH-296,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,النادى الاهلى 74ش حسن المامون,"Al-Ahly Club, 74 Hassan Al-Maamoun Street",26772048/901,26772048/901,القاهرة,Cairo
+PH-297,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,وندرلاند 50ش ابو العتاهية,"Wonderland, 50 Abu Al-Atahiya Street",22730415/6,22730415/6,القاهرة,Cairo
+PH-298,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,مصطفى النحاس 46ش على امين,"Mostafa El-Nahas, 46 Ali Amin Street",23824159/4254,23824159/4254,القاهرة,Cairo
+PH-299,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,البطراوي 42ش البطراوى بجوار جنينة مول,"Al-Batrawy, 42 Al-Batrawy Street next to Genena Mall",24045960/52,24045960/52,القاهرة,Cairo
+PH-300,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,المقطم ش9 رقم 3 قطعة 527,"Al-Mokattam, Street 9, No. 3, Piece 527",26677968/42,26677968/42,القاهرة,Cairo
+PH-301,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,التجمع الخامس سفن ستارز مول,"Fifth Settlement, Seven Stars Mall",29298577,29298577,القاهرة,Cairo
+PH-302,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,كونكورد مول,Concord Mall,25364042/1,25364042/1,القاهرة,Cairo
+PH-303,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,التجمع الاول السوق التجارى اسكان الشباب,"First Settlement, Commercial Market, Youth Housing",22477810/1,22477810/1,القاهرة,Cairo
+PH-304,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,سليفر ستار محور محمد نجيب طريق الرحاب,"Silver Star, Mohamed Naguib Axis, Al-Rehab Road",01200111183/4,01200111183/4,القاهرة,Cairo
+PH-305,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,الزمالك 3ش ابن النبية خلف برج ام كلثوم,"Zamalek, 3 Ibn Al-Nabiha Street behind Umm Kulthum Tower",27364819/20,27364819/20,القاهرة,Cairo
+PH-306,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,الشروق سيتى بلازا مول,Al-Shorouk City Plaza Mall,29228603,29228603,القاهرة,Cairo
+PH-307,صيدلية سيف (19199),Seif Pharmacy (19199),صيدلية,Lab,د.دينا 41ش شبرا,"Dr. Dina, 41 Shubra Street",25778800,25778800,القاهرة,Cairo
+PH-308,صيدلية سيف (19199),Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,صيدلية,Lab,مدينة العبور جولف سيتى مول,"Madinet Al-Obour, Golf City Mall",44828320,44828320,القاهرة,Cairo
+PH-309,صيدلية سيف (19199),Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,صيدلية,Lab,الشباب 63 متر ميدان المستقبل,"Al-Shabab, 63 Meters, Mustaqbal Square",3130361/2/4/5,3130361/2/4/5,القاهرة,Cairo
+PH-310,صيدلية سيف (19199),Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,صيدلية,Lab,ماستر ك106 طريق مصر اسكندرية الصحراوى استراحة ماستر,"Master, Kilometer 106, Cairo-Alexandria Desert Road, Master Resthouse",3551202,3551202,القاهرة,Cairo
+LAB-311,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,58ش الحجاز برج امون – مصرالجديدة,"58 Al-Hegaz Street, Amoun Tower – Heliopolis",26365392,26365392,القاهرة,Cairo
+LAB-312,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,57ش الخليفة المأمون – روكسى – مصرالجديدة,57 Al-Khalifa Al-Maamoun Street – Roxy – Heliopolis,24527727,24527727,القاهرة,Cairo
+LAB-313,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,9عمارات العبور – صلاح سالم,9 Al-Obour Buildings – Salah Salem,22600118,22600118,القاهرة,Cairo
+LAB-314,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,3ش الشهيد زكريا – مساكن شيراتون,3 Al-Shaheed Zakaria Street – Sheraton Housing,22669309,22669309,القاهرة,Cairo
+LAB-315,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,10ش بن الحكم – حلمية الزيتون,10 Ibn Al-Hakam Street – Helmeya El-Zeitoun,26399171,26399171,القاهرة,Cairo
+LAB-316,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,تقاطع ش عين شمس مع ش احمد عصمت - عين شمس,Intersection of Ein Shams Street with Ahmed Esmat Street – Ein Shams,24975903,24975903,القاهرة,Cairo
+LAB-317,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,25ش جسر السويس – جسر السويس,25 Gesr El-Suez Street – Gesr El-Suez,29223630,29223630,القاهرة,Cairo
+LAB-318,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,127ش مصر والسودان – حدائق القبة,127 Misr wa Al-Sudan Street – Hadayek El-Qobba,299223608,299223608,القاهرة,Cairo
+LAB-319,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,72 ميدان عبد باشا – العباسية,72 Abdel Pasha Square – Abbasiya,26745035,26745035,القاهرة,Cairo
+LAB-320,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,اغاخان 15ش السلام – شبرا,"Aga Khan, 15 Al-Salam Street – Shubra",22021553,22021553,القاهرة,Cairo
+LAB-321,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,30ش شبرا,30 Shubra Street,25740111,25740111,القاهرة,Cairo
+LAB-322,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,81طريق النصر بجوار طيبة مول – مدينة نصر,81 El-Nasr Road next to Tiba Mall – Madinet Nasr,22636262,22636262,القاهرة,Cairo
+LAB-323,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,43ش مصطفى النحاس – مدينة نصر,43 Mostafa El-Nahas Street – Madinet Nasr,22754314,22754314,القاهرة,Cairo
+LAB-324,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,برج د0رشا النطقة 12 قطعة 4 الحي العاشر,"Dr. Rasha Tower, Zone 12, Piece 4, District 10",29282210,29282210,القاهرة,Cairo
+LAB-325,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,87ش المنيل,87 Manyal Street,23619731,23619731,القاهرة,Cairo
+LAB-326,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,306ش بورسعيد امام م0احمد ماهر- السيدة زينب,306 Port Said Street in front of Ahmed Maher School – Al-Sayeda Zeinab,23627698,23627698,القاهرة,Cairo
+LAB-327,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,45ش القصر العينى,45 Kasr El-Aini Street,23611075,23611075,القاهرة,Cairo
+LAB-328,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,9ش البطل احمد عبدالعزيز – باب اللوق,9 Al-Batal Ahmed Abdelaziz Street – Bab El-Louq,23926623,23926623,القاهرة,Cairo
+LAB-329,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,50ش الفيوم – دارالسلام,50 El-Fayoum Street – Dar Al-Salam,23167199,23167199,القاهرة,Cairo
+LAB-330,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Lab,377ش 9 – المقطم,377 Street 9 – Al-Mokattam,29205539,29205539,القاهرة,Cairo
+LAB-331,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Hospital,599 ش بورسعيد باب الشعرية,599 Port Said Street – Bab El-Shaariya,27879403,27879403,القاهرة,Cairo
+LAB-332,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Hospital,24ش عمر بن الخطاب - ميدان الاسماعلية,24 Omar Ibn Al-Khattab Street – Ismailia Square,26436089,26436089,القاهرة,Cairo
+LAB-333,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Hospital,13ش المنصورية - الدراسة,13 Al-Mansouriya Street – Al-Darrasa,27879589,27879589,القاهرة,Cairo
+LAB-334,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Hospital,مارينا مول قطعة 39 بجوار سفن ستارز,"Marina Mall, Piece 39 next to Seven Stars",29297047,29297047,القاهرة,Cairo
+LAB-335,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19014,معمل تحاليل,Hospital,4ش 151بجوار محطة بنزين موبيل - المعادى,4 Street 151 next to Mobil Gas Station – Maadi,23806133,23806133,القاهرة,Cairo
+LAB-336,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19015,معمل تحاليل,Hospital,المركز الطبى الثانى - مدينة الرحاب,Second Medical Center – Madinet Al-Rehab,26924762,26924762,القاهرة,Cairo
+LAB-337,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19016,معمل تحاليل,Pharmacy,208 ش النصر – المعادى الجديدة,208 El-Nasr Street – New Maadi,25172712,25172712,القاهرة,Cairo
+LAB-338,معمل د/مؤمنة كامل(المختبر) 19014,Lab Dr. Mouna Kamel (Al-Mokhtabar) 19017,معمل تحاليل,Pharmacy,36ش حيدر باشا – حلوان,36 Heidar Pasha Street – Helwan,25567300,25567300,القاهرة,Cairo
+H-339,مستشفي دار الصحة,Dar Al-Sihha Hospital,مستشفى,Pharmacy,حي الدبلومسين-مثلث الخدمات-خلف الجامعة الالمانية-القاهرة الجديدة,"Diplomatic District, Services Triangle, behind German University – New Cairo",225420666,225420666,القاهرة,Cairo
+H-340,مستشفي وقاية التخصصي,Wiqaya Specialized Hospital,مستشفى,Pharmacy,17شارع اسماء فهمي -الحي الثالث-ارض الجولف,17 Asmaa Fahmy Street – District 3 – Golf Land,01000964508-01000884682,01000964508-01000884682,القاهرة,Cairo
+H-341,مستشفي القطامية كلينك,Al-Qatamiya Clinic Hospital,مستشفى,Pharmacy,محور مصطفي كامل بجوار قسم شرطة التجمع الاول,Mostafa Kamel Axis next to First Settlement Police Station,225865100,225865100,القاهرة,Cairo
+H-342,مستشفي شفا,Shifa Hospital,مستشفى,Pharmacy,شارع 90 شمالي -سيتي سنتر-القاهرة الجديدة,90th North Street – City Center – New Cairo,15051,15051,القاهرة,Cairo
+H-343,مستشفى الجوى التخصصى,Al-Gawwi Specialized Hospital,مستشفى,| Pharmacy |,شارع ال90 التجمع الخامس,"90th Street, Fifth Settlement",19448,19448,القاهرة,Cairo
+H-344,مستشفى جلوبال ميديكال سيتى,Global Medical City Hospital,مستشفى,| Pharmacy |,مستشفى الازهر - شارع الشهيد - مدينة نصر,Al-Azhar Hospital – Al-Shaheed Street – Madinet Nasr,19365,19365,القاهرة,Cairo
+PH-345,صيدلية مصر(19110),Misr Pharmacy (19110),صيدلية,صيدليات,58 ش ابو بكر الصديق - ميدان سفير,58 Abu Bakr Al-Siddiq Street – Safir Square,26376035,26376035,القاهرة,Cairo
+PH-346,صيدلية مصر(19110),Misr Pharmacy (19110),صيدلية,صيدليات,176ش التحرير باب اللوق وسط البلد,"176 Al-Tahrir Street, Bab El-Louq – Downtown",23932567 23953869,23932567 23953869,القاهرة,Cairo
+PH-347,صيدلية مصر(19110),Misr Pharmacy (19110),صيدلية,صيدليات,249ش شبرا امام مسجد عمر بن الخطاب,249 Shubra Street in front of Omar Ibn Al-Khattab Mosque,24306833/32,24306833/32,القاهرة,Cairo
+PH-348,صيدلية مصر(19110),Misr Pharmacy (19110),صيدلية,صيدليات,44ش طلعت حرب وسط البلد,44 Talaat Harb Street – Downtown,25750678,25750678,القاهرة,Cairo
+PH-349,صيدلية مصر(19110),Misr Pharmacy (19110),صيدلية,صيدليات,14عمارات رابعة الاستثمارى اول ش النزهه ميدان الساعة,"14 Rabaa Al-Adaweya Investment Buildings, first El-Nozha Street, Clock Square",22914804/808,22914804/808,القاهرة,Cairo
+PH-350,صيدلية مصر(19110),Misr Pharmacy (19110),صيدلية,,153عمارات التوفيق ش خضر التونى متفرع من ش الطيران,"153 Al-Tawfiq Buildings, Khader El-Touni Street branching from Aviation Street",22603685 01020333865,22603685 01020333865,القاهرة,Cairo

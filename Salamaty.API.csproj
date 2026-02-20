@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <NuGetAuditMode>direct</NuGetAuditMode>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,7 +30,6 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="DataResources\" />
-    <Folder Include="Services\ProfileServices\" />
   </ItemGroup>
 
 </Project>
