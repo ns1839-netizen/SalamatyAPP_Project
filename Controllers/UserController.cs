@@ -1,91 +1,54 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Salamaty.API.DTOs;
-using Salamaty.API.Models;
-using SalamatyAPI.Data;
+using Salamaty.API.DTOs.ProfileDTOS;
+using Salamaty.API.Services; // تأكدي أن هذا الـ Namespace يطابق الـ Service
 
 namespace Salamaty.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    // حل مشكلة Use primary constructor
-    public class UserController(ApplicationDbContext context, UserManager<ApplicationUser> userManager) : ControllerBase
+    public class UserController(IUserService userService) : ControllerBase
     {
-        private async Task<ApplicationUser?> GetCurrentUserAsync()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            return userId == null ? null : await userManager.FindByIdAsync(userId);
-        }
+        private string GetUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
         [HttpGet("profile")]
         public async Task<IActionResult> GetProfile()
         {
-            var user = await GetCurrentUserAsync();
-            // حل مشكلة Operator '==' cannot be applied
-            if (user is null) return Unauthorized();
+            // شيلنا باراميتر اللغة وثبتناها جوه المناداة
+            var profile = await userService.GetUserProfileAsync(GetUserId(), "ar");
 
-            return Ok(new
-            {
-                Success = true,
-                Data = new UserProfileDto
-                {
-                    FullName = user.FullName,
-                    ImageUrl = user.ImageUrl,
-                    Gender = user.Gender,
-                    BirthDate = user.BirthDate,
-                    Address = user.Address,
-                    LocationLat = user.LocationLat,
-                    LocationLng = user.LocationLng
-                }
-            });
+            if (profile == null)
+                return NotFound(new { success = false, message = "User not found" });
+
+            return Ok(new { success = true, data = profile });
         }
 
-        [HttpPut("profile")]
-        public async Task<IActionResult> UpdateProfile(UserProfileDto dto)
+        [HttpPut("EditProfile")]
+        public async Task<IActionResult> UpdateProfile([FromBody] UserProfileDto dto)
         {
-            var user = await GetCurrentUserAsync();
-            if (user is null) return Unauthorized();
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            // تحديث البيانات الأساسية
-            user.FullName = dto.FullName;
-            user.Gender = dto.Gender;
-            user.BirthDate = dto.BirthDate;
-            user.Address = dto.Address;
+            var success = await userService.UpdateProfileAsync(GetUserId(), dto);
+            if (success)
+                return Ok(new { success = true, message = "تم تحديث الملف الشخصي بنجاح" });
 
-            // هندلة الموقع: إذا رفض المستخدم الإذن، ستصل القيم null وتُحفظ كـ null
-            user.LocationLat = dto.LocationLat;
-            user.LocationLng = dto.LocationLng;
+            return BadRequest(new { success = false, message = "حدث خطأ أثناء التحديث" });
+        }
 
-            var result = await userManager.UpdateAsync(user);
-            if (!result.Succeeded) return BadRequest(result.Errors);
-
-            return Ok(new { Success = true, Message = "Profile updated successfully" });
+        [HttpPatch("update-location")]
+        public async Task<IActionResult> UpdateLocation([FromBody] LocationUpdateDto dto)
+        {
+            var address = await userService.UpdateLocationAsync(GetUserId(), dto.LocationLat, dto.LocationLng);
+            return Ok(new { Success = true, Address = address });
         }
 
         [HttpPost("upload-photo")]
         public async Task<IActionResult> UploadPhoto(IFormFile file)
         {
-            if (file == null || file.Length == 0) return BadRequest("File is empty");
-
-            var user = await GetCurrentUserAsync();
-            if (user is null) return Unauthorized();
-
-            var uploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-            if (!Directory.Exists(uploads)) Directory.CreateDirectory(uploads);
-
-            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
-            var path = Path.Combine(uploads, fileName);
-
-            using var stream = new FileStream(path, FileMode.Create);
-            await file.CopyToAsync(stream);
-
-            user.ImageUrl = $"/uploads/{fileName}";
-            await userManager.UpdateAsync(user);
-
-            return Ok(new { Success = true, ImageUrl = user.ImageUrl });
+            var imagePath = await userService.UploadPhotoAsync(GetUserId(), file);
+            return imagePath != null ? Ok(new { Success = true, ImageUrl = imagePath }) : BadRequest("Upload failed");
         }
     }
 }
