@@ -16,12 +16,6 @@ namespace Salamaty.API.Services
             var request = httpContextAccessor.HttpContext?.Request;
             var baseUrl = $"{request?.Scheme}://{request?.Host}";
 
-            // 1. نحسب الـ bool هنا بره الـ Object عشان الكود يشتغل
-            bool isDefaultDate = user.BirthDate.Year == 2000 &&
-                        user.BirthDate.Month == 1 &&
-                        user.BirthDate.Day == 1;
-
-            // 2. نرجع الـ Data منظمة
             return new
             {
                 user.FullName,
@@ -37,16 +31,12 @@ namespace Salamaty.API.Services
                 },
                 GenderValue = (int)user.Gender,
 
-                // BirthDay Logic
-                // بنستخدم ?.Value عشان نتأكد إنه لو مش null ينفذ الـ ToString الصح بتاعة الـ DateTime
-
                 user.Address,
-                BirthDateText = isDefaultDate ? "Birthday" : user.BirthDate.ToString("yyyy-MM-dd"),
+                // الشرط بقى أسهل بكتير: لو null اطبع الكلمة
+                BirthDateText = user.BirthDate == null ? "Birthday" : user.BirthDate.Value.ToString("yyyy-MM-dd"),
                 user.BirthDate
             };
         }
-
-        // 2. لتنفيذ عملية الحفظ (الزرار الأخضر في الشاشة التالتة)
         public async Task<bool> UpdateProfileAsync(string userId, UserProfileDto dto)
         {
             var user = await userManager.FindByIdAsync(userId);
@@ -54,14 +44,15 @@ namespace Salamaty.API.Services
 
             user.FullName = dto.FullName;
             user.Gender = dto.Gender;
-            user.BirthDate = dto.BirthDate ?? new DateTime(2000, 1, 1);
             user.Address = dto.Address;
+
+            // هنسيف القيمة مباشرة (لو فاضية هتبقى null في الداتابيز)
+            user.BirthDate = dto.BirthDate;
 
             var result = await userManager.UpdateAsync(user);
             return result.Succeeded;
         }
 
-        // 3. تحديث الموقع وتوليد عنوان تفصيلي (النسخة الأكثر دقة)
         public async Task<string?> UpdateLocationAsync(string userId, double lat, double lng)
         {
             var user = await userManager.FindByIdAsync(userId);

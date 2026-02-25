@@ -28,7 +28,7 @@ namespace Salamaty.API.Models.ProfileModels
         // ================== Profile fields ==================
         public Gender Gender { get; set; } = Gender.NotSpecified;
 
-        public DateTime BirthDate { get; set; }
+        public DateOnly? BirthDate { get; set; }
 
         [MaxLength(200)]
         public string? Address { get; set; }

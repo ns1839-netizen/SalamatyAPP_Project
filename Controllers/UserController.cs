@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Salamaty.API.DTOs.ProfileDTOS;
-using Salamaty.API.Services; // تأكدي أن هذا الـ Namespace يطابق الـ Service
+using Salamaty.API.Services;
 
 namespace Salamaty.API.Controllers
 {
@@ -16,7 +16,7 @@ namespace Salamaty.API.Controllers
         [HttpGet("profile")]
         public async Task<IActionResult> GetProfile()
         {
-            // شيلنا باراميتر اللغة وثبتناها جوه المناداة
+
             var profile = await userService.GetUserProfileAsync(GetUserId(), "ar");
 
             if (profile == null)
