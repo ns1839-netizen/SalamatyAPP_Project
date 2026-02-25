@@ -1,19 +1,25 @@
-﻿namespace Salamaty.API.Models
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SalamatyAPI.Models
 {
     public class Product
     {
         public int Id { get; set; }
 
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; } = default!;
+
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
-        public string SideEffect { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public string Uses { get; set; } = string.Empty;
-        public string Alternatives { get; set; } = string.Empty;
-        public string Category { get; set; } = string.Empty;
-        public string ImageUrl { get; set; } = string.Empty;
+        public string ImageUrl { get; set; } = default!;
+        public string Category { get; set; } = default!;
 
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public string? Description { get; set; }
+        public string? SideEffects { get; set; }
+
+        public ICollection<ProductAlternative> Alternatives { get; set; } = new List<ProductAlternative>();
+        public ICollection<ProductAlternative> AlternativeTo { get; set; } = new List<ProductAlternative>();
+        public string? Pharmacies { get; set; }
     }
 }

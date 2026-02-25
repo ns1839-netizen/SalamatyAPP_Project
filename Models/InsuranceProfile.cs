@@ -1,17 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Salamaty.API.Models
+namespace SalamatyAPI.Models
 {
     public class InsuranceProfile
     {
-        [Key]
         public int Id { get; set; }
-
-        public string Provider { get; set; } = string.Empty;
-        public string MembershipId { get; set; } = string.Empty;
-        public string CoverageDetails { get; set; } = string.Empty;
-
-        public string UserId { get; set; } = string.Empty;
-        public ApplicationUser? User { get; set; }
+        public int UserId { get; set; }
+        public int InsuranceProviderId { get; set; }
+        public string CardHolderId { get; set; } = null!;
+        //public DateTime? ValidUntil { get; set; }
+        public string FrontImagePath { get; set; } = null!;
+        public string BackImagePath { get; set; } = null!;
+        public User User { get; set; } = null!;
+        public InsuranceProvider InsuranceProvider { get; set; } = null!;
     }
 }
+
+
