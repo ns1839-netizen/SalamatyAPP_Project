@@ -2,7 +2,6 @@
 using OfficeOpenXml;
 using SalamatyAPI.Models;
 using SalamatyAPI.Models.Enums;
-
 namespace SalamatyAPI.Data
 {
     public static class DbSeeder

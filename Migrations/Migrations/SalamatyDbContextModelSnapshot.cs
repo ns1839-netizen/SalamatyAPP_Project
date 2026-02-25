@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SalamatyAPI.Data;
 
+
 #nullable disable
 
 namespace SalamatyAPI.Migrations
