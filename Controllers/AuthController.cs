@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Salamaty.API.DTOs;
-using Salamaty.API.Models;
-using Salamaty.API.Services;
+using Salamaty.API.DTOs.AuthDTOS;
+using Salamaty.API.Models.ProfileModels;
+using Salamaty.API.Services.AuthServices;
 
 namespace Salamaty.API.Controllers
 {
@@ -11,16 +12,16 @@ namespace Salamaty.API.Controllers
     [Route("api/auth")]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthService _authService;
+        IAuthService _authService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailService _emailService; // إضافة خدمة الإيميل
+        IEmailService _emailService;
 
         public AuthController(
             IAuthService authService,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IEmailService emailService) // حقن الخدمة هنا
+            IEmailService emailService)
         {
             _authService = authService ?? throw new ArgumentNullException(nameof(authService));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
@@ -72,26 +73,30 @@ namespace Salamaty.API.Controllers
             return BadRequest(new { Success = false, Message = "An error occurred during registration." });
         }
 
-        // ================== VERIFY OTP ==================
+        // ================== VERIFY OTP (Unified for Registration & Reset) ==================
         [HttpPost("verify-otp")]
         public async Task<IActionResult> VerifyOtp([FromBody] OtpDto dto)
         {
             var user = await _userManager.FindByEmailAsync(dto.Email);
             if (user == null) return NotFound(new { Success = false, Message = "User not found." });
 
+            // التأكد من صحة الكود وصلاحيته
             if (user.OtpCode == dto.OtpCode && user.OtpExpiry.HasValue && user.OtpExpiry > DateTime.UtcNow)
             {
+                // 1. تفعيل الحساب في كل الأحوال (سواء كان لسه مسجل أو بيغير باسورد)
                 user.EmailConfirmed = true;
-                user.OtpCode = null!;
-                user.OtpExpiry = null;
 
+                // ملاحظة: لا نمسح الـ OtpCode هنا فوراً 
+                // لأننا سنحتاجه في خطوة الـ Reset-Password للتأكد من هوية المستخدم
                 await _userManager.UpdateAsync(user);
+
+                // 2. توليد توكن (هينفع مبرمج الفلوتر لو كان اليوزر بيسجل لأول مرة وعايز يدخل الـ Home)
                 var authResult = await _authService.GenerateTokenAsync(user);
 
                 return Ok(new
                 {
                     Success = true,
-                    Message = "Account verified successfully!",
+                    Message = "Code verified successfully!",
                     Token = authResult.Token,
                     Data = new { Email = user.Email, FullName = user.FullName, IsEmailConfirmed = true }
                 });
@@ -127,16 +132,19 @@ namespace Salamaty.API.Controllers
         [HttpPost("google-login")]
         public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginDto dto)
         {
+            // تأكدي إن authService محقون صح في الكلاس
             var result = await _authService.GoogleLoginAsync(dto);
-            if (!result.Success) return BadRequest(new { Success = false, Message = result.Message });
+            if (!result.Success) return BadRequest(result);
             return Ok(result);
         }
 
         // ================== RESEND OTP ==================
         [HttpPost("resend-otp")]
-        public async Task<IActionResult> ResendOtp([FromBody] string email)
+        public async Task<IActionResult> ResendOtp([FromBody] EmailRequestDto dto)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+
+            var user = await _userManager.FindByEmailAsync(dto.Email);
+
             if (user == null) return NotFound(new { Message = "User not found" });
 
             var newOtp = new Random().Next(10000, 99999).ToString();
@@ -145,10 +153,9 @@ namespace Salamaty.API.Controllers
 
             await _userManager.UpdateAsync(user);
 
-            // إرسال الإيميل مرة أخرى عند طلب إعادة الإرسال
             await _emailService.SendEmailAsync(user.Email!, "Salamaty - New OTP Code", $"Your new code is: <b>{newOtp}</b>");
 
-            return Ok(new OtpResponseDto
+            return Ok(new
             {
                 Email = user.Email,
                 FullName = user.FullName,
@@ -157,45 +164,58 @@ namespace Salamaty.API.Controllers
             });
         }
 
-        // ================== FORGOT PASSWORD ==================
+
+
+        // ==================  FORGOT PASSWORD  ==================
         [HttpPost("forgot-password")]
-        public async Task<IActionResult> ForgotPassword([FromBody] string email)
+        public async Task<IActionResult> ForgotPassword([FromBody] EmailRequestDto dto)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user == null) return NotFound(new { Message = "User not found." });
+            // 1. التحقق من أن الحقل ليس فارغاً (Validation)
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            var otpCode = new Random().Next(10000, 99999).ToString();
-            user.OtpCode = otpCode;
-            user.OtpExpiry = DateTime.UtcNow.AddMinutes(7);
+            // 2. طلب تنفيذ المنطق من الـ Service
+            var result = await _authService.ForgotPasswordAsync(dto.Email);
 
-            await _userManager.UpdateAsync(user);
-            await _emailService.SendEmailAsync(user.Email!, "Salamaty - Password Reset", $"Use this code to reset your password: <b>{otpCode}</b>");
+            // 3. حالة الفشل: لو الإيميل مش موجود أو غير مسجل
+            // هنا بنرجع BadRequest عشان الموبايل يظهر رسالة الخطأ ويفضل في نفس الصفحة
+            if (!result.Success)
+                return BadRequest(result);
 
-            return Ok(new OtpResponseDto
-            {
-                Email = email,
-                FullName = user.FullName,
-                Message = "Reset OTP sent successfully to your email.",
-                Success = true
-            });
+            // 4. حالة النجاح: نجلب المستخدم لإرسال الكود له
+            var user = await _userManager.FindByEmailAsync(dto.Email);
+
+            // 5. إرسال الإيميل الحقيقي
+            await _emailService.SendEmailAsync(dto.Email, "Salamaty - Reset Password", $"Your reset code is: <b>{user!.OtpCode}</b>");
+
+            // 6. نرجع Ok عشان الموبايل يفهم إن العملية نجحت وينقل المستخدم لشاشة الـ OTP
+            return Ok(result);
         }
 
-        // ================== RESET PASSWORD ==================
+
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
+            // 1. التأكد من أن المستخدم موجود والكود لسه صح (أمان إضافي)
+            var user = await _userManager.FindByEmailAsync(dto.Email);
+            if (user == null || user.OtpCode != dto.OtpCode)
+                return BadRequest(new { Success = false, Message = "Invalid session. Please start over." });
+
+            // 2. تغيير الباسورد
             var result = await _authService.ResetPasswordAsync(dto);
             if (!result.Success) return BadRequest(result);
 
-            return Ok(new AuthResponseDto
-            {
-                Success = true,
-                Message = "Password updated successfully. Please login with your new password.",
-                IsEmailConfirmed = true
-            });
+            // 3. الخطوة الأهم: تصفير الكود بعد النجاح عشان محدش يستخدمه تاني
+            user.OtpCode = null;
+            user.OtpExpiry = null;
+            await _userManager.UpdateAsync(user);
+
+            return Ok(new { Success = true, Message = "Password updated! You can login now." });
         }
+
+
 
         // ================== LOGOUT ==================
         [HttpPost("logout")]
@@ -204,6 +224,32 @@ namespace Salamaty.API.Controllers
         {
             await _signInManager.SignOutAsync();
             return Ok(new { Message = "Logged out successfully" });
+        }
+
+
+        // ================== Delet Account ==================
+
+        [HttpDelete("delete-account")]
+        [Authorize]
+        public async Task<IActionResult> DeleteAccount()
+        {
+            // 1. جلب الـ ID الخاص بالمستخدم من التوكن (Token Claims)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
+
+            // 2. البحث عن المستخدم في قاعدة البيانات
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return NotFound(new { Success = false, Message = "User not found." });
+
+            // 3. تنفيذ عملية المسح
+            var result = await _userManager.DeleteAsync(user);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { Success = true, Message = "Your account has been permanently deleted." });
+            }
+
+            return BadRequest(new { Success = false, Message = "Failed to delete account.", Errors = result.Errors.Select(e => e.Description) });
         }
     }
 }

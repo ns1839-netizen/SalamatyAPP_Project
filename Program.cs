@@ -1,5 +1,4 @@
-﻿
-using System.Text;
+﻿using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -8,8 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Salamaty.API.Middleware;
-using Salamaty.API.Models;
+using Salamaty.API.Models.ProfileModels;
 using Salamaty.API.Services;
+using Salamaty.API.Services.AuthServices;
+using Salamaty.API.Services.HomeServices;
 using SalamatyAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +22,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found."),
         sqlServerOptionsAction: sqlOptions =>
         {
-            // هذا هو السطر السحري الذي يحل مشكلة الـ transient failure
             sqlOptions.EnableRetryOnFailure(
                 maxRetryCount: 5,
                 maxRetryDelay: TimeSpan.FromSeconds(30),
@@ -30,12 +30,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     ));
 
 // ===== 2. Identity Configuration =====
-// ابحثي عن جزء الـ Identity وعدليه ليكون هكذا
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    options.SignIn.RequireConfirmedEmail = true; // إجبار تفعيل الإيميل
+    options.SignIn.RequireConfirmedEmail = true;
     options.Password.RequireDigit = true;
-    // options.Password.LengthFormat = 8;
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
@@ -66,6 +64,14 @@ builder.Services.AddAuthentication(options =>
 // ===== 4. Custom Application Services =====
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+
+
+// تسجيل الخدمة
+builder.Services.AddScoped<IUserService, UserService>();
+
+// ده مهم عشان الـ Service تقدر تعرف رابط السيرفر وتجيب صور البروفايل صح
+builder.Services.AddHttpContextAccessor();
+
 // تسجيل خدمة الـ Home
 builder.Services.AddScoped<IHomeService, HomeService>();
 // ===== 5. Swagger with JWT Support =====
@@ -74,10 +80,8 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Salamaty.API", Version = "v1" });
 
-    // تفعيل الـ Annotations والـ Filters لأنك قمتِ بتثبيتها
     c.EnableAnnotations();
 
-    // 1. تعريف طريقة الحماية
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -88,7 +92,7 @@ builder.Services.AddSwaggerGen(c =>
         Description = "Enter your JWT token."
     });
 
-    // 2. ربط الحماية بالطلبات (هنا الحل)
+
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -97,7 +101,7 @@ builder.Services.AddSwaggerGen(c =>
                 Reference = new OpenApiReference
                 {
                     Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer" // لازم يطابق الاسم اللي فوق بالظبط
+                    Id = "Bearer"
                 }
             },
             Array.Empty<string>()
@@ -129,7 +133,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        // هذا السطر يحول الـ Enum إلى نص (Male/Female) بدل أرقام (1/2)
+
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 builder.Services.AddEndpointsApiExplorer();
@@ -148,15 +152,14 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Salamaty.API v1");
+    c.SwaggerEndpoint("./v1/swagger.json", "Salamaty.API v1");
 });
 
 
 // Custom Exception Middleware
 app.UseMiddleware<ExceptionMiddleware>();
-// يسمح بالوصول للصور المرفوعة عبر الرابط
 app.UseStaticFiles();
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 
 app.UseAuthentication();

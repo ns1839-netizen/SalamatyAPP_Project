@@ -13,5 +13,3 @@ namespace SalamatyAPI.Models
         public InsuranceProvider InsuranceProvider { get; set; } = null!;
     }
 }
-
-
