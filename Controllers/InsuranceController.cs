@@ -1,14 +1,9 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SalamatyAPI.Data;
 using SalamatyAPI.Dtos.Insurance;
 using SalamatyAPI.Models;
 using SalamatyAPI.Models.Enums;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SalamatyAPI.Controllers
 {
