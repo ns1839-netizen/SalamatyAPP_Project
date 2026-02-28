@@ -335,7 +335,9 @@ namespace SalamatyAPI.Data
             if (!db.Products.Any() || db.Favorites.Any())
                 return;
 
-            const int userId = 1;
+            // غيري الـ 1 ليكون نص بين علامات تنصيص "1" 
+            // أو استخدمي GUID حقيقي من اللي عندك في جدول AspNetUsers
+            const string userId = "1";
 
             var favoriteProducts = db.Products
                 .OrderBy(p => p.Id)
@@ -344,14 +346,13 @@ namespace SalamatyAPI.Data
 
             var favorites = favoriteProducts.Select(p => new Favorite
             {
-                UserId = userId,
+                UserId = userId, // كدة هتبقى string وموافقة للكلاس
                 ProductId = p.Id
             });
 
             db.Favorites.AddRange(favorites);
             db.SaveChanges();
         }
-
         // -----------------------------------------------------------------
         //  PHARMACY CODES
         // -----------------------------------------------------------------

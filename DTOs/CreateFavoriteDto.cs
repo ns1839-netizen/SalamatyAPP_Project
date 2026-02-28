@@ -2,7 +2,8 @@
 {
     public class CreateFavoriteDto
     {
-        public int UserId { get; set; }
+        // لازم يكون string عشان يستقبل الـ GUID من السواجر
+        public string UserId { get; set; } = null!;
         public int ProductId { get; set; }
     }
 }

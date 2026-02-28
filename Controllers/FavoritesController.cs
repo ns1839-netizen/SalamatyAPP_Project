@@ -16,9 +16,11 @@ namespace SalamatyAPI.Controllers
         {
             _db = db;
         }
+
         // GET /api/favorites/user/{userId}
-        [HttpGet("user/{userId:int}")]
-        public async Task<ActionResult<IEnumerable<FavoriteDto>>> GetFavoritesForUser(int userId)
+        // تم إزالة ":int" لأن الـ userId أصبح string (GUID)
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<FavoriteDto>>> GetFavoritesForUser(string userId)
         {
             var favorites = await _db.Favorites
                 .Where(f => f.UserId == userId)
@@ -48,6 +50,7 @@ namespace SalamatyAPI.Controllers
 
             var favorite = new Favorite
             {
+                // التعديل هنا: لازم تقرأي الـ UserId من الـ request
                 UserId = request.UserId,
                 ProductId = request.ProductId
             };
@@ -72,7 +75,6 @@ namespace SalamatyAPI.Controllers
                 new { userId = request.UserId },
                 dto);
         }
-
         // DELETE /api/favorites/{favoriteId}
         [HttpDelete("{favoriteId:int}")]
         public async Task<IActionResult> DeleteFavorite(int favoriteId)
@@ -87,5 +89,3 @@ namespace SalamatyAPI.Controllers
         }
     }
 }
-
-
