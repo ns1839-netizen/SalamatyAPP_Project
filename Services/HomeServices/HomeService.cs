@@ -56,5 +56,9 @@ namespace Salamaty.API.Services.HomeServices
             if (string.IsNullOrEmpty(text)) return "";
             return text.Replace("أ", "ا").Replace("إ", "ا").Replace("آ", "ا").Replace("ة", "ه").Replace("ى", "ي").Trim();
         }
+
+
+
+
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using System.Text;
+﻿using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Salamaty.API.Middleware;
 using Salamaty.API.Models.ProfileModels;
+using Salamaty.API.Services;
 using Salamaty.API.Services.AuthServices;
 using Salamaty.API.Services.HomeServices;
 using SalamatyAPI.Data;
@@ -28,6 +28,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 errorNumbersToAdd: null);
         }
     ));
+
+
 
 // ===== 2. Identity Configuration =====
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -66,7 +68,11 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 
 
+// تسجيل الخدمة
+builder.Services.AddScoped<IUserService, UserService>();
 
+// ده مهم عشان الـ Service تقدر تعرف رابط السيرفر وتجيب صور البروفايل صح
+builder.Services.AddHttpContextAccessor();
 
 // تسجيل خدمة الـ Home
 builder.Services.AddScoped<IHomeService, HomeService>();
@@ -148,14 +154,14 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Salamaty.API v1");
+    c.SwaggerEndpoint("./v1/swagger.json", "Salamaty.API v1");
 });
 
 
 // Custom Exception Middleware
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseStaticFiles();
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 
 app.UseAuthentication();

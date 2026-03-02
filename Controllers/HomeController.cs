@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Salamaty.API.Models.HomeModels;
 using Salamaty.API.Services.HomeServices;
 using SalamatyAPI.Data;
@@ -29,6 +30,32 @@ namespace Salamaty.API.Controllers
             var result = await _homeService.FilterProvidersAsync(governorate, specialty, search, lat, lng);
             return Ok(result);
         }
+
+        [HttpGet("Tips")]
+        public async Task<IActionResult> GetBanners()
+        {
+            // 1. بنجيب عنوان السيرفر الحالي (مثلاً https://localhost:7140)
+            var request = HttpContext.Request;
+            var baseUrl = $"{request.Scheme}://{request.Host}";
+
+            // 2. بنسحب الـ 20 سطر من الداتابيز
+            var banners = await _context.Banners.AsNoTracking().ToListAsync();
+
+            // 3. بنعدل الـ ImageUrl عشان يروح للموبايل كـ لينك كامل
+            var result = banners.Select(b => new
+            {
+                b.Id,
+                b.Title,
+                b.Summary,
+                // بنشيل الـ backslash لو موجودة ونركب الـ URL
+                ImageUrl = $"{baseUrl}/{b.ImageUrl.Replace("\\", "/")}",
+                b.DetailsUrl
+            });
+
+            return Ok(new { success = true, data = result });
+        }
+
+
 
         [HttpPost("upload-governorate-specialties")]
         public async Task<IActionResult> UploadGovSpecialties(IFormFile file)
