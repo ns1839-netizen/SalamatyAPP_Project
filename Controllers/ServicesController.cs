@@ -3,10 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using SalamatyAPI.Data;
 using SalamatyAPI.Dtos.Services;
 using SalamatyAPI.Models.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SalamatyAPI.Controllers
 {
@@ -14,11 +10,11 @@ namespace SalamatyAPI.Controllers
     [Route("api/[controller]")]
     public class ServicesController : ControllerBase
     {
-        private readonly SalamatyDbContext _context;
+        private readonly ApplicationDbContext _db;
 
-        public ServicesController(SalamatyDbContext context)
+        public ServicesController(ApplicationDbContext db)
         {
-            _context = context;
+            _db = db;
         }
 
         // GET: api/services/insurance-providers/1/nearby?lat=..&lng=..&radius=10&type=Hospital&openNow=true
@@ -31,7 +27,7 @@ namespace SalamatyAPI.Controllers
        [FromQuery] InsuranceServiceType type = InsuranceServiceType.All,
        [FromQuery] bool openNow = false)
         {
-            var query = _context.InsuranceNetworkServices
+            var query = _db.InsuranceNetworkServices
                 .Where(s => s.InsuranceProviderId == providerId);
 
             if (type != InsuranceServiceType.All)
