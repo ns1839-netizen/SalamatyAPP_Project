@@ -163,10 +163,20 @@ namespace Salamaty.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("DetailsUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Link")
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -211,6 +221,596 @@ namespace Salamaty.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MedicalProviders");
+                });
+
+            modelBuilder.Entity("Salamaty.API.Models.HomeModels.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TargetSpecialty")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Notifications");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(5753),
+                            IsRead = false,
+                            Message = "Your journey to better healthcare starts here. Find the nearest specialized hospital now.",
+                            TargetSpecialty = "General",
+                            Title = "Welcome to Salamaty! ",
+                            Type = "Welcome",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(5856),
+                            IsRead = false,
+                            Message = "Drinking enough water regularly is your first line of defense against kidney stones.",
+                            TargetSpecialty = "Nephrology",
+                            Title = "Kidney Safety ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(5944),
+                            IsRead = false,
+                            Message = "Persistent back pain may require consulting an orthopedic specialist. Don't ignore your body's signals.",
+                            TargetSpecialty = "Orthopedics",
+                            Title = "Bone Health ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(6151),
+                            IsRead = false,
+                            Message = "International Eye Hospital in Cairo is now available for fundus examinations.",
+                            TargetSpecialty = "Ophthalmology",
+                            Title = "Eye Specialist Nearby ",
+                            Type = "Proximity",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(6233),
+                            IsRead = false,
+                            Message = "5 new centers specializing in maternal and child care have been added in Giza.",
+                            TargetSpecialty = "Obstetrics & Gynecology",
+                            Title = "OB-GYN Section ",
+                            Type = "Update",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(6309),
+                            IsRead = false,
+                            Message = "Brisk walking for 20 minutes improves heart muscle efficiency amazingly.",
+                            TargetSpecialty = "Cardiology",
+                            Title = "Heart Health ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(6392),
+                            IsRead = false,
+                            Message = "Make sure to review your child's periodic vaccination schedule at the nearest pediatric center.",
+                            TargetSpecialty = "Pediatrics",
+                            Title = "Child Vaccinations ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(6467),
+                            IsRead = false,
+                            Message = "In cases of sudden, severe headaches, please head to the nearest neurology emergency immediately.",
+                            TargetSpecialty = "Neurology",
+                            Title = "Important Alert ",
+                            Type = "Emergency",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(6543),
+                            IsRead = false,
+                            Message = "Visiting a dentist every 6 months prevents worsening of decay and gum problems.",
+                            TargetSpecialty = "Dentistry",
+                            Title = "Healthy Smile ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(6621),
+                            IsRead = false,
+                            Message = "You can now find accredited dialysis centers in Fayoum and Minya governorates.",
+                            TargetSpecialty = "Nephrology",
+                            Title = "New Kidney Centers ",
+                            Type = "Update",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(6710),
+                            IsRead = false,
+                            Message = "Regular follow-ups with a gynecologist ensure a healthy and safe pregnancy journey for you and your baby.",
+                            TargetSpecialty = "Obstetrics & Gynecology",
+                            Title = "Safe Pregnancy ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(6873),
+                            IsRead = false,
+                            Message = "Al Salam International Hospital now offers specialized consultations in joint and spinal surgery.",
+                            TargetSpecialty = "Orthopedics",
+                            Title = "Orthopedic Clinic Available ",
+                            Type = "Proximity",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(6952),
+                            IsRead = false,
+                            Message = "Reducing salt in food protects arteries and reduces the risk of high blood pressure.",
+                            TargetSpecialty = "Cardiology",
+                            Title = "Nutrition & Heart ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(7033),
+                            IsRead = false,
+                            Message = "Limit children's screen time to protect their eyes from early nearsightedness.",
+                            TargetSpecialty = "Ophthalmology",
+                            Title = "Protect Your Child's Vision ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(7121),
+                            IsRead = false,
+                            Message = "Online booking is now active for \"Misr Center for Dentistry\" via the app.",
+                            TargetSpecialty = "Dentistry",
+                            Title = "Dental Services ",
+                            Type = "Update",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(7197),
+                            IsRead = false,
+                            Message = "Maintaining sugar and pressure levels protects the brain from stroke risks.",
+                            TargetSpecialty = "Neurology",
+                            Title = "Stroke Prevention ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(7275),
+                            IsRead = false,
+                            Message = "Tabarak Children's Hospital is equipped to receive critical emergency cases 24/7.",
+                            TargetSpecialty = "Pediatrics",
+                            Title = "Pediatric Emergency ",
+                            Type = "Proximity",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(7354),
+                            IsRead = false,
+                            Message = "Calcium and Vitamin D rich foods are essential for building strong bones at all ages.",
+                            TargetSpecialty = "Orthopedics",
+                            Title = "Osteoporosis ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(7508),
+                            IsRead = false,
+                            Message = "For allergy and respiratory patients, please stay home and use preventive medications.",
+                            TargetSpecialty = "General",
+                            Title = "Dust Storm Alert ",
+                            Type = "Emergency",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(7584),
+                            IsRead = false,
+                            Message = "Periodic kidney function tests are vital, especially for diabetes and blood pressure patients.",
+                            TargetSpecialty = "Nephrology",
+                            Title = "Kidney Screenings ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(7655),
+                            IsRead = false,
+                            Message = "Correct posture at the computer avoids chronic neck and back pain.",
+                            TargetSpecialty = "Orthopedics",
+                            Title = "Back Exercises ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(7735),
+                            IsRead = false,
+                            Message = "15% discount on vision correction surgeries at selected eye centers for Salamaty users.",
+                            TargetSpecialty = "Ophthalmology",
+                            Title = "Eye Care Discounts ",
+                            Type = "Update",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(7808),
+                            IsRead = false,
+                            Message = "If you feel an irregular heartbeat, consult a cardiologist as soon as possible.",
+                            TargetSpecialty = "Cardiology",
+                            Title = "Heartbeats ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(7898),
+                            IsRead = false,
+                            Message = "Cairo Specialized Hospital includes top doctors in all medical specialties.",
+                            TargetSpecialty = "Multidisciplinary",
+                            Title = "Specialty Complex Nearby ",
+                            Type = "Proximity",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(7984),
+                            IsRead = false,
+                            Message = "Breastfeeding enhances your baby's immunity and protects them from infections in early months.",
+                            TargetSpecialty = "Pediatrics",
+                            Title = "Newborn Health ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(8068),
+                            IsRead = false,
+                            Message = "Nile Neurology Center has joined the Salamaty provider network.",
+                            TargetSpecialty = "Neurology",
+                            Title = "Neurology Clinics ",
+                            Type = "Update",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(8181),
+                            IsRead = false,
+                            Message = "Testing blood sugar in the 24th week of pregnancy is very important for mother and baby.",
+                            TargetSpecialty = "Obstetrics & Gynecology",
+                            Title = "Gestational Diabetes ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(8279),
+                            IsRead = false,
+                            Message = "Drinking plenty of water and flossing prevents bacteria that causes bad breath.",
+                            TargetSpecialty = "Dentistry",
+                            Title = "Oral Hygiene ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(8386),
+                            IsRead = false,
+                            Message = "Cairo Center for Kidney Diseases provides the latest care technologies for kidney patients.",
+                            TargetSpecialty = "Nephrology",
+                            Title = "Kidney Unit Nearby ",
+                            Type = "Proximity",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(8600),
+                            IsRead = false,
+                            Message = "Walking in mild sunlight helps the body produce Vitamin D essential for bones.",
+                            TargetSpecialty = "Orthopedics",
+                            Title = "Walking & Bone Health ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(8705),
+                            IsRead = false,
+                            Message = "You can now press the \"Emergency\" button to reach the nearest general hospital in your area.",
+                            TargetSpecialty = "General",
+                            Title = "Emergency Services ",
+                            Type = "Update",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(8954),
+                            IsRead = false,
+                            Message = "Avoiding fried foods preserves heart valves and body arteries.",
+                            TargetSpecialty = "Cardiology",
+                            Title = "Triglycerides ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(9064),
+                            IsRead = false,
+                            Message = "Using moisturizing drops is necessary if you spend long hours in air-conditioned environments.",
+                            TargetSpecialty = "Ophthalmology",
+                            Title = "Dry Eye ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(9169),
+                            IsRead = false,
+                            Message = "Al Meswak Dental Clinics are now available in your area at competitive prices.",
+                            TargetSpecialty = "Dentistry",
+                            Title = "Excellent Dentist ",
+                            Type = "Proximity",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(9270),
+                            IsRead = false,
+                            Message = "Monitor your child's height and weight monthly to ensure healthy and normal growth.",
+                            TargetSpecialty = "Pediatrics",
+                            Title = "Child Growth ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(9366),
+                            IsRead = false,
+                            Message = "We improved the search engine to help you reach the required specialty faster.",
+                            TargetSpecialty = "General",
+                            Title = "Salamaty App ",
+                            Type = "Update",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(9572),
+                            IsRead = false,
+                            Message = "Avoid noise and strong lighting when feeling the onset of a migraine attack.",
+                            TargetSpecialty = "Neurology",
+                            Title = "Migraine ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(9689),
+                            IsRead = false,
+                            Message = "Caring for mental and physical health after birth is as important as during pregnancy.",
+                            TargetSpecialty = "Obstetrics & Gynecology",
+                            Title = "Postpartum Care ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(9798),
+                            IsRead = false,
+                            Message = "You can now book an appointment at Cleopatra Orthopedic Center directly from the app.",
+                            TargetSpecialty = "Orthopedics",
+                            Title = "Orthopedic Specialist ",
+                            Type = "Proximity",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(9900),
+                            IsRead = false,
+                            Message = "Moderate protein intake reduces the burden on kidneys and maintains their function.",
+                            TargetSpecialty = "Nephrology",
+                            Title = "Kidney Protein ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 24, DateTimeKind.Local).AddTicks(9988),
+                            IsRead = false,
+                            Message = "Addition of new labs specializing in genetic and hereditary tests.",
+                            TargetSpecialty = "General",
+                            Title = "Lab Centers ",
+                            Type = "Update",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 25, DateTimeKind.Local).AddTicks(85),
+                            IsRead = false,
+                            Message = "Eating Omega-3 found in fish raises good cholesterol levels in your blood.",
+                            TargetSpecialty = "Cardiology",
+                            Title = "Good Cholesterol ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 25, DateTimeKind.Local).AddTicks(178),
+                            IsRead = false,
+                            Message = "Early vision screening for preschoolers prevents \"lazy eye\" problems.",
+                            TargetSpecialty = "Ophthalmology",
+                            Title = "Pediatric Eye Exam ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 25, DateTimeKind.Local).AddTicks(288),
+                            IsRead = false,
+                            Message = "Al Salam International Hospital offers all medical specialties around the clock.",
+                            TargetSpecialty = "Multidisciplinary",
+                            Title = "Multidisciplinary Hospital ",
+                            Type = "Proximity",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 25, DateTimeKind.Local).AddTicks(458),
+                            IsRead = false,
+                            Message = "Bleeding gums may signal vitamin deficiency or early inflammation; consult your doctor.",
+                            TargetSpecialty = "Dentistry",
+                            Title = "Gum Health ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 25, DateTimeKind.Local).AddTicks(562),
+                            IsRead = false,
+                            Message = "Opening of a new Dar Al Fouad Hospital branch featuring precise and rare specialties.",
+                            TargetSpecialty = "Multidisciplinary",
+                            Title = "New Clinics ",
+                            Type = "Update",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 25, DateTimeKind.Local).AddTicks(658),
+                            IsRead = false,
+                            Message = "Eating nuts and antioxidant-rich foods improves brain function and memory.",
+                            TargetSpecialty = "Neurology",
+                            Title = "Memory & Focus ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 25, DateTimeKind.Local).AddTicks(765),
+                            IsRead = false,
+                            Message = "Using cotton clothes protects your child's sensitive skin from allergies and irritation.",
+                            TargetSpecialty = "Pediatrics",
+                            Title = "Cotton Clothes for Kids ",
+                            Type = "Awareness",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 25, DateTimeKind.Local).AddTicks(844),
+                            IsRead = false,
+                            Message = "If you feel tremors and cold sweat, eat candy immediately and consult an internist.",
+                            TargetSpecialty = "General",
+                            Title = "Low Blood Sugar ",
+                            Type = "Emergency",
+                            UserId = "All"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            CreatedAt = new DateTime(2026, 3, 2, 15, 29, 2, 25, DateTimeKind.Local).AddTicks(954),
+                            IsRead = false,
+                            Message = "Adding your blood type and medical history helps us provide more accurate health recommendations.",
+                            TargetSpecialty = "General",
+                            Title = "Complete Your Profile ",
+                            Type = "Welcome",
+                            UserId = "All"
+                        });
                 });
 
             modelBuilder.Entity("Salamaty.API.Models.ProfileModels.ApplicationUser", b =>
