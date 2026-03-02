@@ -55,6 +55,8 @@ namespace Salamaty.API.Controllers
             return Ok(new { success = true, data = result });
         }
 
+
+
         [HttpPost("upload-governorate-specialties")]
         public async Task<IActionResult> UploadGovSpecialties(IFormFile file)
         {
