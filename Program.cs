@@ -28,8 +28,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 errorNumbersToAdd: null);
         }
     ));
-builder.Services.AddDbContext<SalamatyDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+//builder.Services.AddDbContext<SalamatyDbContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 // ===== 2. Identity Configuration =====
@@ -149,6 +149,9 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+// استبدلي app.UseStaticFiles(); بالسطرين دول للتأكد
+app.UseStaticFiles(); // للوصول الافتراضي لـ wwwroot
+
 
 // ===== 8. HTTP Request Pipeline (Middleware) =====
 
@@ -161,7 +164,7 @@ app.UseSwaggerUI(c =>
 
 // Custom Exception Middleware
 app.UseMiddleware<ExceptionMiddleware>();
-app.UseStaticFiles();
+
 //app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 
