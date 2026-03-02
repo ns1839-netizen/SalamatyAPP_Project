@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SalamatyAPI.Data;
+using SalamatyAPI.Data; // تأكدي أن هذا المسار يشير لمجلد الداتا الذي يحتوي على ApplicationDbContext
 using SalamatyAPI.Dtos.Favorites;
 using SalamatyAPI.Models;
 
@@ -10,15 +10,15 @@ namespace SalamatyAPI.Controllers
     [Route("api/[controller]")]
     public class FavoritesController : ControllerBase
     {
-        private readonly SalamatyDbContext _db;
+        // تم تغيير النوع هنا من SalamatyDbContext إلى ApplicationDbContext
+        private readonly ApplicationDbContext _db;
 
-        public FavoritesController(SalamatyDbContext db)
+        public FavoritesController(ApplicationDbContext db)
         {
             _db = db;
         }
 
         // GET /api/favorites/user/{userId}
-        // تم إزالة ":int" لأن الـ userId أصبح string (GUID)
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<FavoriteDto>>> GetFavoritesForUser(string userId)
         {
@@ -50,8 +50,7 @@ namespace SalamatyAPI.Controllers
 
             var favorite = new Favorite
             {
-                // التعديل هنا: لازم تقرأي الـ UserId من الـ request
-                UserId = request.UserId,
+                UserId = request.UserId, // كلاهما الآن string GUID
                 ProductId = request.ProductId
             };
 
@@ -75,6 +74,7 @@ namespace SalamatyAPI.Controllers
                 new { userId = request.UserId },
                 dto);
         }
+
         // DELETE /api/favorites/{favoriteId}
         [HttpDelete("{favoriteId:int}")]
         public async Task<IActionResult> DeleteFavorite(int favoriteId)

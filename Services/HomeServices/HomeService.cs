@@ -41,9 +41,10 @@ namespace Salamaty.API.Services.HomeServices
                 // الصيغة دي بتدمج اسم المستشفى مع الإحداثيات لضمان ظهور النقطة الحمراء واسم المكان
                 LocationUrl = $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(p.ProviderName)}+{p.Latitude},{p.Longitude}",
 
+                // حساب المسافة بالكيلومتر الحقيقي
                 Distance = (userLat.HasValue && userLng.HasValue)
-                    ? Math.Sqrt(Math.Pow(p.Latitude - userLat.Value, 2) + Math.Pow(p.Longitude - userLng.Value, 2))
-                    : 0
+    ? CalculateHaversine(userLat.Value, userLng.Value, p.Latitude, p.Longitude)
+    : 0
             })
             .OrderBy(p => p.Distance)
             .ToList<object>();
@@ -58,7 +59,20 @@ namespace Salamaty.API.Services.HomeServices
         }
 
 
+        private double CalculateHaversine(double lat1, double lon1, double lat2, double lon2)
+        {
+            double R = 6371; // نصف قطر الأرض بالكيلومتر
+            double dLat = (lat2 - lat1) * (Math.PI / 180);
+            double dLon = (lon2 - lon1) * (Math.PI / 180);
 
+            double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                       Math.Cos(lat1 * (Math.PI / 180)) * Math.Cos(lat2 * (Math.PI / 180)) *
+                       Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+            return Math.Round(R * c, 2); // الناتج بالكيلومتر ومقرب لرقمين عشريين
+        }
 
     }
 }

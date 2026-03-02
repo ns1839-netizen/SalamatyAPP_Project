@@ -7,7 +7,7 @@ namespace SalamatyAPI.Data
     public static class DbSeeder
     {
         // Called from Program.cs: DbSeeder.Seed(db, env)
-        public static void Seed(SalamatyDbContext db, IWebHostEnvironment env)
+        public static void Seed(ApplicationDbContext db, IWebHostEnvironment env)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
@@ -38,7 +38,7 @@ namespace SalamatyAPI.Data
         // -----------------------------------------------------------------
 
         private static void SeedInsuranceNetworkFromExcel(
-            SalamatyDbContext db,
+          ApplicationDbContext db,
             IWebHostEnvironment env)
         {
             var filePath = Path.Combine(env.ContentRootPath, "Data", "SeedData", "insurance_network.xlsx");
@@ -167,7 +167,7 @@ namespace SalamatyAPI.Data
         // -----------------------------------------------------------------
 
         private static void SeedProductsAndAlternativesFromExcel(
-            SalamatyDbContext db,
+           ApplicationDbContext db,
             IWebHostEnvironment env)
         {
             var filePath = Path.Combine(env.ContentRootPath, "Data", "SeedData", "medicines.xlsx");
@@ -330,7 +330,7 @@ namespace SalamatyAPI.Data
         //  FAVORITES
         // -----------------------------------------------------------------
 
-        private static void SeedFavorites(SalamatyDbContext db)
+        private static void SeedFavorites(ApplicationDbContext db)
         {
             if (!db.Products.Any() || db.Favorites.Any())
                 return;
@@ -362,7 +362,7 @@ namespace SalamatyAPI.Data
         /// Generates PH01, PH02, PH03 ... in Id order.
         /// Idempotent: if codes already exist, does nothing.
         /// </summary>
-        private static void SeedPharmacyCodes(SalamatyDbContext db)
+        private static void SeedPharmacyCodes(ApplicationDbContext db)
         {
             var pharmaciesWithoutCode = db.InsuranceNetworkServices
                 .Where(s => s.Type == InsuranceServiceType.Pharmacy &&
@@ -389,7 +389,7 @@ namespace SalamatyAPI.Data
         // -----------------------------------------------------------------
 
         private static void UpdateProductPharmaciesFromExcel(
-            SalamatyDbContext db,
+          ApplicationDbContext db,
             IWebHostEnvironment env)
         {
             var filePath = Path.Combine(env.ContentRootPath, "Data", "SeedData", "medicines.xlsx");

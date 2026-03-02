@@ -11,9 +11,9 @@ namespace SalamatyAPI.Controllers;
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
-    private readonly SalamatyDbContext _db;
+    private readonly ApplicationDbContext _db;
 
-    public ProductsController(SalamatyDbContext db)
+    public ProductsController(ApplicationDbContext db)
     {
         _db = db;
     }
