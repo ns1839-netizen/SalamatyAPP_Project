@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Salamaty.API.Models.HomeModels;
 using SalamatyAPI.Data;
 
 namespace Salamaty.API.Controllers
@@ -15,37 +16,43 @@ namespace Salamaty.API.Controllers
             _context = context;
         }
 
-        // 1. الحصول على قائمة الإشعارات (الخاصة باليوزر + العامة المسموح بظهورها)
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetNotifications(string userId)
         {
             var now = DateTime.Now;
 
-            // 1. جلب إشعارات اليوزر الخاصة (زي الـ Welcome اللي ظهرلك رقمه 51)
+            // 1. جلب الإشعارات الخاصة باليوزر (التي تم إنشاؤها له خصيصاً)
             var userNotifications = await _context.Notifications
                 .Where(n => n.UserId == userId)
                 .ToListAsync();
 
-            // 2. جلب إشعار واحد "عشوائي" من الإشعارات العامة (UserId == "All")
-            var dailyAwareness = await _context.Notifications
+            // 2. جلب "كل" رسائل الترحيب العامة الموجهة لجميع المستخدمين
+            var welcomeNotifications = await _context.Notifications
                 .AsNoTracking()
-                .Where(n => n.UserId == "All" && n.CreatedAt.Hour <= 20) // شرط الساعة 10 صباحاً
-                .OrderBy(r => Guid.NewGuid()) // <--- السطر ده بيعمل "لخبطة" عشوائية للبيانات
-                .Take(2) // <--- السطر ده بياخد أول واحد بس طلع في اللخبطة دي (بطل اليوم)
+                .Where(n => n.UserId == "All" && n.Type == "Welcome")
+                .ToListAsync(); // غيرنا دي عشان تجيب القائمة كاملة
+
+            // 3. اختيار "نصيحة واحدة فقط" عشوائية لليوم (Awareness)
+            var dailyTip = await _context.Notifications
+                .AsNoTracking()
+                .Where(n => n.UserId == "All" && n.Type == "Awareness" && n.CreatedAt.Hour >= 10)
+                .OrderBy(r => Guid.NewGuid())
                 .FirstOrDefaultAsync();
 
-            // 3. دمج إشعارات اليوزر مع الإشعار العشوائي المختار
-            if (dailyAwareness != null)
-            {
-                userNotifications.Add(dailyAwareness);
-            }
+            // 4. تجميع القائمة النهائية
+            var finalData = new List<Notification>();
 
-            // ترتيب النتيجة النهائية: الأحدث يظهر فوق
-            var result = userNotifications.OrderByDescending(n => n.CreatedAt).ToList();
+            finalData.AddRange(userNotifications);    // إضافة الخاص
+            finalData.AddRange(welcomeNotifications); // إضافة كل الترحيب العام
+
+            if (dailyTip != null)
+                finalData.Add(dailyTip);              // إضافة نصيحة واحدة عشوائية
+
+            // ترتيب العرض (الأحدث فوق)
+            var result = finalData.OrderByDescending(n => n.CreatedAt).ToList();
 
             return Ok(new { success = true, data = result });
         }
-
         // 2. تحديث حالة الإشعار لتصبح "مقروء"
         [HttpPatch("mark-as-read/{id}")]
         public async Task<IActionResult> MarkAsRead(int id)
