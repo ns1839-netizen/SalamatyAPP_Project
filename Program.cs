@@ -28,8 +28,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 errorNumbersToAdd: null);
         }
     ));
-builder.Services.AddDbContext<SalamatyDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 
 // ===== 2. Identity Configuration =====
