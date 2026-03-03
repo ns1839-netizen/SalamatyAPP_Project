@@ -14,7 +14,7 @@ namespace SalamatyAPI.Data
 
         public DbSet<Banner> Banners { get; set; }
         public DbSet<MedicalProvider> MedicalProviders { get; set; }
-
+        public DbSet<Facility> Facilities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
