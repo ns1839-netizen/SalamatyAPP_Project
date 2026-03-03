@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Salamaty.API.DTOs.AuthDTOS;
-using Salamaty.API.Models.HomeModels;
 using Salamaty.API.Models.ProfileModels;
 using Salamaty.API.Services.AuthServices;
 using SalamatyAPI.Data; // تأكدي إن ده مسار الـ DbContext الصح عندك
@@ -89,19 +88,7 @@ namespace Salamaty.API.Controllers
 
                 var authResult = await _authService.GenerateTokenAsync(user);
 
-                // --- إضافة إشعار الترحيب بمجرد تفعيل الحساب بنجاح ---
-                var welcomeNotification = new Notification
-                {
-                    UserId = user.Id,
-                    Title = "Welcome to Salamaty! ✨",
-                    Message = "Your journey to better healthcare starts here. We're glad to have you!",
-                    Type = "Welcome",
-                    CreatedAt = DateTime.Now,
-                    IsRead = false
-                };
 
-                _context.Notifications.Add(welcomeNotification);
-                await _context.SaveChangesAsync();
                 // -------------------------------------------------------------
 
                 return Ok(new

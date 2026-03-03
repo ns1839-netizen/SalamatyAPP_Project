@@ -76,7 +76,7 @@ builder.Services.AddHttpContextAccessor();
 
 // تسجيل خدمة الـ Home
 builder.Services.AddScoped<IHomeService, HomeService>();
-builder.Services.AddHostedService<NotificationBackgroundService>();
+
 // ===== 5. Swagger with JWT Support =====
 // ===== Swagger Configuration =====
 builder.Services.AddSwaggerGen(c =>
