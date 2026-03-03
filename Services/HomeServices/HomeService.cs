@@ -15,47 +15,72 @@ namespace Salamaty.API.Services.HomeServices
 
         public async Task<List<object>> FilterProvidersAsync(string? governorate, string? specialty, string? searchTerm, double? userLat, double? userLng)
         {
-            var providers = await _context.MedicalProviders.ToListAsync();
-            var query = providers.AsQueryable();
+            // 1. يفضل الفلترة تبدأ من الـ Context مباشرة مش ToList الأول عشان السرعة
+            var query = _context.MedicalProviders.AsQueryable();
 
-            if (!string.IsNullOrEmpty(governorate))
-                query = query.Where(p => NormalizeArabic(p.Governorate).Contains(NormalizeArabic(governorate)));
+            // 2. فلترة المحافظة (تجاهل حالة الحروف والتعامل مع All)
+            if (!string.IsNullOrEmpty(governorate) && governorate != "All")
+            {
+                query = query.Where(p => p.Governorate.ToLower().Contains(governorate.ToLower()));
+            }
 
-            if (!string.IsNullOrEmpty(specialty))
-                query = query.Where(p => NormalizeArabic(p.Specialty).Contains(NormalizeArabic(specialty)));
+            // 3. فلترة التخصص
+            if (!string.IsNullOrEmpty(specialty) && specialty != "All")
+            {
+                query = query.Where(p => p.Specialty.ToLower().Contains(specialty.ToLower()));
+            }
 
+            // 4. السيرش الذكي (Case-Insensitive & Multi-Column)
+            // بيبحث في الاسم والمحافظة والتخصص مع بعض
             if (!string.IsNullOrEmpty(searchTerm))
-                query = query.Where(p => NormalizeArabic(p.ProviderName).Contains(NormalizeArabic(searchTerm)));
+            {
+                var term = searchTerm.ToLower();
+                query = query.Where(p => p.ProviderName.ToLower().Contains(term) ||
+                                         p.Governorate.ToLower().Contains(term) ||
+                                         p.Specialty.ToLower().Contains(term));
+            }
 
-            // حساب المسافة والترتيب
-            var sortedList = query.ToList().Select(p => new
+            var providers = await query.ToListAsync();
+
+            // 5. حساب المسافة الجغرافية الحقيقية (Haversine) والترتيب
+            var result = providers.Select(p => new
             {
                 p.Id,
                 p.ProviderName,
                 p.Specialty,
                 p.Governorate,
-                p.WorkingHours,
+                WorkingHours = p.WorkingHours ?? "24 Hours",
                 Phone = (p.Phone ?? "").Replace(" ", "").Replace("-", ""),
 
-                // اللينك الذكي اللي بيظهر الاسم والإحداثيات 👇
-                // الصيغة دي بتدمج اسم المستشفى مع الإحداثيات لضمان ظهور النقطة الحمراء واسم المكان
-                LocationUrl = $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(p.ProviderName)}+{p.Latitude},{p.Longitude}",
+                // رابط جوجل ماب المعتمد
+                LocationUrl = (p.Latitude != 0)
+                              ? $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(p.ProviderName)}+{p.Latitude},{p.Longitude}"
+                              : "https://www.google.com/maps",
 
+                // استخدام معادلة Haversine بدلاً من Math.Sqrt لضمان دقة الكيلومترات
                 Distance = (userLat.HasValue && userLng.HasValue)
-                    ? Math.Sqrt(Math.Pow(p.Latitude - userLat.Value, 2) + Math.Pow(p.Longitude - userLng.Value, 2))
-                    : 0
+                           ? Math.Round(CalculateDistance(userLat.Value, userLng.Value, p.Latitude, p.Longitude), 1)
+                           : 0
             })
             .OrderBy(p => p.Distance)
             .ToList<object>();
 
-            return sortedList;
+            return result;
         }
 
-        private string NormalizeArabic(string? text)
+        // ضيفي الميثود دي تحتها في نفس الملف لحساب الكيلومترات بدقة
+        private double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
         {
-            if (string.IsNullOrEmpty(text)) return "";
-            return text.Replace("أ", "ا").Replace("إ", "ا").Replace("آ", "ا").Replace("ة", "ه").Replace("ى", "ي").Trim();
+            var R = 6371; // كيلومتر
+            var dLat = (lat2 - lat1) * Math.PI / 180;
+            var dLon = (lon2 - lon1) * Math.PI / 180;
+            var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                    Math.Cos(lat1 * Math.PI / 180) * Math.Cos(lat2 * Math.PI / 180) *
+                    Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            return R * c;
         }
+
 
 
 
