@@ -74,33 +74,32 @@ namespace Salamaty.API.Controllers
             return BadRequest(new { Success = false, Message = "An error occurred during registration." });
         }
 
-        // ================== VERIFY OTP (Unified for Registration & Reset) ==================
-        [HttpPost("verify-otp")]
-        public async Task<IActionResult> VerifyOtp([FromBody] OtpDto dto)
+     [HttpPost("verify-otp")]
+public async Task<IActionResult> VerifyOtp([FromBody] OtpDto dto)
+{
+    var user = await _userManager.FindByEmailAsync(dto.Email);
+    if (user == null) return NotFound(new { Success = false, Message = "User not found." });
+
+    if (user.OtpCode == dto.OtpCode && user.OtpExpiry.HasValue && user.OtpExpiry > DateTime.UtcNow)
+    {
+        user.EmailConfirmed = true;
+        await _userManager.UpdateAsync(user);
+
+        var authResult = await _authService.GenerateTokenAsync(user);
+
+        // تم حذف علامات Nancy و Final من هنا
+
+        return Ok(new
         {
-            var user = await _userManager.FindByEmailAsync(dto.Email);
-            if (user == null) return NotFound(new { Success = false, Message = "User not found." });
+            Success = true,
+            Message = "Code verified successfully!",
+            Token = authResult.Token,
+            Data = new { Email = user.Email, FullName = user.FullName, IsEmailConfirmed = true }
+        });
+    }
 
-            if (user.OtpCode == dto.OtpCode && user.OtpExpiry.HasValue && user.OtpExpiry > DateTime.UtcNow)
-            {
-                user.EmailConfirmed = true;
-                await _userManager.UpdateAsync(user);
-
-                var authResult = await _authService.GenerateTokenAsync(user);
-
-
-
-                return Ok(new
-                {
-                    Success = true,
-                    Message = "Code verified successfully!",
-                    Token = authResult.Token,
-                    Data = new { Email = user.Email, FullName = user.FullName, IsEmailConfirmed = true }
-                });
-            }
-
-            return BadRequest(new { Success = false, Message = "Invalid or expired OTP code." });
-        }
+    return BadRequest(new { Success = false, Message = "Invalid or expired OTP code." });
+}
 
         // ================== LOGIN ==================
         [HttpPost("login")]

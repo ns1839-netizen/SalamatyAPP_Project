@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic.FileIO;
 using Salamaty.API.Models.HomeModels;
 using Salamaty.API.Services.HomeServices;
 using SalamatyAPI.Data;
@@ -57,6 +58,51 @@ namespace Salamaty.API.Controllers
 
 
 
+
+        [HttpPost("upload-csv")]
+        public async Task<IActionResult> UploadCsv(IFormFile file)
+        {
+            if (file == null || file.Length == 0) return BadRequest("File is empty");
+
+            var facilities = new List<Facility>();
+
+            using (var parser = new TextFieldParser(file.OpenReadStream()))
+            {
+                parser.TextFieldType = FieldType.Delimited;
+                parser.SetDelimiters(","); // الفاصلة هي الفاصل
+                parser.HasFieldsEnclosedInQuotes = true; // دي اللي هتحل مشكلة الفاصلات جوه الكلام
+
+                // تخطي الهيدر
+                if (!parser.EndOfData) parser.ReadFields();
+
+                while (!parser.EndOfData)
+                {
+                    var fields = parser.ReadFields();
+                    if (fields == null || fields.Length < 8) continue;
+
+                    facilities.Add(new Facility
+                    {
+                        // تأكدي من ترتيب الأعمدة في ملفك الـ CSV
+                        Name = fields[1],
+                        Type = fields[2],
+                        Address = fields[3],
+                        PhoneNumber = fields[4],
+                        Governorate = fields[5],
+                        Latitude = double.TryParse(fields[6], out var lat) ? lat : 0,
+                        Longitude = double.TryParse(fields[7], out var lon) ? lon : 0,
+                        OperatingHours = "Open 24 Hours"
+                    });
+                }
+            }
+
+            // تنظيف الجدول القديم قبل الرفع الجديد (اختياري عشان ميبقاش فيه تكرار)
+            _context.Facilities.RemoveRange(_context.Facilities);
+
+            await _context.Facilities.AddRangeAsync(facilities);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { success = true, count = facilities.Count });
+        }
         [HttpPost("upload-governorate-specialties")]
         public async Task<IActionResult> UploadGovSpecialties(IFormFile file)
         {
@@ -93,3 +139,4 @@ namespace Salamaty.API.Controllers
         }
     }
 }
+
