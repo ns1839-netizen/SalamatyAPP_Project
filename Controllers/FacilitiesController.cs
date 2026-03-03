@@ -74,5 +74,33 @@ namespace Salamaty.API.Controllers
             var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
             return R * c;
         }
+
+        [HttpGet("nearby-top3")]
+        public async Task<IActionResult> GetTop3Nearby([FromQuery] double userLat, [FromQuery] double userLon)
+        {
+            // 1. سحب البيانات من الداتابيز
+            var facilities = await _context.Facilities.ToListAsync();
+
+            // 2. حساب المسافة والترتيب واختيار أول 3 فقط
+            var top3 = facilities.Select(f => new
+            {
+                f.Id,
+                f.Name,
+                f.Type,
+                f.Address,
+                f.PhoneNumber,
+                f.OperatingHours,
+                f.Governorate,
+                // حساب المسافة بالكيلومتر وتقريبها
+                Distance = Math.Round(CalculateDistance(userLat, userLon, f.Latitude, f.Longitude), 1),
+                // رابط الخريطة الذكي
+                LocationUrl = $"https://www.google.com/maps/search/?api=1&query={f.Latitude},{f.Longitude}"
+            })
+            .OrderBy(f => f.Distance) // الأقرب أولاً
+            .Take(3) // ليميت 3 صفوف بس
+            .ToList();
+
+            return Ok(new { success = true, data = top3 });
+        }
     }
 }
