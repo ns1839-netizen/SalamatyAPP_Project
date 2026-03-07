@@ -26,14 +26,12 @@ namespace Salamaty.API.Controllers
         {
             var query = _context.Facilities.AsQueryable();
 
-            // 1. الفلترة حسب النوع
             if (type != FacilityType.All)
             {
                 string typeString = type.ToString();
                 query = query.Where(f => f.Type == typeString);
             }
 
-            // 2. السيرش الشامل (الاسم، العنوان، أو المحافظة)
             if (!string.IsNullOrEmpty(searchTerm))
             {
                 query = query.Where(f => f.Name.Contains(searchTerm) ||
@@ -43,7 +41,6 @@ namespace Salamaty.API.Controllers
 
             var facilities = await query.ToListAsync();
 
-            // 3. حساب المسافة وتوليد الرابط والترتيب
             var result = facilities.Select(f => new
             {
                 f.Id,
@@ -54,13 +51,38 @@ namespace Salamaty.API.Controllers
                 f.OperatingHours,
                 f.Governorate,
                 Distance = Math.Round(CalculateDistance(userLat, userLon, f.Latitude, f.Longitude), 1),
-                // رابط جوجل ماب الصحيح باستخدام الإحداثيات
-                LocationUrl = $"https://www.google.com/maps/search/?api=1&query={f.Latitude},{f.Longitude}"
+                // ✅ الرابط العالمي الصحيح لفتح اللوكيشن تفاعلياً
+                LocationUrl = $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(f.Name)}+{f.Latitude},{f.Longitude}"
             })
             .OrderBy(f => f.Distance)
             .ToList();
 
             return Ok(new { success = true, data = result });
+        }
+
+        [HttpGet("nearby-top3")]
+        public async Task<IActionResult> GetTop3Nearby([FromQuery] double userLat, [FromQuery] double userLon)
+        {
+            var facilities = await _context.Facilities.ToListAsync();
+
+            var top3 = facilities.Select(f => new
+            {
+                f.Id,
+                f.Name,
+                f.Type,
+                f.Address,
+                f.PhoneNumber,
+                f.OperatingHours,
+                f.Governorate,
+                Distance = Math.Round(CalculateDistance(userLat, userLon, f.Latitude, f.Longitude), 1),
+                // ✅ الرابط العالمي الصحيح لفتح اللوكيشن تفاعلياً
+                LocationUrl = $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(f.Name)}+{f.Latitude},{f.Longitude}"
+            })
+            .OrderBy(f => f.Distance)
+            .Take(3)
+            .ToList();
+
+            return Ok(new { success = true, data = top3 });
         }
 
         private double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
@@ -73,33 +95,6 @@ namespace Salamaty.API.Controllers
                     Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
             var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
             return R * c;
-        }
-        [HttpGet("nearby-top3")]
-        public async Task<IActionResult> GetTop3Nearby([FromQuery] double userLat, [FromQuery] double userLon)
-        {
-            // 1. سحب البيانات من الداتابيز
-            var facilities = await _context.Facilities.ToListAsync();
-
-            // 2. حساب المسافة والترتيب واختيار أول 3 فقط
-            var top3 = facilities.Select(f => new
-            {
-                f.Id,
-                f.Name,
-                f.Type,
-                f.Address,
-                f.PhoneNumber,
-                f.OperatingHours,
-                f.Governorate,
-                // حساب المسافة بالكيلومتر وتقريبها
-                Distance = Math.Round(CalculateDistance(userLat, userLon, f.Latitude, f.Longitude), 1),
-                // رابط الخريطة الذكي
-                LocationUrl = $"https://www.google.com/maps/search/?api=1&query={f.Latitude},{f.Longitude}"
-            })
-            .OrderBy(f => f.Distance) // الأقرب أولاً
-            .Take(3) // ليميت 3 صفوف بس
-            .ToList();
-
-            return Ok(new { success = true, data = top3 });
         }
     }
 }
