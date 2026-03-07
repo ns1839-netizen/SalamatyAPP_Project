@@ -62,7 +62,7 @@ PH-60,Ibn Sina Pharmacy,Pharmacy,Shikh El-Arab Street,931122334,Sohag,26.3411103
 H-61,Al-Rahma Hospital,Hospital,Abd El-Aziz El-Naggar Street,1005402396,Giza,30.04860139,31.17093181
 H-62,Al-Safa Hospital,Hospital,Adn Street,233361010,Giza,30.05187764,31.197318
 H-63,Al-Nil Badrawi Hospital,Hospital,Maadi Corniche,219668,Cairo,29.9826288,31.23119317
-H-64,Al-Asima Hospital,Hospital,15 Ahmed Samy El-Sayed Street,24159383- 24159384 - 01062111122,Giza,30.04936979,31.20711391
+H-64,Al-Asima Hospital,Hospital,15 Ahmed Samy El-Sayed Street,24159383,Giza,30.04936979,31.20711391
 H-65,Gamal Abd Al-Nasser Hospital,Hospital,Gamal Abdel Nasser Street,34281244,Alexandria,31.20454345,29.92622121
 H-66,Al-Shorouk Central Hospital,Hospital,Saad Zaghloul Street ,226303845,Cairo,30.21207506,31.61178338
 H-67,Al-Hayah Hospital,Hospital,El-Gomhouria Street,502311223,Dakahlia,31.04469455,31.36724879
@@ -81,7 +81,7 @@ LAB-80,Alborg lab,Lab,El-Habashi Street,663221144,Port Said,31.26375319,32.30902
 SC-81,Cairo Kidney Diseases Center,Oncology Center,3 Hussein El-Memar Street branching from Mahmoud Bassiouni - Qasr El-Nil,1222408456,Cairo,30.05123568,31.23635107
 SC-82,Cairo Kidney Diseases Center,Cardiac Catheterization Center,95 Street 9 in front of Maadi Metro Station,1289802820,Cairo,29.96449313,31.25731715
 SC-83,Care Clinic Dar El Salam,Ophthalmology Hospital,El-Fayoumy Street,1022270000,Cairo,29.98737878,31.24127775
-SC-85,Amal Oncology Center,Ophthalmology Hospital,Medical Park - behind Al-Gawwi Hospital,0228123642-01157177729-01013313371,Cairo,30.00464122,31.42638079
+SC-85,Amal Oncology Center,Ophthalmology Hospital,Medical Park - behind Al-Gawwi Hospital,1157177729,Cairo,30.00464122,31.42638079
 SC-86,Egeheart Medical Center (Cardiology & Catheterization),Ophthalmology Hospital,"Medical Center – Al-Siraj Mall – Makram Ebeid, Madinet Nasr (Outpatient clinics only)",22755577,Cairo,30.05109032,31.34904339
 OP-87,(19650) International Eye Hospital,Ophthalmology Hospital,21 Al-Andalus Street behind Merryland – Roxy – Heliopolis,24554456,Cairo,30.10228586,31.31794648
 OP-88,Magrabi Eye Hospital - Cairo,Ophthalmology Hospital,Al-Sayeda Nafisa Square – Old Cairo,23632024,Cairo,30.02354094,31.25105471
@@ -101,7 +101,7 @@ RA-105,Misr Radiology Center,Hospital,8 Al-Khalifa Al-Maamoun Street – Manshie
 RA-106,Al-Tahra Radiology Center (19173),Hospital,87 Al-Maqrizi Street behind Mobil Station – Roxy,24529006,Cairo,30.09597015,31.31178061
 RA-107,Capital Scan,Hospital,45 El-Nasr Street – Algeria Square,25171115,Cairo,29.97424305,31.27526718
 H-108,Cairo Care Hospital,Hospital,4 Abu Obeid Al-Bakri Street – from Granada – Heliopolis,225285447,Cairo,29.99605005,31.22829437
-H-109,Saudi German Hospital,Hospital,Intersection of Taha Hussein Axis with Joseph Tito Street,16259-0226252400,Cairo,30.13237139,31.38475965
+H-109,Saudi German Hospital,Hospital,Intersection of Taha Hussein Axis with Joseph Tito Street,226252400,Cairo,30.13237139,31.38475965
 H-110,Al-Salam International Hospital,Hospital,"Nile Corniche, Maadi",1092001443,Cairo,29.9929564,31.23271106
 H-111,Andalusia Maadi Hospital (Al-Nakhil),Hospital,New Maadi – Al-Lasilki Division,227537773,Cairo,29.97364728,31.28173131
 H-112,International Medical Center,Hospital,"Kilometer 42, Cairo-Ismailia Desert Road",24775902,Cairo,30.19370297,31.65605172
@@ -113,24 +113,24 @@ H-117,Italian Hospital,Hospital,"17 Al-Sarayat Street, Abbasiya",24678191,Cairo,
 H-118,San Peter International Hospital,Hospital,"3 Abdel Rahman Al-Rafei Street, Al-Hegaz Square – Heliopolis",26235797,Cairo,30.11560033,31.34738021
 H-119,Al-Badr Specialized Hospital,Hospital,37 Mourad Street – Salah El-Din Square – Heliopolis,24155387,Cairo,30.10599586,31.32726112
 H-120,Al-Mokawloon Arab Hospital (19660),Hospital,465 Al-Gabal Al-Akhdar – Madinet Nasr,24881475,Cairo,30.05955791,31.34613926
-H-122,Hasbo Hospital,Hospital,"15 Ahmed Fakhry Street, Madinet Nasr, District 6",23520040,Cairo,"30.06911307022725, ",31.34863108
+H-122,Hasbo Hospital,Hospital,"15 Ahmed Fakhry Street, Madinet Nasr, District 6",23520040,Cairo,30.06911307,31.34863108
 H-123,Al-Massa Hospital,Hospital,26 Metwalli Al-Shaarawi Street – District 10 – Madinet Nasr,23575162,Cairo,30.05659614,31.37935846
 H-124,Palestine Hospital,Hospital,64 El-Thawra Street – Heliopolis,22909007,Cairo,30.08512706,31.33939227
-H-125,Al-Helmiya Military Orthopedic Hospital,Hospital,91 Selim I Street – Helmeya El-Zeitoun,26353162,Cairo,,
-H-126,Al-Hilal Ramsis Hospital,Hospital,34 Ramsis Street,25750171,Cairo,,
+H-125,Al-Helmiya Military Orthopedic Hospital,Hospital,91 Selim I Street – Helmeya El-Zeitoun,26353162,Cairo,30.11931914,31.31837307
+H-126,Al Hussein University Hospital,Hospital,34 Ramsis Street,25750171,Cairo,30.05034717,31.26412785
 H-128,Coptic Association Hospital,Hospital,"37 Selim I Street, El-Zeitoun – Cairo",2257780,Cairo,30.10764888,31.31241548
 H-129,International Medical Center Hospital,Hospital,"26 Ahmed Helmy Square, Engineers Tower – behind Misr Station – Shubra",22362630,Cairo,30.20899341,31.64993629
 H-130,Al-Safwa Shubra Hospital,Hospital,3 Menyet El-Serj Street next to Khair Zaman – Shubra Street,24302001,Cairo,30.09302153,31.24582733
 H-131,Al-Muqattam Specialized Hospital,Hospital,End of Street 9 – Al-Mokattam,25079852,Cairo,30.01263302,31.32736684
-H-132,Al-Sharabiya Hospital (Islamic Medical Association),Hospital,"12 Abdel Aziz Faj Al-Nour Street next to Al-Taqwa Mosque, Ezbet Bilaal – Al-Sharabiya",23582362,Cairo,,
+H-132,Medical Islamic Association,Hospital,"95 Othman Moharram St.، EL HARAM, Al Giza, Giza Governorate 3536509",23582362,Giza,29.99767198,31.18368832
 H-133,One-Day Surgeries Hospital in Al-Zawya,Hospital,Port Said Street – Al-Zawya Al-Hamra,24231300,Cairo,30.08804077,31.27314055
 H-134,Al-Qahira Al-Fatimiyah Hospital,Hospital,Saleh El-Gafari Street behind Al-Azhar Sheikhdom – Al-Darrasa,29241392,Cairo,30.04689927,31.27074336
 H-136,Ain Shams University Specialized Hospital,Hospital,Al-Khalifa Al-Maamoun Street – Abbasiya,24826606,Cairo,30.07882511,31.28763104
 H-137,Al-Fath Al-Islami Hospital,Hospital,Street 9 – Maadi,23585651,Cairo,29.96655424,31.25406863
 H-138,General Air Force Hospital,Hospital,Ahmed Saeed Street – Abbasiya,26825616,Cairo,30.06923132,31.27620531
-H-140,Viva Al-Akkad Hospital,Hospital,12 Mohamed Mustafa Hammam Street from Abbas Al-Akkad Street,01026269494- 022610040,Cairo,30.06607173,31.33577215
+H-140,Viva Al-Akkad Hospital,Hospital,12 Mohamed Mustafa Hammam Street from Abbas Al-Akkad Street,22610040,Cairo,30.06607173,31.33577215
 H-141,Farid Habib Hospital,Hospital,"Axis of District 5, Piece 5, Block 16081 – Madinet Al-Obour",16784,Cairo,30.22372657,31.48175274
-H-142,Al-Safarat Hospital,Hospital,"119 Abdel Qaher El-Gurgani Street, District 7 – Madinet Nasr",01000683784-01224481015,Cairo,30.04331661,31.33926426
+H-142,Al-Safarat Hospital,Hospital,"119 Abdel Qaher El-Gurgani Street, District 7 – Madinet Nasr",1000683784,Cairo,30.04331661,31.33926426
 H-145,Tabarak Children's Hospital,Hospital,"3 Hussein Zohdi Street, Golf Land (Nurseries) (Main Center)",24184840,Cairo,30.08459063,31.34160686
 H-146,Tabarak Children's Hospital,Hospital,"Al-Mokattam – Al-Nafoura Square, Street 9, Al-Mokattam Al-Mumayaz Building",25073700,Cairo,30.01557487,31.28174275
 H-147,Tabarak Children's Hospital,Hospital,Al-Sayeda Zeinab – 216 Port Said Street,23926067,Cairo,30.03697028,31.2478877
@@ -151,27 +151,27 @@ H-171,Tabarak Children's Hospital,Hospital," Mansheit Al Bakri, Atati, El Omrani
 H-177,Al-Rawda Urology and Lithotripsy Center,Hospital,109 Abbasiya Street – Al-Lou’lou’a Tower – Abbasiya,26849318,Cairo,30.0415524,31.24780598
 H-178,Dar Abul Azayem Psychiatric Hospital,Specialized Clinic,"Alexandria Square, Block 6, Entrance 1 – Madinet Al-Salam",26273255,Cairo,29.99103091,31.32840352
 H-179,Ozone Medical Center,Specialized Clinic,50 Al-Eshreen Street – Ein Shams,1023971961,Cairo,30.00645633,31.45372868
-SC-180,Dr MOHAMED KAMEL ENDOCRINE & THYROID,Specialized Clinic,"34 Al-Akhshid Street, Manyal Al-Roda in front of Al-Zuhairi Hospital",01223477727-25317329,Cairo,30.02602534,31.43381618
+SC-180,Dr MOHAMED KAMEL ENDOCRINE & THYROID,Specialized Clinic,"34 Al-Akhshid Street, Manyal Al-Roda in front of Al-Zuhairi Hospital",1223477727,Cairo,30.02602534,31.43381618
 CL-181,Zaher Specialized Clinics (Zaher Zone),Specialized Clinic,"70 Feddan Area, Ring Road behind Hunting Club, Mokattam Plateau",27272701,Cairo,30.03340989,31.3555628
 H-182,IMC International Medical Consultants,Cardiac Catheterization & Interventional Radiology Center,"2 Mohamed Abbas Street from Al-Eshreen Street, Zahraa Ein Shams",21850300,Cairo,30.07820015,31.34303255
-SC-183,Dr. Nasef Mohamed Nasef Orthopedic Surgery Consultant,ENT Center,No. 110 – First Floor – Medical Center No. 1,01118850905-21109303,Cairo,29.96186182,31.26019912
-SC-184,Shefaa for IR and Cardiology ,ENT Center,"3 Zaher City Division, First Floor, Apartment 17, Entrance B",01555331353-0220777000,Cairo,29.9611054,31.25092946
+SC-183,Dr. Nasef Mohamed Nasef Orthopedic Surgery Consultant,ENT Center,No. 110 – First Floor – Medical Center No. 1,1118850905,Cairo,29.96186182,31.26019912
+SC-184,Shefaa for IR and Cardiology ,ENT Center,"3 Zaher City Division, First Floor, Apartment 17, Entrance B",1555331353,Cairo,29.9611054,31.25092946
 SC-185," Ent Clinic 5th Settlement
-",Gastroenterology Center,90th North Street – inside CMC Building – behind Al-Gawwi Hospital,01115379921-01095206843-01011044363,Cairo,30.01577798,31.41940593
-SC-186,Ent Clinic Nasr City,Hospital,Building 1A – 220 Street 162 B branching from Misr Helwan Agricultural Road – behind Maadi Military Hospital,0225252050-01270804225,Cairo,30.07359561,31.35447353
-SC-187,Dr. Hussein Akasha - Alfa Scope,Hospital,"Nile Corniche, Maadi – First Osman Towers",1200004367-15206-25259869-25259879,Cairo,30.09399651,31.31061316
+",Gastroenterology Center,90th North Street – inside CMC Building – behind Al-Gawwi Hospital,1115379921,Cairo,30.01577798,31.41940593
+SC-186,Ent Clinic Nasr City,Hospital,Building 1A – 220 Street 162 B branching from Misr Helwan Agricultural Road – behind Maadi Military Hospital,225252050,Cairo,30.07359561,31.35447353
+SC-187,Dr. Hussein Akasha - Alfa Scope,Hospital,"Nile Corniche, Maadi – First Osman Towers",1200004367,Cairo,30.09399651,31.31061316
 H-204,Ezzaby Pharmacy ,Pharmacy,1 Ahmed Ibrahim El-Gazzar Street from Church Street – Al-Moneeb,33076246,Cairo,30.04927294,31.43192221
 H-205,Ezzaby Pharmacy ,Pharmacy,76B Khufu Entrance above Roshdy Pharmacy – Hadaek Al-Ahram,39745115,Giza,30.03778091,31.21796762
 H-206,Ezzaby Pharmacy ,Pharmacy,"412B Mina Entrance, Gate 4 – Hadaek Al-Ahram",1019019750,Giza,30.06720062,31.21573603
 PH-207,Ezzaby Pharmacy ,Pharmacy,36 Al-Hussein Square in front of Al-Hussein Mosque,25895551,Cairo,30.0715794,31.28040035
 PH-208,Ezzaby Pharmacy ,Pharmacy,Manyal – 123 Abdelaziz Al Saud Street,25329939,Cairo,30.04855058,31.24126155
-PH-272,Seif Pharmacy ,Pharmacy,"Kilometer 52, Cairo-Ismailia Desert Road next to Hypermarket of 10th of Ramadan",015/410930,Cairo,30.01923419,31.22228673
-PH-273,Seif Pharmacy ,Pharmacy,"District 1, Second Neighborhood, Piece No. 6, Shop No. 4 – Madinet Badr",28609235/236,Cairo,30.04063521,31.23413137
+PH-272,Seif Pharmacy ,Pharmacy,"Kilometer 52, Cairo-Ismailia Desert Road next to Hypermarket of 10th of Ramadan",15410930,Cairo,30.01923419,31.22228673
+PH-273,Seif Pharmacy ,Pharmacy,"District 1, Second Neighborhood, Piece No. 6, Shop No. 4 – Madinet Badr",28609235,Cairo,30.04063521,31.23413137
 PH-308,Al Mokhtabar Labs,Lab,"Madinet Al-Obour, Golf City Mall",44828320,Cairo,30.07171328,31.33188958
-PH-309,Lab Dr. Mouna Kamel ,Lab,"Al-Shabab, 63 Meters, Mustaqbal Square",3130361/2/4/5,Cairo,30.01605897,31.32726584
+PH-309,Lab Dr. Mouna Kamel ,Lab,"Al-Shabab, 63 Meters, Mustaqbal Square",3130361,Cairo,30.01605897,31.32726584
 PH-345,Misr Pharmacy (19110), Pharmacy ," Ad Doqi, Giza Governorate",26376035,Giza,30.03672829,31.20063184
-PH-346,Misr Pharmacy (19110), Pharmacy ,"176 Al-Tahrir Street, Bab El-Louq – Downtown",23932567 23953869,Cairo,30.03971322,31.21416058
-PH-347,Misr Pharmacy (19110), Pharmacy ,249 Shubra Street in front of Omar Ibn Al-Khattab Mosque,24306833/32,Cairo,30.08082097,31.24479665
+PH-346,Misr Pharmacy (19110), Pharmacy ,"176 Al-Tahrir Street, Bab El-Louq – Downtown",23932567,Cairo,30.03971322,31.21416058
+PH-347,Misr Pharmacy (19110), Pharmacy ,249 Shubra Street in front of Omar Ibn Al-Khattab Mosque,24306833,Cairo,30.08082097,31.24479665
 PH-348,Misr Pharmacy (19110), Pharmacy ,44 Talaat Harb Street – Downtown,25750678,Cairo,30.05248037,31.24128406
-PH-349,Misr Pharmacy (19110), Pharmacy ,"2 Omar Ibn El-Khattab, Sheraton Al Matar, El Nozha",22914804/808,Cairo,30.10313029,31.37306356
-PH-350,Misr Pharmacy (19110), Pharmacy ,"5 Mourad, Oula, Al Giza",22603685 01020333865,Giza,30.02038079,31.21329802
+PH-349,Misr Pharmacy (19110), Pharmacy ,"2 Omar Ibn El-Khattab, Sheraton Al Matar, El Nozha",22914804,Cairo,30.10313029,31.37306356
+PH-350,Misr Pharmacy (19110), Pharmacy ,"5 Mourad, Oula, Al Giza",1020333865,Giza,30.02038079,31.21329802
