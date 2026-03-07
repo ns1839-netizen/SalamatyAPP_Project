@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SalamatyAPI.Data;
 
@@ -17,6 +17,7 @@ namespace Salamaty.API.Controllers
             _context = context;
         }
 
+        // ================== GET ALL FACILITIES (With Search & Filter) ==================
         [HttpGet("all-facilities")]
         public async Task<IActionResult> GetAllFacilities(
             [FromQuery] double userLat,
@@ -60,6 +61,8 @@ namespace Salamaty.API.Controllers
             return Ok(new { success = true, data = result });
         }
 
+
+
         [HttpGet("nearby-top3")]
         public async Task<IActionResult> GetTop3Nearby([FromQuery] double userLat, [FromQuery] double userLon)
         {
@@ -75,7 +78,6 @@ namespace Salamaty.API.Controllers
                 f.OperatingHours,
                 f.Governorate,
                 Distance = Math.Round(CalculateDistance(userLat, userLon, f.Latitude, f.Longitude), 1),
-                // ✅ الرابط العالمي الصحيح لفتح اللوكيشن تفاعلياً
                 LocationUrl = $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(f.Name)}+{f.Latitude},{f.Longitude}"
             })
             .OrderBy(f => f.Distance)
@@ -85,9 +87,11 @@ namespace Salamaty.API.Controllers
             return Ok(new { success = true, data = top3 });
         }
 
+
         private double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
         {
-            var R = 6371;
+            var R = 6371; // نصف قطر الأرض بالكيلومتر
+
             var dLat = (lat2 - lat1) * Math.PI / 180;
             var dLon = (lon2 - lon1) * Math.PI / 180;
             var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
