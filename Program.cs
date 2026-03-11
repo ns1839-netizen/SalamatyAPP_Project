@@ -1,5 +1,4 @@
-﻿
-using System.Text;
+﻿using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Salamaty.API.Middleware;
 using Salamaty.API.Models.ProfileModels;
+using Salamaty.API.Services;
 using Salamaty.API.Services.AuthServices;
 using Salamaty.API.Services.HomeServices;
 using SalamatyAPI.Data;
@@ -64,20 +64,15 @@ builder.Services.AddAuthentication(options =>
 // ===== 4. Custom Application Services =====
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
-
-
-
-
-// تسجيل خدمة الـ Home
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IHomeService, HomeService>();
+
 // ===== 5. Swagger with JWT Support =====
-// ===== Swagger Configuration =====
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Salamaty.API", Version = "v1" });
-
     c.EnableAnnotations();
-
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -87,8 +82,6 @@ builder.Services.AddSwaggerGen(c =>
         In = ParameterLocation.Header,
         Description = "Enter your JWT token."
     });
-
-
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -129,7 +122,6 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 builder.Services.AddEndpointsApiExplorer();
@@ -143,26 +135,47 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// ===== 8. HTTP Request Pipeline (Middleware) =====
+// #######################################################################
+// #                  THIS IS THE NEW CODE BLOCK                         #
+// #######################################################################
+// This code runs your database seeder at startup
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        var env = services.GetRequiredService<IWebHostEnvironment>();
 
+        // FIX: Call the correct method 'Seed' and pass BOTH arguments
+        SalamatyAPI.Data.DbSeeder.Seed(context, env);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred during database seeding.");
+    }
+}
+// #######################################################################
+// #                  END OF THE NEW CODE BLOCK                          #
+// #######################################################################
+
+
+app.UseStaticFiles();
+
+// ===== 8. HTTP Request Pipeline (Middleware) =====
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Salamaty.API v1");
+    c.SwaggerEndpoint("./v1/swagger.json", "Salamaty.API v1");
 });
 
-
-// Custom Exception Middleware
 app.UseMiddleware<ExceptionMiddleware>();
-app.UseStaticFiles();
-app.UseHttpsRedirection();
-app.UseCors("AllowAll");
 
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
 
 
