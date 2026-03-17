@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Salamaty.API.Models;
 using Salamaty.API.Models.HomeModels;
 using Salamaty.API.Models.ProfileModels;
-using SalamatyAPI.Models;
 
 namespace SalamatyAPI.Data
 {
@@ -16,8 +16,17 @@ namespace SalamatyAPI.Data
 
         // جداول الـ Home والـ Providers
         public DbSet<Banner> Banners { get; set; }
-
         public DbSet<MedicalProvider> MedicalProviders { get; set; }
+
+        public DbSet<Facility> Facilities { get; set; }
+        // نقل الجداول من SalamatyDbContext
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductAlternative> ProductAlternatives { get; set; }
+        public DbSet<Favorite> Favourites { get; set; }
+        public DbSet<InsuranceProvider> InsuranceProviders { get; set; }
+        public DbSet<InsuranceProfile> InsuranceProfiles { get; set; }
+        public DbSet<InsuranceNetworkService> InsuranceNetworkServices { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder); // مهم جداً جداً
@@ -56,7 +65,18 @@ namespace SalamatyAPI.Data
                 .WithMany(p => p.NetworkServices)
                 .HasForeignKey(s => s.InsuranceProviderId);
 
+            modelBuilder.Entity<InsuranceProfile>()
+                .HasOne(p => p.InsuranceProvider)
+                .WithMany(i => i.InsuranceProfiles)
+                .HasForeignKey(p => p.InsuranceProviderId);
 
+            // 4. الربط بين المفضلات والمستخدم (ApplicationUser)
+            // هذا السطر هو الذي سيحل مشكلة الـ 500 Error
+            modelBuilder.Entity<Favorite>()
+                .HasOne<ApplicationUser>()
+                .WithMany()
+                .HasForeignKey(f => f.UserId);
         }
     }
 }
+

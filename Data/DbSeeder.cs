@@ -387,7 +387,7 @@ namespace SalamatyAPI.Data
                 ProductId = p.Id
             });
 
-            db.Favorites.AddRange(favorites);
+            db.Favourites.AddRange(favourites);
             db.SaveChanges();
         }
         // -----------------------------------------------------------------
