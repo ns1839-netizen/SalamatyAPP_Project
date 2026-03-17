@@ -17,6 +17,7 @@ namespace SalamatyAPI.Data
         // جداول الـ Home والـ Providers
         public DbSet<Banner> Banners { get; set; }
         public DbSet<MedicalProvider> MedicalProviders { get; set; }
+        public DbSet<Facility> Facilities { get; set; }
 
         // نقل الجداول من SalamatyDbContext
         public DbSet<Product> Products { get; set; }
