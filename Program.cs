@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -28,6 +28,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 errorNumbersToAdd: null);
         }
     ));
+
+
 
 // ===== 2. Identity Configuration =====
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -118,7 +120,11 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
         });
     };
 });
-
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -177,5 +183,4 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
-
 
