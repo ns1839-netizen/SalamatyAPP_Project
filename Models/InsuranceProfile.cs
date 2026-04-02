@@ -1,5 +1,5 @@
 ﻿using Salamaty.API.Models.ProfileModels;
-using SalamatyAPI.Models;
+using Salamaty.API.Models;
 
 public class InsuranceProfile
 {

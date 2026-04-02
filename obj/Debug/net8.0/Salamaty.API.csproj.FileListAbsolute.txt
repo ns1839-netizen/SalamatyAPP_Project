@@ -193,3 +193,4 @@ C:\Users\HP\source\repos\SalamatyAPP_Project\obj\Debug\net8.0\refint\Salamaty.AP
 C:\Users\HP\source\repos\SalamatyAPP_Project\obj\Debug\net8.0\Salamaty.API.pdb
 C:\Users\HP\source\repos\SalamatyAPP_Project\obj\Debug\net8.0\Salamaty.API.genruntimeconfig.cache
 C:\Users\HP\source\repos\SalamatyAPP_Project\obj\Debug\net8.0\ref\Salamaty.API.dll
+C:\Users\HP\source\repos\SalamatyAPP_Project\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

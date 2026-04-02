@@ -31,7 +31,8 @@ namespace SalamatyAPI.Data
         {
             base.OnModelCreating(modelBuilder); // مهم جداً جداً
 
-
+            // Add this line to be 100% sure
+            modelBuilder.Entity<Favorite>().ToTable("Favorites");
 
             // إجبار جدول الـ InsuranceProfiles على استخدام AspNetUsers كـ Foreign Key
             modelBuilder.Entity<InsuranceProfile>()

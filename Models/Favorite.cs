@@ -1,4 +1,4 @@
-﻿namespace SalamatyAPI.Models
+﻿namespace Salamaty.API.Models
 {
     public class Favorite
     {
@@ -8,6 +8,6 @@
 
 
         public int ProductId { get; set; }
-        public Product Product { get; set; } = default!;
+        public Salamaty.API.Models.Product Product { get; set; } = default!;
     }
 }

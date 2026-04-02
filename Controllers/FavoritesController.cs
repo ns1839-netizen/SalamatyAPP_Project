@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SalamatyAPI.Data; // تأكدي أن هذا المسار يشير لمجلد الداتا الذي يحتوي على ApplicationDbContext
 using SalamatyAPI.Dtos.Favorites;
-using SalamatyAPI.Models;
+using Salamaty.API.Models;
 
 namespace SalamatyAPI.Controllers
 {
@@ -22,7 +22,7 @@ namespace SalamatyAPI.Controllers
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<FavoriteDto>>> GetFavoritesForUser(string userId)
         {
-            var favorites = await _db.Favorites
+            var favorites = await _db.Favourites
                 .Where(f => f.UserId == userId)
                 .Include(f => f.Product)
                 .Select(f => new FavoriteDto
@@ -54,7 +54,7 @@ namespace SalamatyAPI.Controllers
                 ProductId = request.ProductId
             };
 
-            _db.Favorites.Add(favorite);
+            _db.Favourites.Add(favorite);
             await _db.SaveChangesAsync();
 
             var dto = new FavoriteDto
@@ -79,10 +79,10 @@ namespace SalamatyAPI.Controllers
         [HttpDelete("{favoriteId:int}")]
         public async Task<IActionResult> DeleteFavorite(int favoriteId)
         {
-            var favorite = await _db.Favorites.FindAsync(favoriteId);
+            var favorite = await _db.Favourites.FindAsync(favoriteId);
             if (favorite == null) return NotFound();
 
-            _db.Favorites.Remove(favorite);
+            _db.Favourites.Remove(favorite);
             await _db.SaveChangesAsync();
 
             return NoContent();

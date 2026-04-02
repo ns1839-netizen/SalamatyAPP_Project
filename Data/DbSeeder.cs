@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 using OfficeOpenXml;
-using SalamatyAPI.Models;
+using Salamaty.API.Models;
 using SalamatyAPI.Models.Enums;
 namespace SalamatyAPI.Data
 {
@@ -64,7 +64,7 @@ namespace SalamatyAPI.Data
             UpdateProductPharmaciesFromExcel(db, env);
 
             // 3) Favorites (only once)
-            if (!db.Favorites.Any())
+            if (!db.Favourites.Any())
             {
                 SeedFavorites(db);
             }
@@ -369,7 +369,7 @@ namespace SalamatyAPI.Data
 
         private static void SeedFavorites(ApplicationDbContext db)
         {
-            if (!db.Products.Any() || db.Favorites.Any())
+            if (!db.Products.Any() || db.Favourites.Any())
                 return;
 
             // غيري الـ 1 ليكون نص بين علامات تنصيص "1" 
@@ -387,7 +387,7 @@ namespace SalamatyAPI.Data
                 ProductId = p.Id
             });
 
-            db.Favourites.AddRange(favourites);
+            db.Favourites.AddRange(favorites);
             db.SaveChanges();
         }
         // -----------------------------------------------------------------

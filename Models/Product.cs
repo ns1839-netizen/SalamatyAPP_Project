@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SalamatyAPI.Models
+namespace Salamaty.API.Models
 {
     public class Product
     {
