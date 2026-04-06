@@ -113,14 +113,13 @@ var app = builder.Build();
 
 // ===== 7. Middleware Pipeline =====
 
-if (app.Environment.IsDevelopment())
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Salamaty.API v1");
-    });
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Salamaty.API v1");
+});
+
 
 app.UseMiddleware<ExceptionMiddleware>();
 
