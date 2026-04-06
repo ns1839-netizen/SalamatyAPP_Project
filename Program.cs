@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders; // 1. هذا السطر أضفناه هنا في الأعلى
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Microsoft.Extensions.FileProviders; // 1. هذا السطر أضفناه هنا في الأعلى
 using Salamaty.API.Middleware;
 using Salamaty.API.Models.ProfileModels;
 using Salamaty.API.Services;
@@ -171,7 +171,21 @@ app.UseStaticFiles(new StaticFileOptions
     FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Uploads")),
     RequestPath = "/Uploads"
 });
+// تحديد مسار المجلد
+var medicineImagesPath = Path.Combine(builder.Environment.ContentRootPath, "medicine_images");
 
+// ✅ إضافة هذا السطر لإنشاء المجلد إذا كان غير موجود
+if (!Directory.Exists(medicineImagesPath))
+{
+    Directory.CreateDirectory(medicineImagesPath);
+}
+
+// الآن يمكنكِ استخدام المسار بأمان
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(medicineImagesPath),
+    RequestPath = "/medicine_images"
+});
 //app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 

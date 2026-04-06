@@ -10,8 +10,9 @@ namespace Salamaty.API.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Favorites");
+            // تم تعطيل هذا السطر لأنه يحاول حذف جدول غير موجود في قاعدة البيانات حالياً
+            // migrationBuilder.DropTable(
+            //    name: "Favorites");
 
             migrationBuilder.CreateTable(
                 name: "Favourites",
@@ -56,6 +57,8 @@ namespace Salamaty.API.Migrations
             migrationBuilder.DropTable(
                 name: "Favourites");
 
+            // يمكنك تعطيل هذا أيضاً في ميثود Down إذا كنتِ لا تنوين العودة للاسم القديم
+            /*
             migrationBuilder.CreateTable(
                 name: "Favorites",
                 columns: table => new
@@ -81,16 +84,7 @@ namespace Salamaty.API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Favorites_ProductId",
-                table: "Favorites",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Favorites_UserId",
-                table: "Favorites",
-                column: "UserId");
+            */
         }
     }
 }

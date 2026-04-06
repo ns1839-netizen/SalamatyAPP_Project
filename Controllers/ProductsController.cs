@@ -18,27 +18,22 @@ public class ProductsController : ControllerBase
         _db = db;
     }
 
-    // GET /api/products?category=GSL&search=ibuprofen
+    // GET /api/products
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductListDto>>> GetProducts(
         [FromQuery] string? category,
         [FromQuery] string? search)
     {
-        // 1. تحديد الرابط الأساسي للسيرفر
-        var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+        // أضفنا / في نهاية الـ baseUrl
+        var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/";
 
-        var query = _db.Products.AsQueryable();
+        var query = _db.Products.AsNoTracking().AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(category))
-        {
             query = query.Where(p => p.Category == category);
-        }
 
         if (!string.IsNullOrWhiteSpace(search))
-        {
-            search = search.ToLower();
-            query = query.Where(p => p.Name.ToLower().Contains(search));
-        }
+            query = query.Where(p => p.Name.Contains(search));
 
         var products = await query
             .Select(p => new ProductListDto
@@ -46,8 +41,8 @@ public class ProductsController : ControllerBase
                 Id = p.Id,
                 Name = p.Name,
                 Price = p.Price,
-                // 2. دمج الرابط الأساسي مع مسار الصورة (مع التأكد أن المسار ليس فارغاً)
-                ImageUrl = p.ImageUrl != null ? baseUrl + p.ImageUrl : null,
+                // هنا التعديل لضمان دمج الرابط صح
+                ImageUrl = p.ImageUrl != null ? baseUrl + p.ImageUrl.TrimStart('/') : null,
                 Category = p.Category
             })
             .ToListAsync();
@@ -55,29 +50,24 @@ public class ProductsController : ControllerBase
         return Ok(products);
     }
 
-    // GET /api/products/{id}
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ProductDetailsDto>> GetProductById(int id)
     {
-        var p = await _db.Products.FindAsync(id);
+        var p = await _db.Products.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         if (p == null) return NotFound();
 
-        // 1. تحديد الرابط الأساسي للسيرفر
-        var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+        var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/";
 
-        var dto = new ProductDetailsDto
+        return Ok(new ProductDetailsDto
         {
             Id = p.Id,
             Name = p.Name,
             Price = p.Price,
-            // 2. دمج الرابط الأساسي مع مسار الصورة
-            ImageUrl = p.ImageUrl != null ? baseUrl + p.ImageUrl : null,
+            ImageUrl = p.ImageUrl != null ? baseUrl + p.ImageUrl.TrimStart('/') : null,
             Category = p.Category,
             Description = p.Description,
             SideEffects = p.SideEffects
-        };
-
-        return Ok(dto);
+        });
     }
 
     // GET /api/products/{id}/alternatives
@@ -87,7 +77,6 @@ public class ProductsController : ControllerBase
         var exists = await _db.Products.AnyAsync(p => p.Id == id);
         if (!exists) return NotFound();
 
-        // 1. تحديد الرابط الأساسي للسيرفر
         var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
 
         var alternatives = await _db.ProductAlternatives
@@ -98,7 +87,6 @@ public class ProductsController : ControllerBase
                 Id = pa.AlternativeProduct.Id,
                 Name = pa.AlternativeProduct.Name,
                 Description = pa.AlternativeProduct.Description,
-                // 2. دمج الرابط الأساسي مع مسار الصورة
                 ImageUrl = pa.AlternativeProduct.ImageUrl != null ? baseUrl + pa.AlternativeProduct.ImageUrl : null
             })
             .ToListAsync();
@@ -106,6 +94,7 @@ public class ProductsController : ControllerBase
         return Ok(alternatives);
     }
 
+    // --- الميثود التي تم تعديلها لحل مشكلة الأداء والـ Logs المتكررة ---
     [HttpGet("{id}/nearby-pharmacies")]
     public async Task<ActionResult<IEnumerable<NearbyPharmacyDto>>> GetNearbyPharmaciesForProduct(
      int id,
@@ -113,7 +102,9 @@ public class ProductsController : ControllerBase
      [FromQuery] double? lng,
      [FromQuery] double maxDistanceKm = 10)
     {
-        var product = await _db.Products.FindAsync(id);
+        // 1. جلب بيانات المنتج الأساسية فقط (بدون Tracking للأداء)
+        var product = await _db.Products.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+
         if (product == null)
             return NotFound("Product not found");
 
@@ -125,7 +116,9 @@ public class ProductsController : ControllerBase
             .Select(c => c.Trim())
             .ToList();
 
-        var pharmacies = await _db.InsuranceNetworkServices
+        // 2. جلب قائمة الصيدليات المطلوبة فقط في استعلام واحد (Single Query)
+        var pharmaciesData = await _db.InsuranceNetworkServices
+            .AsNoTracking()
             .Where(s => s.Type == InsuranceServiceType.Pharmacy &&
                         pharmacyCodes.Contains(s.Code))
             .ToListAsync();
@@ -133,14 +126,12 @@ public class ProductsController : ControllerBase
         var now = DateTime.Now.TimeOfDay;
         bool hasLocation = lat.HasValue && lng.HasValue;
 
-        var resultQuery = pharmacies.Select(s =>
+        // 3. معالجة البيانات في الذاكرة (Memory) لتجنب الـ N+1 Query
+        var resultList = pharmaciesData.Select(s =>
         {
             double distanceKm = 0;
-
-            // NO WARNINGS HERE! The compiler now knows lat and lng are safe to use.
-            if (lat.HasValue && lng.HasValue)
-                distanceKm = CalculateDistanceKm(lat.Value, lng.Value, s.Latitude, s.Longitude);
-            // --- END OF FIX ---
+            if (hasLocation)
+                distanceKm = CalculateDistanceKm(lat!.Value, lng!.Value, s.Latitude, s.Longitude);
 
             string openStatusText;
             bool isOpenNow;
@@ -168,23 +159,29 @@ public class ProductsController : ControllerBase
                 Type = "Pharmacy",
                 Address = s.Address,
                 Phone = s.Phone,
-                DistanceKm = distanceKm,
+                DistanceKm = Math.Round(distanceKm, 2), // تقريب المسافة لرقمين
                 DistanceText = hasLocation ? $"{distanceKm:F1} KM away" : "",
                 OpenStatusText = openStatusText,
                 IsOpenNow = isOpenNow,
                 Latitude = s.Latitude,
                 Longitude = s.Longitude
             };
-        });
+        }).ToList();
 
+        // 4. الفلترة والترتيب النهائي
         if (lat.HasValue)
-            resultQuery = resultQuery.Where(p => p.DistanceKm <= maxDistanceKm)
-                                     .OrderBy(p => p.DistanceKm);
+        {
+            resultList = resultList
+                .Where(p => p.DistanceKm <= maxDistanceKm)
+                .OrderBy(p => p.DistanceKm)
+                .ToList();
+        }
         else
-            resultQuery = resultQuery.OrderBy(p => p.Name);
+        {
+            resultList = resultList.OrderBy(p => p.Name).ToList();
+        }
 
-        var result = resultQuery.ToList();
-        return Ok(result);
+        return Ok(resultList);
     }
 
     // ---- helpers ----
@@ -207,4 +204,3 @@ public class ProductsController : ControllerBase
 
     private static double DegreesToRadians(double deg) => deg * (Math.PI / 180.0);
 }
-
