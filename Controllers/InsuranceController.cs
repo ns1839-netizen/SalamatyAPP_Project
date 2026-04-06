@@ -10,7 +10,6 @@ namespace SalamatyAPI.Controllers
     [Route("api/[controller]")]
     public class InsuranceController : ControllerBase
     {
-        // التعديل الأساسي: تغيير نوع الـ Context إلى ApplicationDbContext
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _env;
 
@@ -24,6 +23,9 @@ namespace SalamatyAPI.Controllers
         [HttpGet("providers")]
         public async Task<ActionResult> GetProviders([FromQuery] string? search)
         {
+            // 1. تحديد الرابط الأساسي للسيرفر
+            var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+
             var query = _context.InsuranceProviders.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(search))
@@ -37,7 +39,8 @@ namespace SalamatyAPI.Controllers
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    LogoUrl = p.LogoUrl
+                    // 2. دمج الرابط الأساسي مع مسار اللوجو
+                    LogoUrl = !string.IsNullOrEmpty(p.LogoUrl) ? baseUrl + p.LogoUrl : null
                 })
                 .ToListAsync();
 
@@ -49,6 +52,9 @@ namespace SalamatyAPI.Controllers
         public async Task<ActionResult<InsuranceProfileDetailsDto>> GetProfileDetails(
             [FromQuery] string userId)
         {
+            // 1. تحديد الرابط الأساسي للسيرفر
+            var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+
             var profile = await _context.InsuranceProfiles
                 .Include(p => p.User)
                 .Include(p => p.InsuranceProvider)
@@ -67,7 +73,8 @@ namespace SalamatyAPI.Controllers
             {
                 Id = profile.InsuranceProviderId,
                 Name = profile.InsuranceProvider.Name,
-                LogoUrl = profile.InsuranceProvider.LogoUrl,
+                // 2. دمج الرابط الأساسي مع مسار اللوجو هنا أيضاً
+                LogoUrl = !string.IsNullOrEmpty(profile.InsuranceProvider.LogoUrl) ? baseUrl + profile.InsuranceProvider.LogoUrl : null,
                 PolicyNumber = $"P{profile.Id:D8}",
                 ValidUntil = DateTime.UtcNow.AddYears(3)
             };
@@ -131,6 +138,9 @@ namespace SalamatyAPI.Controllers
         [FromQuery] string userId,
         [FromForm] SubmitInsuranceInfoDto dto)
         {
+            // 1. تحديد الرابط الأساسي للسيرفر
+            var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+
             var profile = await _context.InsuranceProfiles
                 .FirstOrDefaultAsync(p => p.UserId == userId);
 
@@ -158,13 +168,21 @@ namespace SalamatyAPI.Controllers
 
             await _context.SaveChangesAsync();
 
+            // 2. دالة صغيرة مساعدة لضبط مسار الصورة المرفوعة (لأنها لا تبدأ بـ / )
+            string GetFullUrl(string path)
+            {
+                if (string.IsNullOrEmpty(path)) return null;
+                return path.StartsWith("/") ? baseUrl + path : $"{baseUrl}/{path}";
+            }
+
             return Ok(new
             {
                 message = "Insurance information saved successfully.",
                 cardHolderId = profile.CardHolderId,
                 providerId = profile.InsuranceProviderId,
-                frontImagePath = profile.FrontImagePath,
-                backImagePath = profile.BackImagePath
+                // إرجاع الرابط كاملاً لصور البطاقة
+                frontImagePath = GetFullUrl(profile.FrontImagePath),
+                backImagePath = GetFullUrl(profile.BackImagePath)
             });
         }
 
@@ -183,5 +201,4 @@ namespace SalamatyAPI.Controllers
                 .Replace("\\", "/");
         }
     }
-
 }
