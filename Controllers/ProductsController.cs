@@ -24,6 +24,9 @@ public class ProductsController : ControllerBase
         [FromQuery] string? category,
         [FromQuery] string? search)
     {
+        // 1. تحديد الرابط الأساسي للسيرفر
+        var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+
         var query = _db.Products.AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(category))
@@ -43,7 +46,8 @@ public class ProductsController : ControllerBase
                 Id = p.Id,
                 Name = p.Name,
                 Price = p.Price,
-                ImageUrl = p.ImageUrl,
+                // 2. دمج الرابط الأساسي مع مسار الصورة (مع التأكد أن المسار ليس فارغاً)
+                ImageUrl = p.ImageUrl != null ? baseUrl + p.ImageUrl : null,
                 Category = p.Category
             })
             .ToListAsync();
@@ -58,12 +62,16 @@ public class ProductsController : ControllerBase
         var p = await _db.Products.FindAsync(id);
         if (p == null) return NotFound();
 
+        // 1. تحديد الرابط الأساسي للسيرفر
+        var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+
         var dto = new ProductDetailsDto
         {
             Id = p.Id,
             Name = p.Name,
             Price = p.Price,
-            ImageUrl = p.ImageUrl,
+            // 2. دمج الرابط الأساسي مع مسار الصورة
+            ImageUrl = p.ImageUrl != null ? baseUrl + p.ImageUrl : null,
             Category = p.Category,
             Description = p.Description,
             SideEffects = p.SideEffects
@@ -79,6 +87,9 @@ public class ProductsController : ControllerBase
         var exists = await _db.Products.AnyAsync(p => p.Id == id);
         if (!exists) return NotFound();
 
+        // 1. تحديد الرابط الأساسي للسيرفر
+        var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+
         var alternatives = await _db.ProductAlternatives
             .Where(pa => pa.ProductId == id)
             .Include(pa => pa.AlternativeProduct)
@@ -87,7 +98,8 @@ public class ProductsController : ControllerBase
                 Id = pa.AlternativeProduct.Id,
                 Name = pa.AlternativeProduct.Name,
                 Description = pa.AlternativeProduct.Description,
-                ImageUrl = pa.AlternativeProduct.ImageUrl
+                // 2. دمج الرابط الأساسي مع مسار الصورة
+                ImageUrl = pa.AlternativeProduct.ImageUrl != null ? baseUrl + pa.AlternativeProduct.ImageUrl : null
             })
             .ToListAsync();
 
@@ -165,7 +177,7 @@ public class ProductsController : ControllerBase
             };
         });
 
-        if (lat.HasValue) 
+        if (lat.HasValue)
             resultQuery = resultQuery.Where(p => p.DistanceKm <= maxDistanceKm)
                                      .OrderBy(p => p.DistanceKm);
         else

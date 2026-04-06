@@ -13,7 +13,7 @@ namespace SalamatyAPI.Data
             // We use RELATIVE paths here!
             var logoMap = new Dictionary<string, string>
     {
-        { "Metlife Egypt", "/logos/insurance/MetLifeEgypt.jpg" },
+        { "MetLife Egypt", "/logos/insurance/MetLifeEgypt.jpg" },
         { "Misr Life Insurance", "/logos/insurance/image.png" },
         { "مصر هيلث كير", "/logos/insurance/healthCare.jpg" },
         { "Misr Insurance", "/logos/insurance/clubMisrInsurance.png" },
@@ -28,8 +28,11 @@ namespace SalamatyAPI.Data
             bool needsSave = false;
             foreach (var provider in providersToUpdate)
             {
-                // Try to find a matching logo in our map
-                if (logoMap.TryGetValue(provider.Name, out var logoUrl))
+                // هنا نقوم بمسح أي مسافات زائدة مخفية جاءت من ملف الإكسيل
+                var cleanName = provider.Name?.Trim();
+
+                // ثم نبحث بالاسم النظيف
+                if (cleanName != null && logoMap.TryGetValue(cleanName, out var logoUrl))
                 {
                     provider.LogoUrl = logoUrl;
                     needsSave = true;
