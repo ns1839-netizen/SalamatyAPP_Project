@@ -32,7 +32,8 @@ namespace SalamatyAPI.Data
             base.OnModelCreating(modelBuilder); // مهم جداً جداً
 
             // Add this line to be 100% sure
-            modelBuilder.Entity<Favorite>().ToTable("Favorites");
+            // ✅ الحل: اجعلي الاسم ينتهي بـ s ليتطابق مع الـ DbSet والـ Migration
+            modelBuilder.Entity<Favorite>().ToTable("Favourites");
 
             // إجبار جدول الـ InsuranceProfiles على استخدام AspNetUsers كـ Foreign Key
             modelBuilder.Entity<InsuranceProfile>()

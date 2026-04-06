@@ -2,11 +2,10 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Microsoft.Extensions.FileProviders; // 1. هذا السطر أضفناه هنا في الأعلى
 using Salamaty.API.Middleware;
 using Salamaty.API.Models.ProfileModels;
 using Salamaty.API.Services;
@@ -29,8 +28,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 errorNumbersToAdd: null);
         }
     ));
-
-
 
 // ===== 2. Identity Configuration =====
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -67,25 +64,15 @@ builder.Services.AddAuthentication(options =>
 // ===== 4. Custom Application Services =====
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
-
-
-// تسجيل الخدمة
 builder.Services.AddScoped<IUserService, UserService>();
-
-// ده مهم عشان الـ Service تقدر تعرف رابط السيرفر وتجيب صور البروفايل صح
+builder.Services.AddScoped<IHomeService, HomeService>();
 builder.Services.AddHttpContextAccessor();
 
-// تسجيل خدمة الـ Home
-builder.Services.AddScoped<IHomeService, HomeService>();
-
-// ===== 5. Swagger with JWT Support =====
-// ===== Swagger Configuration =====
+// ===== 5. Swagger Configuration =====
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Salamaty.API", Version = "v1" });
-
     c.EnableAnnotations();
-
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -95,54 +82,27 @@ builder.Services.AddSwaggerGen(c =>
         In = ParameterLocation.Header,
         Description = "Enter your JWT token."
     });
-
-
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
             new OpenApiSecurityScheme
             {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
             },
             Array.Empty<string>()
         }
     });
 });
 
-// ===== 6. ModelState Validation Customization =====
-builder.Services.Configure<ApiBehaviorOptions>(options =>
-{
-    options.InvalidModelStateResponseFactory = context =>
-    {
-        var errors = context.ModelState
-            .Where(e => e.Value != null && e.Value.Errors.Count > 0)
-            .ToDictionary(
-                e => e.Key,
-                e => e.Value!.Errors.Select(x => x.ErrorMessage).ToArray()
-            );
-
-        return new BadRequestObjectResult(new
-        {
-            success = false,
-            message = "Validation failed",
-            errors
-        });
-    };
-});
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
-// تم حذف التكرار في تسجيل الـ Controllers الذي كان موجوداً في ملفك الأصلي
 
 builder.Services.AddEndpointsApiExplorer();
 
-// ===== 7. CORS Policy =====
+// ===== 6. CORS Policy =====
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", p =>
@@ -151,42 +111,66 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// ===== 8. HTTP Request Pipeline (Middleware) =====
+// ===== 7. Middleware Pipeline =====
 
-app.UseSwagger();
-app.UseSwaggerUI(c =>
+if (app.Environment.IsDevelopment())
 {
-    c.SwaggerEndpoint("./v1/swagger.json", "Salamaty.API v1");
-});
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Salamaty.API v1");
+    });
+}
 
-
-// Custom Exception Middleware
 app.UseMiddleware<ExceptionMiddleware>();
 
-app.UseStaticFiles(); // هذا السطر يقرأ الصور من مجلد wwwroot (مثل الأدوية ولوجو الشركات)
+// --- إعداد الملفات الثابتة (Static Files) ---
+app.UseStaticFiles(); // لملفات wwwroot الافتراضية
 
-// 2. هذه الإضافة الجديدة لقراءة الصور من مجلد Uploads (مثل بطاقات التأمين)
+// إعداد مجلد Uploads (مثل بطاقات التأمين)
+var uploadsPath = Path.Combine(app.Environment.ContentRootPath, "Uploads");
+if (!Directory.Exists(uploadsPath)) Directory.CreateDirectory(uploadsPath);
+
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Uploads")),
+    FileProvider = new PhysicalFileProvider(uploadsPath),
     RequestPath = "/Uploads"
 });
 
-//app.UseHttpsRedirection();
-app.UseCors("AllowAll");
+// إعداد مجلد medicine_images (صور الأدوية)
+var medicinePath = Path.Combine(app.Environment.ContentRootPath, "medicine_images");
+if (!Directory.Exists(medicinePath)) Directory.CreateDirectory(medicinePath);
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(medicinePath),
+    RequestPath = "/medicine_images"
+});
+
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-// أضيفي هذا البلوك قبل app.Run مباشرة
+
+// ===== 8. Database Seeding (حماية Startup من الانهيار) =====
 using (var scope = app.Services.CreateScope())
 {
-    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    var environment = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        var environment = services.GetRequiredService<IWebHostEnvironment>();
 
-    // هذا السطر هو الذي سيقوم بتشغيل التحديثات في قاعدة البيانات
-    DbSeeder.Seed(context, environment);
+        // محاولة تشغيل الـ Seed
+        DbSeeder.Seed(context, environment);
+    }
+    catch (Exception ex)
+    {
+        // في حال حدوث خطأ في قاعدة البيانات، التطبيق سيستمر في العمل
+        // ويمكنك رؤية الخطأ في نافذة الـ Output في Visual Studio
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "حدث خطأ أثناء عملية الـ Seeding ولكن التطبيق سيستمر في العمل.");
+    }
 }
 
-app.Run(); // هذا هو السطر الأخير في ملفك
+app.Run();

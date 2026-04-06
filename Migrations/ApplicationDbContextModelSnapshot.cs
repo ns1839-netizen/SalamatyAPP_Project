@@ -55,7 +55,7 @@ namespace Salamaty.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("InsuranceProfiles");
+                    b.ToTable("InsuranceProfiles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -212,7 +212,7 @@ namespace Salamaty.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Favourites");
+                    b.ToTable("Favourites", (string)null);
                 });
 
             modelBuilder.Entity("Salamaty.API.Models.HomeModels.Banner", b =>
@@ -241,7 +241,7 @@ namespace Salamaty.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Banners");
+                    b.ToTable("Banners", (string)null);
                 });
 
             modelBuilder.Entity("Salamaty.API.Models.HomeModels.Facility", b =>
@@ -284,7 +284,7 @@ namespace Salamaty.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Facilities");
+                    b.ToTable("Facilities", (string)null);
                 });
 
             modelBuilder.Entity("Salamaty.API.Models.HomeModels.MedicalProvider", b =>
@@ -323,7 +323,7 @@ namespace Salamaty.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MedicalProviders");
+                    b.ToTable("MedicalProviders", (string)null);
                 });
 
             modelBuilder.Entity("Salamaty.API.Models.InsuranceNetworkService", b =>
@@ -371,7 +371,7 @@ namespace Salamaty.API.Migrations
 
                     b.HasIndex("InsuranceProviderId");
 
-                    b.ToTable("InsuranceNetworkServices");
+                    b.ToTable("InsuranceNetworkServices", (string)null);
                 });
 
             modelBuilder.Entity("Salamaty.API.Models.InsuranceProvider", b =>
@@ -391,7 +391,7 @@ namespace Salamaty.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InsuranceProviders");
+                    b.ToTable("InsuranceProviders", (string)null);
                 });
 
             modelBuilder.Entity("Salamaty.API.Models.Product", b =>
@@ -428,7 +428,7 @@ namespace Salamaty.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Salamaty.API.Models.ProductAlternative", b =>
@@ -443,7 +443,7 @@ namespace Salamaty.API.Migrations
 
                     b.HasIndex("AlternativeProductId");
 
-                    b.ToTable("ProductAlternatives");
+                    b.ToTable("ProductAlternatives", (string)null);
                 });
 
             modelBuilder.Entity("Salamaty.API.Models.ProfileModels.ApplicationUser", b =>
