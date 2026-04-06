@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.FileProviders; // 1. هذا السطر أضفناه هنا في الأعلى
 using Salamaty.API.Middleware;
 using Salamaty.API.Models.ProfileModels;
 using Salamaty.API.Services;
@@ -137,12 +138,8 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
+// تم حذف التكرار في تسجيل الـ Controllers الذي كان موجوداً في ملفك الأصلي
 
-        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-    });
 builder.Services.AddEndpointsApiExplorer();
 
 // ===== 7. CORS Policy =====
@@ -165,7 +162,16 @@ app.UseSwaggerUI(c =>
 
 // Custom Exception Middleware
 app.UseMiddleware<ExceptionMiddleware>();
-app.UseStaticFiles();
+
+app.UseStaticFiles(); // هذا السطر يقرأ الصور من مجلد wwwroot (مثل الأدوية ولوجو الشركات)
+
+// 2. هذه الإضافة الجديدة لقراءة الصور من مجلد Uploads (مثل بطاقات التأمين)
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Uploads")),
+    RequestPath = "/Uploads"
+});
+
 //app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 
@@ -173,5 +179,14 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+// أضيفي هذا البلوك قبل app.Run مباشرة
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var environment = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
 
-app.Run();
+    // هذا السطر هو الذي سيقوم بتشغيل التحديثات في قاعدة البيانات
+    DbSeeder.Seed(context, environment);
+}
+
+app.Run(); // هذا هو السطر الأخير في ملفك
