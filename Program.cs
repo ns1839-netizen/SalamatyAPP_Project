@@ -11,6 +11,7 @@ using Salamaty.API.Models.ProfileModels;
 using Salamaty.API.Services;
 using Salamaty.API.Services.AuthServices;
 using Salamaty.API.Services.HomeServices;
+using Salamaty.API.Services.PrescriptionServices;
 using SalamatyAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -132,6 +133,9 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
         });
     };
 });
+
+
+builder.Services.AddScoped<IPrescriptionService, PrescriptionService>();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
