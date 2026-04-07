@@ -14,13 +14,14 @@ namespace SalamatyAPI.Data
         {
         }
 
-        // جداول الـ Home والـ Providers
+        // --- جداول الـ Home والـ Providers (مدمجة من الطرفين) ---
         public DbSet<Banner> Banners { get; set; }
         public DbSet<MedicalProvider> MedicalProviders { get; set; }
-
         public DbSet<Facility> Facilities { get; set; }
-        // نقل الجداول من SalamatyDbContext
+        
+        // --- جداول المنتجات والتأمين (من HEAD و Nancy) ---
         public DbSet<Product> Products { get; set; }
+        public DbSet<MedicalProduct> MedicalProducts { get; set; } // أضيف من فرع Nancy
         public DbSet<ProductAlternative> ProductAlternatives { get; set; }
         public DbSet<Favorite> Favourites { get; set; }
         public DbSet<InsuranceProvider> InsuranceProviders { get; set; }
@@ -29,18 +30,28 @@ namespace SalamatyAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder); // مهم جداً جداً
+            // مهم جداً لضمان عمل جداول Identity (Users, Roles, etc.)
+            base.OnModelCreating(modelBuilder); 
 
-            // Add this line to be 100% sure
-            // ✅ الحل: اجعلي الاسم ينتهي بـ s ليتطابق مع الـ DbSet والـ Migration
+            // 1. إعدادات المفضلات (تجنب الـ 500 Error)
             modelBuilder.Entity<Favorite>().ToTable("Favourites");
+            modelBuilder.Entity<Favorite>()
+                .HasOne<ApplicationUser>()
+                .WithMany()
+                .HasForeignKey(f => f.UserId);
 
-            // إجبار جدول الـ InsuranceProfiles على استخدام AspNetUsers كـ Foreign Key
+            // 2. إعدادات ملف التأمين والربط مع المستخدم
             modelBuilder.Entity<InsuranceProfile>()
                 .HasOne(p => p.User)
                 .WithMany()
                 .HasForeignKey(p => p.UserId);
-            // 1. إعدادات البدائل (ProductAlternatives)
+
+            modelBuilder.Entity<InsuranceProfile>()
+                .HasOne(p => p.InsuranceProvider)
+                .WithMany(i => i.InsuranceProfiles)
+                .HasForeignKey(p => p.InsuranceProviderId);
+
+            // 3. إعدادات البدائل (ProductAlternatives) - علاقة Many-to-Many ذاتية
             modelBuilder.Entity<ProductAlternative>()
                 .HasKey(pa => new { pa.ProductId, pa.AlternativeProductId });
 
@@ -56,29 +67,16 @@ namespace SalamatyAPI.Data
                 .HasForeignKey(pa => pa.AlternativeProductId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // 2. دقة سعر المنتج (Price Precision)
+            // 4. دقة سعر المنتج (Price Precision)
             modelBuilder.Entity<Product>()
                 .Property(p => p.Price)
                 .HasColumnType("decimal(18,2)");
 
-            // 3. علاقات التأمين (Insurance Relations)
+            // 5. علاقات شبكة التأمين
             modelBuilder.Entity<InsuranceNetworkService>()
                 .HasOne(s => s.InsuranceProvider)
                 .WithMany(p => p.NetworkServices)
                 .HasForeignKey(s => s.InsuranceProviderId);
-
-            modelBuilder.Entity<InsuranceProfile>()
-                .HasOne(p => p.InsuranceProvider)
-                .WithMany(i => i.InsuranceProfiles)
-                .HasForeignKey(p => p.InsuranceProviderId);
-
-            // 4. الربط بين المفضلات والمستخدم (ApplicationUser)
-            // هذا السطر هو الذي سيحل مشكلة الـ 500 Error
-            modelBuilder.Entity<Favorite>()
-                .HasOne<ApplicationUser>()
-                .WithMany()
-                .HasForeignKey(f => f.UserId);
         }
     }
 }
-
