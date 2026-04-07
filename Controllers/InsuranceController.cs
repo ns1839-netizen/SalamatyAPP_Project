@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SalamatyAPI.Data; // تأكدي أن هذا المسار يحتوي على ApplicationDbContext
+using SalamatyAPI.Data;
 using SalamatyAPI.Dtos.Insurance;
-using SalamatyAPI.Models.Enums;
 
 namespace SalamatyAPI.Controllers
 {
@@ -23,9 +22,7 @@ namespace SalamatyAPI.Controllers
         [HttpGet("providers")]
         public async Task<ActionResult> GetProviders([FromQuery] string? search)
         {
-            // 1. تحديد الرابط الأساسي للسيرفر
             var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
-
             var query = _context.InsuranceProviders.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(search))
@@ -39,7 +36,6 @@ namespace SalamatyAPI.Controllers
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    // 2. دمج الرابط الأساسي مع مسار اللوجو
                     LogoUrl = !string.IsNullOrEmpty(p.LogoUrl) ? baseUrl + p.LogoUrl : null
                 })
                 .ToListAsync();
@@ -49,10 +45,8 @@ namespace SalamatyAPI.Controllers
 
         // GET: api/insurance/profile/details
         [HttpGet("profile/details")]
-        public async Task<ActionResult<InsuranceProfileDetailsDto>> GetProfileDetails(
-            [FromQuery] string userId)
+        public async Task<ActionResult<InsuranceProfileDetailsDto>> GetProfileDetails([FromQuery] string userId)
         {
-            // 1. تحديد الرابط الأساسي للسيرفر
             var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
 
             var profile = await _context.InsuranceProfiles
@@ -61,7 +55,7 @@ namespace SalamatyAPI.Controllers
                 .FirstOrDefaultAsync(p => p.UserId == userId);
 
             if (profile == null)
-                return NotFound();
+                return NotFound(new { message = "Profile not found" });
 
             var userDto = new UserSectionDto
             {
@@ -73,7 +67,6 @@ namespace SalamatyAPI.Controllers
             {
                 Id = profile.InsuranceProviderId,
                 Name = profile.InsuranceProvider.Name,
-                // 2. دمج الرابط الأساسي مع مسار اللوجو هنا أيضاً
                 LogoUrl = !string.IsNullOrEmpty(profile.InsuranceProvider.LogoUrl) ? baseUrl + profile.InsuranceProvider.LogoUrl : null,
                 PolicyNumber = $"P{profile.Id:D8}",
                 ValidUntil = DateTime.UtcNow.AddYears(3)
@@ -81,17 +74,19 @@ namespace SalamatyAPI.Controllers
 
             int providerId = profile.InsuranceProviderId;
 
+            // التعديل هنا: البحث عن كلمة "hospital" كنص بدل Enum
             var hospitalNames = await _context.InsuranceNetworkServices
                 .Where(s => s.InsuranceProviderId == providerId &&
-                            s.Type == InsuranceServiceType.Hospital)
+                            (s.Type.ToLower() == "hospital" || s.Type.ToLower() == "hospitals"))
                 .OrderBy(s => s.Name)
                 .Select(s => s.Name)
                 .Take(3)
                 .ToListAsync();
 
+            // التعديل هنا: البحث عن كلمة "lab" كنص بدل Enum
             var labNames = await _context.InsuranceNetworkServices
                 .Where(s => s.InsuranceProviderId == providerId &&
-                            s.Type == InsuranceServiceType.Lab)
+                            (s.Type.ToLower() == "lab" || s.Type.ToLower() == "analysis" || s.Type.ToLower() == "laboratories"))
                 .OrderBy(s => s.Name)
                 .Select(s => s.Name)
                 .Take(3)
@@ -105,52 +100,30 @@ namespace SalamatyAPI.Controllers
 
             var coverage = new CoverageSectionDto
             {
-                Medicines = new CoverageListDto
-                {
-                    IsCovered = medicineNames.Any(),
-                    Items = medicineNames
-                },
-                LabTests = new CoverageListDto
-                {
-                    IsCovered = labNames.Any(),
-                    Items = labNames
-                },
-                Hospitals = new CoverageListDto
-                {
-                    IsCovered = hospitalNames.Any(),
-                    Items = hospitalNames
-                }
+                Medicines = new CoverageListDto { IsCovered = medicineNames.Any(), Items = medicineNames },
+                LabTests = new CoverageListDto { IsCovered = labNames.Any(), Items = labNames },
+                Hospitals = new CoverageListDto { IsCovered = hospitalNames.Any(), Items = hospitalNames }
             };
 
-            var result = new InsuranceProfileDetailsDto
+            return Ok(new InsuranceProfileDetailsDto
             {
                 User = userDto,
                 Provider = providerDto,
                 Coverage = coverage
-            };
-
-            return Ok(result);
+            });
         }
 
         [HttpPost("information")]
         [RequestSizeLimit(10_000_000)]
-        public async Task<IActionResult> SubmitInsuranceInformation(
-        [FromQuery] string userId,
-        [FromForm] SubmitInsuranceInfoDto dto)
+        public async Task<IActionResult> SubmitInsuranceInformation([FromQuery] string userId, [FromForm] SubmitInsuranceInfoDto dto)
         {
-            // 1. تحديد الرابط الأساسي للسيرفر
             var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
 
-            var profile = await _context.InsuranceProfiles
-                .FirstOrDefaultAsync(p => p.UserId == userId);
+            var profile = await _context.InsuranceProfiles.FirstOrDefaultAsync(p => p.UserId == userId);
 
             if (profile == null)
             {
-                profile = new InsuranceProfile
-                {
-                    UserId = userId,
-                    InsuranceProviderId = dto.ProviderId
-                };
+                profile = new InsuranceProfile { UserId = userId, InsuranceProviderId = dto.ProviderId };
                 _context.InsuranceProfiles.Add(profile);
             }
             else
@@ -168,7 +141,6 @@ namespace SalamatyAPI.Controllers
 
             await _context.SaveChangesAsync();
 
-            // 2. دالة صغيرة مساعدة لضبط مسار الصورة المرفوعة (لأنها لا تبدأ بـ / )
             string GetFullUrl(string path)
             {
                 if (string.IsNullOrEmpty(path)) return null;
@@ -180,7 +152,6 @@ namespace SalamatyAPI.Controllers
                 message = "Insurance information saved successfully.",
                 cardHolderId = profile.CardHolderId,
                 providerId = profile.InsuranceProviderId,
-                // إرجاع الرابط كاملاً لصور البطاقة
                 frontImagePath = GetFullUrl(profile.FrontImagePath),
                 backImagePath = GetFullUrl(profile.BackImagePath)
             });
@@ -197,8 +168,7 @@ namespace SalamatyAPI.Controllers
             await using var stream = new FileStream(fullPath, FileMode.Create);
             await file.CopyToAsync(stream);
 
-            return Path.Combine("Uploads", "InsuranceCards", userId, fileName)
-                .Replace("\\", "/");
+            return Path.Combine("Uploads", "InsuranceCards", userId, fileName).Replace("\\", "/");
         }
     }
 }

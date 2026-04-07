@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using SalamatyAPI.Data;
 using SalamatyAPI.Dtos.Products;
 using SalamatyAPI.Dtos.Services;
-using SalamatyAPI.Models.Enums;
 
 namespace SalamatyAPI.Controllers;
 
@@ -24,9 +23,7 @@ public class ProductsController : ControllerBase
         [FromQuery] string? category,
         [FromQuery] string? search)
     {
-        // أضفنا / في نهاية الـ baseUrl
         var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/";
-
         var query = _db.Products.AsNoTracking().AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(category))
@@ -41,7 +38,6 @@ public class ProductsController : ControllerBase
                 Id = p.Id,
                 Name = p.Name,
                 Price = p.Price,
-                // هنا التعديل لضمان دمج الرابط صح
                 ImageUrl = p.ImageUrl != null ? baseUrl + p.ImageUrl.TrimStart('/') : null,
                 Category = p.Category
             })
@@ -77,7 +73,7 @@ public class ProductsController : ControllerBase
         var exists = await _db.Products.AnyAsync(p => p.Id == id);
         if (!exists) return NotFound();
 
-        var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+        var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/";
 
         var alternatives = await _db.ProductAlternatives
             .Where(pa => pa.ProductId == id)
@@ -87,14 +83,13 @@ public class ProductsController : ControllerBase
                 Id = pa.AlternativeProduct.Id,
                 Name = pa.AlternativeProduct.Name,
                 Description = pa.AlternativeProduct.Description,
-                ImageUrl = pa.AlternativeProduct.ImageUrl != null ? baseUrl + pa.AlternativeProduct.ImageUrl : null
+                ImageUrl = pa.AlternativeProduct.ImageUrl != null ? baseUrl + pa.AlternativeProduct.ImageUrl.TrimStart('/') : null
             })
             .ToListAsync();
 
         return Ok(alternatives);
     }
 
-    // --- الميثود التي تم تعديلها لحل مشكلة الأداء والـ Logs المتكررة ---
     [HttpGet("{id}/nearby-pharmacies")]
     public async Task<ActionResult<IEnumerable<NearbyPharmacyDto>>> GetNearbyPharmaciesForProduct(
      int id,
@@ -102,7 +97,6 @@ public class ProductsController : ControllerBase
      [FromQuery] double? lng,
      [FromQuery] double maxDistanceKm = 10)
     {
-        // 1. جلب بيانات المنتج الأساسية فقط (بدون Tracking للأداء)
         var product = await _db.Products.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
 
         if (product == null)
@@ -112,26 +106,33 @@ public class ProductsController : ControllerBase
             return Ok(new List<NearbyPharmacyDto>());
 
         var pharmacyCodes = product.Pharmacies
-            .Split(',', StringSplitOptions.RemoveEmptyEntries)
+            .Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(c => c.Trim())
             .ToList();
 
-        // 2. جلب قائمة الصيدليات المطلوبة فقط في استعلام واحد (Single Query)
+        // التعديل هنا: المقارنة النصية لنوع الخدمة
         var pharmaciesData = await _db.InsuranceNetworkServices
             .AsNoTracking()
-            .Where(s => s.Type == InsuranceServiceType.Pharmacy &&
+            .Where(s => (s.Type.ToLower() == "pharmacy" || s.Type.ToLower() == "pharmacies") &&
                         pharmacyCodes.Contains(s.Code))
             .ToListAsync();
 
         var now = DateTime.Now.TimeOfDay;
-        bool hasLocation = lat.HasValue && lng.HasValue;
+        bool hasUserLocation = lat.HasValue && lng.HasValue;
 
-        // 3. معالجة البيانات في الذاكرة (Memory) لتجنب الـ N+1 Query
         var resultList = pharmaciesData.Select(s =>
         {
             double distanceKm = 0;
-            if (hasLocation)
-                distanceKm = CalculateDistanceKm(lat!.Value, lng!.Value, s.Latitude, s.Longitude);
+            // التحقق من وجود إحداثيات للصيدلية وللمستخدم قبل الحساب
+            if (hasUserLocation && s.Latitude.HasValue && s.Longitude.HasValue)
+            {
+                distanceKm = CalculateDistanceKm(lat!.Value, lng!.Value, s.Latitude.Value, s.Longitude.Value);
+            }
+            else if (hasUserLocation)
+            {
+                // إذا كان المستخدم يطلب البحث بالموقع والصيدلية ليس لها موقع، نعطيها مسافة كبيرة جداً لاستبعادها
+                distanceKm = 9999;
+            }
 
             string openStatusText;
             bool isOpenNow;
@@ -159,32 +160,24 @@ public class ProductsController : ControllerBase
                 Type = "Pharmacy",
                 Address = s.Address,
                 Phone = s.Phone,
-                DistanceKm = Math.Round(distanceKm, 2), // تقريب المسافة لرقمين
-                DistanceText = hasLocation ? $"{distanceKm:F1} KM away" : "",
+                DistanceKm = Math.Round(distanceKm, 2),
+                DistanceText = (hasUserLocation && distanceKm < 999) ? $"{distanceKm:F1} KM away" : "",
                 OpenStatusText = openStatusText,
                 IsOpenNow = isOpenNow,
-                Latitude = s.Latitude,
-                Longitude = s.Longitude
+                Latitude = s.Latitude ?? 0,
+                Longitude = s.Longitude ?? 0
             };
-        }).ToList();
+        })
+        .Where(p => !hasUserLocation || p.DistanceKm <= maxDistanceKm) // فلترة بالمسافة لو اليوزر بعت لوكيشن
+        .ToList();
 
-        // 4. الفلترة والترتيب النهائي
-        if (lat.HasValue)
-        {
-            resultList = resultList
-                .Where(p => p.DistanceKm <= maxDistanceKm)
-                .OrderBy(p => p.DistanceKm)
-                .ToList();
-        }
-        else
-        {
-            resultList = resultList.OrderBy(p => p.Name).ToList();
-        }
+        // الترتيب
+        var finalResult = hasUserLocation
+            ? resultList.OrderBy(p => p.DistanceKm).ToList()
+            : resultList.OrderBy(p => p.Name).ToList();
 
-        return Ok(resultList);
+        return Ok(finalResult);
     }
-
-    // ---- helpers ----
 
     private static double CalculateDistanceKm(double lat1, double lon1, double lat2, double lon2)
     {

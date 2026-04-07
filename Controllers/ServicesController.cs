@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using SalamatyAPI.Data;
 using SalamatyAPI.Dtos.Services;
-using SalamatyAPI.Models.Enums;
 
 namespace SalamatyAPI.Controllers
 {
@@ -17,65 +16,74 @@ namespace SalamatyAPI.Controllers
             _db = db;
         }
 
-        // GET: api/services/insurance-providers/1/nearby?lat=..&lng=..&radius=10&type=Hospital&openNow=true
         [HttpGet("insurance-providers/{providerId}/nearby")]
         public async Task<ActionResult<IEnumerable<NearbyServiceDto>>> GetNearbyServices(
-       int providerId,
-       [FromQuery] double? lat,
-       [FromQuery] double? lng,
-       [FromQuery] double radius = 10,
-       [FromQuery] InsuranceServiceType type = InsuranceServiceType.All,
-       [FromQuery] bool openNow = false)
+            int providerId,
+            [FromQuery] double? lat,
+            [FromQuery] double? lng,
+            [FromQuery] double radius = 10,
+            [FromQuery] string type = "All", // تغيير النوع لـ string ليتوافق مع القاعدة الجديدة
+            [FromQuery] bool openNow = false)
         {
             var query = _db.InsuranceNetworkServices
                 .Where(s => s.InsuranceProviderId == providerId);
 
-            if (type != InsuranceServiceType.All)
-                query = query.Where(s => s.Type == type);
+            // فلترة النوع بناءً على النص المخزن في الداتابيز
+            if (!string.Equals(type, "All", StringComparison.OrdinalIgnoreCase))
+                query = query.Where(s => s.Type.ToLower().Contains(type.ToLower()));
 
             var services = await query.ToListAsync();
             var nowTime = DateTime.Now.TimeOfDay;
             bool hasLocation = lat.HasValue && lng.HasValue;
 
-            var result = services
+            var resultList = services
                 .Select(s =>
                 {
                     double distance = 0;
 
-                    // Only calculate distance if user sent lat/lng
-                    if (lat.HasValue && lng.HasValue)
+                    // حساب المسافة فقط إذا كان للمستخدم موقع وللخدمة موقع في الداتابيز
+                    if (hasLocation)
                     {
-                        // NO WARNINGS HERE! The compiler now knows lat and lng are safe to use.
-                        distance = HaversineDistance(lat.Value, lng.Value, s.Latitude, s.Longitude);
-                        if (distance > radius)
-                            return null; // outside radius
+                        if (s.Latitude.HasValue && s.Longitude.HasValue)
+                        {
+                            distance = HaversineDistance(lat.Value, lng.Value, s.Latitude.Value, s.Longitude.Value);
+
+                            // استبعاد الخدمات خارج النطاق المطلوب
+                            if (distance > radius) return null;
+                        }
+                        else
+                        {
+                            // إذا كانت الخدمة بلا إحداثيات والمستخدم يطلب البحث بالموقع، نستبعدها
+                            return null;
+                        }
                     }
 
+                    // فحص هل الخدمة مفتوحة الآن
                     bool isOpen = nowTime >= s.OpenFrom && nowTime <= s.OpenTo;
-                    if (openNow && !isOpen)
-                        return null;
+                    if (openNow && !isOpen) return null;
 
                     return new NearbyServiceDto
                     {
                         Id = s.Id,
                         Name = s.Name,
-                        Type = s.Type.ToString(),
+                        Type = s.Type, // أصبح string مباشرة
                         Address = s.Address,
-                        Latitude = s.Latitude,
-                        Longitude = s.Longitude,
-                        DistanceKm = distance, // Math.Round(distance, 2)
+                        Latitude = s.Latitude ?? 0,
+                        Longitude = s.Longitude ?? 0,
+                        DistanceKm = Math.Round(distance, 2),
                         Status = isOpen ? "open" : "closed",
                         OpenUntil = s.OpenTo.ToString(@"hh\:mm")
                     };
                 })
-                .Where(x => x != null)!;
+                .Where(x => x != null)
+                .ToList();
 
-            // If we have location, order by distance; otherwise any reasonable order
-            result = hasLocation
-                ? result.OrderBy(x => x!.DistanceKm)
-                : result.OrderBy(x => x!.Name);
+            // ترتيب النتائج
+            var finalResult = hasLocation
+                ? resultList.OrderBy(x => x.DistanceKm)
+                : resultList.OrderBy(x => x.Name);
 
-            return Ok(result.ToList());
+            return Ok(finalResult);
         }
 
         private static double HaversineDistance(double lat1, double lon1, double lat2, double lon2)
