@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
@@ -11,11 +12,12 @@ using Salamaty.API.Models.ProfileModels;
 using Salamaty.API.Services;
 using Salamaty.API.Services.AuthServices;
 using Salamaty.API.Services.HomeServices;
+using Salamaty.API.Services.PrescriptionServices;
 using SalamatyAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ===== 1. DbContext & SQL Server =====
+// ===== 1. DbContext & SQL Server (Retry Logic included) =====
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")
@@ -61,14 +63,36 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// ===== 4. Custom Application Services =====
+// ===== 4. Custom Application Services (Merged from both branches) =====
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IHomeService, HomeService>();
+builder.Services.AddScoped<IPrescriptionService, PrescriptionService>(); // From Nancy
 builder.Services.AddHttpContextAccessor();
 
-// ===== 5. Swagger Configuration =====
+// ===== 5. ModelState Validation Customization (From Nancy) =====
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        var errors = context.ModelState
+            .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+            .ToDictionary(
+                e => e.Key,
+                e => e.Value!.Errors.Select(x => x.ErrorMessage).ToArray()
+            );
+
+        return new BadRequestObjectResult(new
+        {
+            success = false,
+            message = "Validation failed",
+            errors
+        });
+    };
+});
+
+// ===== 6. Swagger Configuration (JWT Support) =====
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Salamaty.API", Version = "v1" });
@@ -102,7 +126,7 @@ builder.Services.AddControllers()
 
 builder.Services.AddEndpointsApiExplorer();
 
-// ===== 6. CORS Policy =====
+// ===== 7. CORS Policy =====
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", p =>
@@ -111,35 +135,30 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// ===== 7. Middleware Pipeline =====
-
-
+// ===== 8. Middleware Pipeline =====
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Salamaty.API v1");
 });
 
-
 app.UseMiddleware<ExceptionMiddleware>();
 
-// --- إعداد الملفات الثابتة (Static Files) ---
-app.UseStaticFiles(); // لملفات wwwroot الافتراضية
+// --- Static Files Configuration (From HEAD) ---
+app.UseStaticFiles(); 
 
-// إعداد مجلد Uploads (مثل بطاقات التأمين)
+// Uploads Folder
 var uploadsPath = Path.Combine(app.Environment.ContentRootPath, "Uploads");
 if (!Directory.Exists(uploadsPath)) Directory.CreateDirectory(uploadsPath);
-
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(uploadsPath),
     RequestPath = "/Uploads"
 });
 
-// إعداد مجلد medicine_images (صور الأدوية)
+// Medicine Images Folder
 var medicinePath = Path.Combine(app.Environment.ContentRootPath, "medicine_images");
 if (!Directory.Exists(medicinePath)) Directory.CreateDirectory(medicinePath);
-
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(medicinePath),
@@ -151,7 +170,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-// ===== 8. Database Seeding (حماية Startup من الانهيار) =====
+// ===== 9. Database Seeding (From HEAD) =====
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -159,16 +178,12 @@ using (var scope = app.Services.CreateScope())
     {
         var context = services.GetRequiredService<ApplicationDbContext>();
         var environment = services.GetRequiredService<IWebHostEnvironment>();
-
-        // محاولة تشغيل الـ Seed
         DbSeeder.Seed(context, environment);
     }
     catch (Exception ex)
     {
-        // في حال حدوث خطأ في قاعدة البيانات، التطبيق سيستمر في العمل
-        // ويمكنك رؤية الخطأ في نافذة الـ Output في Visual Studio
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "حدث خطأ أثناء عملية الـ Seeding ولكن التطبيق سيستمر في العمل.");
+        logger.LogError(ex, "An error occurred during database seeding.");
     }
 }
 
