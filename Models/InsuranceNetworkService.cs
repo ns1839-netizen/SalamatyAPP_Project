@@ -18,7 +18,7 @@
         public virtual InsuranceProvider InsuranceProvider { get; set; }
 
         // إضافة المواعيد لإنهاء خطأ "does not contain a definition for OpenFrom"
-        public TimeSpan OpenFrom { get; set; } = TimeSpan.Zero;
-        public TimeSpan OpenTo { get; set; } = new TimeSpan(23, 59, 59);
+        public TimeSpan? OpenFrom { get; set; }
+        public TimeSpan? OpenTo { get; set; }
     }
 }

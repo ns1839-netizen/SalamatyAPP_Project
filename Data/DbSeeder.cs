@@ -32,11 +32,11 @@ namespace SalamatyAPI.Data
 
         private static void SeedInsuranceNetworkFromExcel(ApplicationDbContext db, IWebHostEnvironment env)
         {
-            var filePath = Path.Combine(env.ContentRootPath, "Data", "SeedData", "insurance_network.xlsx");
+            var filePath = Path.Combine(env.ContentRootPath, "Data", "SeedData", "insurance_network.csv");
 
             if (!File.Exists(filePath))
             {
-                filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "SeedData", "insurance_network.xlsx");
+                filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "SeedData", "insurance_network.csv");
             }
 
             if (!File.Exists(filePath)) return;

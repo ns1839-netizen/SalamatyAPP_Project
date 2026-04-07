@@ -74,19 +74,18 @@ namespace SalamatyAPI.Controllers
 
             int providerId = profile.InsuranceProviderId;
 
-            // التعديل هنا: البحث عن كلمة "hospital" كنص بدل Enum
+            // استخدام المقارنة النصية لمنع الـ Invalid Cast Exception
             var hospitalNames = await _context.InsuranceNetworkServices
                 .Where(s => s.InsuranceProviderId == providerId &&
-                            (s.Type.ToLower() == "hospital" || s.Type.ToLower() == "hospitals"))
+                            (s.Type.ToLower().Contains("hospital"))) // بحث مرن عن كلمة مستشفى
                 .OrderBy(s => s.Name)
                 .Select(s => s.Name)
                 .Take(3)
                 .ToListAsync();
 
-            // التعديل هنا: البحث عن كلمة "lab" كنص بدل Enum
             var labNames = await _context.InsuranceNetworkServices
                 .Where(s => s.InsuranceProviderId == providerId &&
-                            (s.Type.ToLower() == "lab" || s.Type.ToLower() == "analysis" || s.Type.ToLower() == "laboratories"))
+                            (s.Type.ToLower().Contains("lab") || s.Type.ToLower().Contains("analysis"))) // بحث مرن عن المعامل
                 .OrderBy(s => s.Name)
                 .Select(s => s.Name)
                 .Take(3)

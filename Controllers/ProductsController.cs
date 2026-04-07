@@ -36,16 +36,17 @@ public class ProductsController : ControllerBase
             .Select(p => new ProductListDto
             {
                 Id = p.Id,
-                Name = p.Name,
+                Name = p.Name ?? "",
                 Price = p.Price,
                 ImageUrl = p.ImageUrl != null ? baseUrl + p.ImageUrl.TrimStart('/') : null,
-                Category = p.Category
+                Category = p.Category ?? ""
             })
             .ToListAsync();
 
         return Ok(products);
     }
 
+    // GET /api/products/{id}
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ProductDetailsDto>> GetProductById(int id)
     {
@@ -57,12 +58,12 @@ public class ProductsController : ControllerBase
         return Ok(new ProductDetailsDto
         {
             Id = p.Id,
-            Name = p.Name,
+            Name = p.Name ?? "",
             Price = p.Price,
             ImageUrl = p.ImageUrl != null ? baseUrl + p.ImageUrl.TrimStart('/') : null,
-            Category = p.Category,
-            Description = p.Description,
-            SideEffects = p.SideEffects
+            Category = p.Category ?? "",
+            Description = p.Description ?? "",
+            SideEffects = p.SideEffects ?? ""
         });
     }
 
@@ -81,26 +82,27 @@ public class ProductsController : ControllerBase
             .Select(pa => new ProductAlternativeDto
             {
                 Id = pa.AlternativeProduct.Id,
-                Name = pa.AlternativeProduct.Name,
-                Description = pa.AlternativeProduct.Description,
-                ImageUrl = pa.AlternativeProduct.ImageUrl != null ? baseUrl + pa.AlternativeProduct.ImageUrl.TrimStart('/') : null
+                Name = pa.AlternativeProduct.Name ?? "",
+                Description = pa.AlternativeProduct.Description ?? "",
+                ImageUrl = pa.AlternativeProduct.ImageUrl != null
+                    ? baseUrl + pa.AlternativeProduct.ImageUrl.TrimStart('/')
+                    : null
             })
             .ToListAsync();
 
         return Ok(alternatives);
     }
 
+    // GET /api/products/{id}/nearby-pharmacies
     [HttpGet("{id}/nearby-pharmacies")]
     public async Task<ActionResult<IEnumerable<NearbyPharmacyDto>>> GetNearbyPharmaciesForProduct(
-     int id,
-     [FromQuery] double? lat,
-     [FromQuery] double? lng,
-     [FromQuery] double maxDistanceKm = 10)
+        int id,
+        [FromQuery] double? lat,
+        [FromQuery] double? lng,
+        [FromQuery] double maxDistanceKm = 10)
     {
         var product = await _db.Products.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
-
-        if (product == null)
-            return NotFound("Product not found");
+        if (product == null) return NotFound("Product not found");
 
         if (string.IsNullOrWhiteSpace(product.Pharmacies))
             return Ok(new List<NearbyPharmacyDto>());
@@ -110,10 +112,11 @@ public class ProductsController : ControllerBase
             .Select(c => c.Trim())
             .ToList();
 
-        // التعديل هنا: المقارنة النصية لنوع الخدمة
         var pharmaciesData = await _db.InsuranceNetworkServices
             .AsNoTracking()
-            .Where(s => (s.Type.ToLower() == "pharmacy" || s.Type.ToLower() == "pharmacies") &&
+            .Where(s => s.Type != null &&
+                       (s.Type.Equals("pharmacy", StringComparison.OrdinalIgnoreCase) ||
+                        s.Type.Equals("pharmacies", StringComparison.OrdinalIgnoreCase)) &&
                         pharmacyCodes.Contains(s.Code))
             .ToListAsync();
 
@@ -123,28 +126,31 @@ public class ProductsController : ControllerBase
         var resultList = pharmaciesData.Select(s =>
         {
             double distanceKm = 0;
-            // التحقق من وجود إحداثيات للصيدلية وللمستخدم قبل الحساب
             if (hasUserLocation && s.Latitude.HasValue && s.Longitude.HasValue)
             {
                 distanceKm = CalculateDistanceKm(lat!.Value, lng!.Value, s.Latitude.Value, s.Longitude.Value);
             }
             else if (hasUserLocation)
             {
-                // إذا كان المستخدم يطلب البحث بالموقع والصيدلية ليس لها موقع، نعطيها مسافة كبيرة جداً لاستبعادها
-                distanceKm = 9999;
+                distanceKm = 9999; // إستبعاد الصيدليات بدون موقع
             }
 
             string openStatusText;
             bool isOpenNow;
 
-            if (s.OpenFrom == TimeSpan.Zero && s.OpenTo == TimeSpan.Zero)
+            if (!s.OpenFrom.HasValue || !s.OpenTo.HasValue)
+            {
+                openStatusText = "Unknown";
+                isOpenNow = false;
+            }
+            else if (s.OpenFrom.Value == TimeSpan.Zero && s.OpenTo.Value == TimeSpan.Zero)
             {
                 openStatusText = "Open 24 Hours";
                 isOpenNow = true;
             }
-            else if (s.OpenFrom <= now && now <= s.OpenTo)
+            else if (s.OpenFrom.Value <= now && now <= s.OpenTo.Value)
             {
-                openStatusText = $"Open until {TimeOnly.FromTimeSpan(s.OpenTo):h tt}";
+                openStatusText = $"Open until {TimeOnly.FromTimeSpan(s.OpenTo.Value):h tt}";
                 isOpenNow = true;
             }
             else
@@ -156,10 +162,10 @@ public class ProductsController : ControllerBase
             return new NearbyPharmacyDto
             {
                 Id = s.Id,
-                Name = s.Name,
+                Name = s.Name ?? "",
                 Type = "Pharmacy",
-                Address = s.Address,
-                Phone = s.Phone,
+                Address = s.Address ?? "",
+                Phone = s.Phone ?? "",
                 DistanceKm = Math.Round(distanceKm, 2),
                 DistanceText = (hasUserLocation && distanceKm < 999) ? $"{distanceKm:F1} KM away" : "",
                 OpenStatusText = openStatusText,
@@ -168,10 +174,9 @@ public class ProductsController : ControllerBase
                 Longitude = s.Longitude ?? 0
             };
         })
-        .Where(p => !hasUserLocation || p.DistanceKm <= maxDistanceKm) // فلترة بالمسافة لو اليوزر بعت لوكيشن
+        .Where(p => !hasUserLocation || p.DistanceKm <= maxDistanceKm)
         .ToList();
 
-        // الترتيب
         var finalResult = hasUserLocation
             ? resultList.OrderBy(p => p.DistanceKm).ToList()
             : resultList.OrderBy(p => p.Name).ToList();
@@ -185,11 +190,10 @@ public class ProductsController : ControllerBase
         double dLat = DegreesToRadians(lat2 - lat1);
         double dLon = DegreesToRadians(lon2 - lon1);
 
-        double a =
-            Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-            Math.Cos(DegreesToRadians(lat1)) *
-            Math.Cos(DegreesToRadians(lat2)) *
-            Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+        double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                   Math.Cos(DegreesToRadians(lat1)) *
+                   Math.Cos(DegreesToRadians(lat2)) *
+                   Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
 
         double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
         return R * c;
