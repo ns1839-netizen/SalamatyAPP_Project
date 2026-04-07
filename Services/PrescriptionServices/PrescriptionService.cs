@@ -12,7 +12,7 @@ namespace Salamaty.API.Services.PrescriptionServices
         {
             _context = context;
         }
-
+        //لسه معملتش الميجريشن 
         public async Task<List<DetectedMedicineDto>> ScanPrescriptionAsync(IFormFile prescriptionImage)
         {
 
