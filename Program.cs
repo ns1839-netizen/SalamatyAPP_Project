@@ -1,9 +1,10 @@
-﻿using System.Text;
+using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Salamaty.API.Middleware;
@@ -16,7 +17,7 @@ using SalamatyAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ===== 1. DbContext & SQL Server =====
+// ===== 1. DbContext & SQL Server (Retry Logic included) =====
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")
@@ -29,8 +30,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 errorNumbersToAdd: null);
         }
     ));
-
-
 
 // ===== 2. Identity Configuration =====
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -64,56 +63,15 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// ===== 4. Custom Application Services =====
+// ===== 4. Custom Application Services (Merged from both branches) =====
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
-
-
-// تسجيل الخدمة
 builder.Services.AddScoped<IUserService, UserService>();
-
-// ده مهم عشان الـ Service تقدر تعرف رابط السيرفر وتجيب صور البروفايل صح
+builder.Services.AddScoped<IHomeService, HomeService>();
+builder.Services.AddScoped<IPrescriptionService, PrescriptionService>(); // From Nancy
 builder.Services.AddHttpContextAccessor();
 
-// تسجيل خدمة الـ Home
-builder.Services.AddScoped<IHomeService, HomeService>();
-
-// ===== 5. Swagger with JWT Support =====
-// ===== Swagger Configuration =====
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Salamaty.API", Version = "v1" });
-
-    c.EnableAnnotations();
-
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT",
-        In = ParameterLocation.Header,
-        Description = "Enter your JWT token."
-    });
-
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
-
-// ===== 6. ModelState Validation Customization =====
+// ===== 5. ModelState Validation Customization (From Nancy) =====
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.InvalidModelStateResponseFactory = context =>
@@ -134,19 +92,38 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     };
 });
 
+// ===== 6. Swagger Configuration (JWT Support) =====
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Salamaty.API", Version = "v1" });
+    c.EnableAnnotations();
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter your JWT token."
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
-builder.Services.AddScoped<IPrescriptionService, PrescriptionService>();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
 
-        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-    });
 builder.Services.AddEndpointsApiExplorer();
 
 // ===== 7. CORS Policy =====
@@ -158,26 +135,56 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// ===== 8. HTTP Request Pipeline (Middleware) =====
-
+// ===== 8. Middleware Pipeline =====
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("./v1/swagger.json", "Salamaty.API v1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Salamaty.API v1");
 });
 
-
-// Custom Exception Middleware
 app.UseMiddleware<ExceptionMiddleware>();
-app.UseStaticFiles();
-//app.UseHttpsRedirection();
-app.UseCors("AllowAll");
 
+// --- Static Files Configuration (From HEAD) ---
+app.UseStaticFiles(); 
+
+// Uploads Folder
+var uploadsPath = Path.Combine(app.Environment.ContentRootPath, "Uploads");
+if (!Directory.Exists(uploadsPath)) Directory.CreateDirectory(uploadsPath);
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(uploadsPath),
+    RequestPath = "/Uploads"
+});
+
+// Medicine Images Folder
+var medicinePath = Path.Combine(app.Environment.ContentRootPath, "medicine_images");
+if (!Directory.Exists(medicinePath)) Directory.CreateDirectory(medicinePath);
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(medicinePath),
+    RequestPath = "/medicine_images"
+});
+
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
+// ===== 9. Database Seeding (From HEAD) =====
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        var environment = services.GetRequiredService<IWebHostEnvironment>();
+        DbSeeder.Seed(context, environment);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred during database seeding.");
+    }
+}
+
 app.Run();
-
-

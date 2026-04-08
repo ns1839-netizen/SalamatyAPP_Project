@@ -29,6 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\NewFolder\" />
+    <Folder Include="DTOs\Insurance\" />
+    <Folder Include="DTOs\Services\" />
+    <Folder Include="DTOs\Products\" />
     <Folder Include="Migrations\" />
     <Folder Include="DataResources\" />
   </ItemGroup>
