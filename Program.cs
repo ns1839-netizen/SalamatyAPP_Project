@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -17,7 +17,7 @@ using SalamatyAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ===== 1. DbContext & SQL Server (Retry Logic included) =====
+// ===== 1. DbContext & SQL Server =====
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")
@@ -63,15 +63,15 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// ===== 4. Custom Application Services (Merged from both branches) =====
+// ===== 4. Custom Application Services =====
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IHomeService, HomeService>();
-builder.Services.AddScoped<IPrescriptionService, PrescriptionService>(); // From Nancy
+builder.Services.AddScoped<IPrescriptionService, PrescriptionService>();
 builder.Services.AddHttpContextAccessor();
 
-// ===== 5. ModelState Validation Customization (From Nancy) =====
+// ===== 5. ModelState Validation Customization =====
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.InvalidModelStateResponseFactory = context =>
@@ -92,7 +92,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     };
 });
 
-// ===== 6. Swagger Configuration (JWT Support) =====
+// ===== 6. Swagger Configuration =====
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Salamaty.API", Version = "v1" });
@@ -135,19 +135,14 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// ===== 8. Middleware Pipeline =====
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Salamaty.API v1");
-});
+// ============================================================
+// ===== 8. Middleware Pipeline (تم تعديل الترتيب هنا) =====
+// ============================================================
 
-app.UseMiddleware<ExceptionMiddleware>();
+// أ. أولاً: تفعيل الملفات الثابتة (wwwroot)
+app.UseStaticFiles();
 
-// --- Static Files Configuration (From HEAD) ---
-app.UseStaticFiles(); 
-
-// Uploads Folder
+// ب. ثانياً: إعداد المجلدات المخصصة قبل أي Routing أو Exceptions
 var uploadsPath = Path.Combine(app.Environment.ContentRootPath, "Uploads");
 if (!Directory.Exists(uploadsPath)) Directory.CreateDirectory(uploadsPath);
 app.UseStaticFiles(new StaticFileOptions
@@ -156,7 +151,6 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/Uploads"
 });
 
-// Medicine Images Folder
 var medicinePath = Path.Combine(app.Environment.ContentRootPath, "medicine_images");
 if (!Directory.Exists(medicinePath)) Directory.CreateDirectory(medicinePath);
 app.UseStaticFiles(new StaticFileOptions
@@ -165,12 +159,22 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/medicine_images"
 });
 
+// ج. ثالثاً: Swagger
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Salamaty.API v1");
+});
+
+// د. رابعاً: معالجة الأخطاء (بعد التأكد أن الطلب ليس صورة)
+app.UseMiddleware<ExceptionMiddleware>();
+
 app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-// ===== 9. Database Seeding (From HEAD) =====
+// ===== 9. Database Seeding =====
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
