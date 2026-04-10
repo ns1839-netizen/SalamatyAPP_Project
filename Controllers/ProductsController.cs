@@ -38,7 +38,9 @@ public class ProductsController : ControllerBase
                 Id = p.Id,
                 Name = p.Name ?? "",
                 Price = p.Price,
-                ImageUrl = p.ImageUrl != null ? baseUrl + p.ImageUrl.TrimStart('/') : null,
+                ImageUrl = p.ImageUrl != null
+    ? baseUrl + "/" + p.ImageUrl.TrimStart('/').ToLower().Replace(" ", "_").Replace("-", "_")
+    : null,
                 Category = p.Category ?? ""
             })
             .ToListAsync();
