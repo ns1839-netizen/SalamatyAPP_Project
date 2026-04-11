@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Salamaty.API.Models;
 using Salamaty.API.Models.HomeModels;
 using Salamaty.API.Models.ProfileModels;
+using SalamatyAPI.Models;
 
 namespace SalamatyAPI.Data
 {

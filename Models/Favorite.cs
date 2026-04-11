@@ -10,6 +10,6 @@ namespace Salamaty.API.Models
         public string UserId { get; set; } = null!;
 
         public int ProductId { get; set; }
-        public Salamaty.API.Models.Product Product { get; set; } = default!;
+        public SalamatyAPI.Models.Product Product { get; set; } = default!;
     }
 }

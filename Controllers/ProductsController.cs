@@ -23,24 +23,24 @@ public class ProductsController : ControllerBase
         [FromQuery] string? category,
         [FromQuery] string? search)
     {
-        var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/";
+        var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
         var query = _db.Products.AsNoTracking().AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(category))
-            query = query.Where(p => p.Category == category);
+            query = query.Where(p => p.Category != null && p.Category == category);
 
         if (!string.IsNullOrWhiteSpace(search))
-            query = query.Where(p => p.Name.Contains(search));
+            query = query.Where(p => p.Name != null && p.Name.Contains(search));
 
         var products = await query
             .Select(p => new ProductListDto
             {
                 Id = p.Id,
                 Name = p.Name ?? "",
-                Price = p.Price,
-                ImageUrl = p.ImageUrl != null
-    ? baseUrl + "/" + p.ImageUrl.TrimStart('/').ToLower().Replace(" ", "_").Replace("-", "_")
-    : null,
+                Price = p.Price ?? 0m, // حماية من null
+                ImageUrl = !string.IsNullOrEmpty(p.ImageUrl)
+                     ? baseUrl + "/" + p.ImageUrl.TrimStart('/')
+                    : null,
                 Category = p.Category ?? ""
             })
             .ToListAsync();
@@ -55,14 +55,16 @@ public class ProductsController : ControllerBase
         var p = await _db.Products.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         if (p == null) return NotFound();
 
-        var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/";
+        var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
 
         return Ok(new ProductDetailsDto
         {
             Id = p.Id,
             Name = p.Name ?? "",
-            Price = p.Price,
-            ImageUrl = p.ImageUrl != null ? baseUrl + p.ImageUrl.TrimStart('/') : null,
+            Price = p.Price ?? 0m,
+            ImageUrl = !string.IsNullOrEmpty(p.ImageUrl)
+                ? baseUrl + "/" + p.ImageUrl.TrimStart('/')
+                : null,
             Category = p.Category ?? "",
             Description = p.Description ?? "",
             SideEffects = p.SideEffects ?? ""
@@ -76,18 +78,19 @@ public class ProductsController : ControllerBase
         var exists = await _db.Products.AnyAsync(p => p.Id == id);
         if (!exists) return NotFound();
 
-        var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/";
+        var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
 
         var alternatives = await _db.ProductAlternatives
-            .Where(pa => pa.ProductId == id)
+            .AsNoTracking()
             .Include(pa => pa.AlternativeProduct)
+            .Where(pa => pa.ProductId == id && pa.AlternativeProduct != null) // 🔥 fix
             .Select(pa => new ProductAlternativeDto
             {
-                Id = pa.AlternativeProduct.Id,
+                Id = pa.AlternativeProduct!.Id,
                 Name = pa.AlternativeProduct.Name ?? "",
                 Description = pa.AlternativeProduct.Description ?? "",
-                ImageUrl = pa.AlternativeProduct.ImageUrl != null
-                    ? baseUrl + pa.AlternativeProduct.ImageUrl.TrimStart('/')
+                ImageUrl = !string.IsNullOrEmpty(pa.AlternativeProduct.ImageUrl)
+                    ? baseUrl + "/" + pa.AlternativeProduct.ImageUrl.TrimStart('/')
                     : null
             })
             .ToListAsync();
@@ -112,14 +115,16 @@ public class ProductsController : ControllerBase
         var pharmacyCodes = product.Pharmacies
             .Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(c => c.Trim())
+            .Where(c => !string.IsNullOrEmpty(c))
             .ToList();
 
         var pharmaciesData = await _db.InsuranceNetworkServices
             .AsNoTracking()
-            .Where(s => s.Type != null &&
-                       (s.Type.Equals("pharmacy", StringComparison.OrdinalIgnoreCase) ||
-                        s.Type.Equals("pharmacies", StringComparison.OrdinalIgnoreCase)) &&
-                        pharmacyCodes.Contains(s.Code))
+            .Where(s =>
+                !string.IsNullOrEmpty(s.Code) && // 🔥 fix
+                !string.IsNullOrEmpty(s.Type) &&
+                (s.Type == "pharmacy" || s.Type == "pharmacies" || s.Type == "hospital") &&
+                pharmacyCodes.Contains(s.Code))
             .ToListAsync();
 
         var now = DateTime.Now.TimeOfDay;
@@ -127,49 +132,48 @@ public class ProductsController : ControllerBase
 
         var resultList = pharmaciesData.Select(s =>
         {
-            double distanceKm = 0;
+            double distanceKm = 9999;
+
             if (hasUserLocation && s.Latitude.HasValue && s.Longitude.HasValue)
             {
                 distanceKm = CalculateDistanceKm(lat!.Value, lng!.Value, s.Latitude.Value, s.Longitude.Value);
             }
-            else if (hasUserLocation)
-            {
-                distanceKm = 9999; // إستبعاد الصيدليات بدون موقع
-            }
 
-            string openStatusText;
-            bool isOpenNow;
+            string openStatusText = "Unknown";
+            bool isOpenNow = false;
 
-            if (!s.OpenFrom.HasValue || !s.OpenTo.HasValue)
+            if (s.OpenFrom.HasValue && s.OpenTo.HasValue)
             {
-                openStatusText = "Unknown";
-                isOpenNow = false;
-            }
-            else if (s.OpenFrom.Value == TimeSpan.Zero && s.OpenTo.Value == TimeSpan.Zero)
-            {
-                openStatusText = "Open 24 Hours";
-                isOpenNow = true;
-            }
-            else if (s.OpenFrom.Value <= now && now <= s.OpenTo.Value)
-            {
-                openStatusText = $"Open until {TimeOnly.FromTimeSpan(s.OpenTo.Value):h tt}";
-                isOpenNow = true;
-            }
-            else
-            {
-                openStatusText = "Closed";
-                isOpenNow = false;
+                var openFrom = s.OpenFrom.Value;
+                var openTo = s.OpenTo.Value;
+
+                if (openFrom == TimeSpan.Zero && openTo == TimeSpan.Zero)
+                {
+                    openStatusText = "Open 24 Hours";
+                    isOpenNow = true;
+                }
+                else if (openFrom <= now && now <= openTo)
+                {
+                    openStatusText = $"Open until {TimeOnly.FromTimeSpan(openTo):h tt}";
+                    isOpenNow = true;
+                }
+                else
+                {
+                    openStatusText = "Closed";
+                }
             }
 
             return new NearbyPharmacyDto
             {
                 Id = s.Id,
                 Name = s.Name ?? "",
-                Type = "Pharmacy",
+                Type = s.Type ?? "Pharmacy",
                 Address = s.Address ?? "",
                 Phone = s.Phone ?? "",
                 DistanceKm = Math.Round(distanceKm, 2),
-                DistanceText = (hasUserLocation && distanceKm < 999) ? $"{distanceKm:F1} KM away" : "",
+                DistanceText = (hasUserLocation && distanceKm < 999)
+                    ? $"{distanceKm:F1} KM away"
+                    : "",
                 OpenStatusText = openStatusText,
                 IsOpenNow = isOpenNow,
                 Latitude = s.Latitude ?? 0,
@@ -177,13 +181,11 @@ public class ProductsController : ControllerBase
             };
         })
         .Where(p => !hasUserLocation || p.DistanceKm <= maxDistanceKm)
+        .OrderBy(p => hasUserLocation ? p.DistanceKm : 0)
+        .ThenBy(p => p.Name)
         .ToList();
 
-        var finalResult = hasUserLocation
-            ? resultList.OrderBy(p => p.DistanceKm).ToList()
-            : resultList.OrderBy(p => p.Name).ToList();
-
-        return Ok(finalResult);
+        return Ok(resultList);
     }
 
     private static double CalculateDistanceKm(double lat1, double lon1, double lat2, double lon2)

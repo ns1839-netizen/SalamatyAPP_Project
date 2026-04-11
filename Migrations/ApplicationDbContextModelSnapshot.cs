@@ -338,34 +338,48 @@ namespace Salamaty.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Area")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("InsuranceProviderId")
+                    b.Property<string>("Governorate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("InsuranceProviderId")
                         .HasColumnType("int");
 
-                    b.Property<double>("Latitude")
+                    b.Property<string>("InsuranceProviderName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("Latitude")
                         .HasColumnType("float");
 
-                    b.Property<double>("Longitude")
+                    b.Property<double?>("Longitude")
                         .HasColumnType("float");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeSpan>("OpenFrom")
+                    b.Property<TimeSpan?>("OpenFrom")
                         .HasColumnType("time");
 
-                    b.Property<TimeSpan>("OpenTo")
+                    b.Property<TimeSpan?>("OpenTo")
                         .HasColumnType("time");
 
                     b.Property<string>("Phone")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -394,7 +408,7 @@ namespace Salamaty.API.Migrations
                     b.ToTable("InsuranceProviders");
                 });
 
-            modelBuilder.Entity("Salamaty.API.Models.Product", b =>
+            modelBuilder.Entity("Salamaty.API.Models.MedicalProduct", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -402,48 +416,64 @@ namespace Salamaty.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Category")
-                        .IsRequired()
+                    b.Property<int>("AverageReviewPercent")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Composition")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ExcellentReviewPercent")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Manufacturer")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Pharmacies")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
+                    b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("SideEffects")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Uses")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("MedicalProducts");
                 });
 
-            modelBuilder.Entity("Salamaty.API.Models.ProductAlternative", b =>
+            modelBuilder.Entity("Salamaty.API.Models.Prescription", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("AlternativeProductId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.HasKey("ProductId", "AlternativeProductId");
+                    b.Property<string>("DetectedMedicines")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("AlternativeProductId");
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("ProductAlternatives");
+                    b.Property<DateTime>("ScanDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Prescriptions");
                 });
 
             modelBuilder.Entity("Salamaty.API.Models.ProfileModels.ApplicationUser", b =>
@@ -545,6 +575,55 @@ namespace Salamaty.API.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("SalamatyAPI.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Pharmacies")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("SideEffects")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("SalamatyAPI.Models.ProductAlternative", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AlternativeProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "AlternativeProductId");
+
+                    b.HasIndex("AlternativeProductId");
+
+                    b.ToTable("ProductAlternatives");
+                });
+
             modelBuilder.Entity("InsuranceProfile", b =>
                 {
                     b.HasOne("Salamaty.API.Models.InsuranceProvider", "InsuranceProvider")
@@ -617,7 +696,7 @@ namespace Salamaty.API.Migrations
 
             modelBuilder.Entity("Salamaty.API.Models.Favorite", b =>
                 {
-                    b.HasOne("Salamaty.API.Models.Product", "Product")
+                    b.HasOne("SalamatyAPI.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -636,22 +715,29 @@ namespace Salamaty.API.Migrations
                 {
                     b.HasOne("Salamaty.API.Models.InsuranceProvider", "InsuranceProvider")
                         .WithMany("NetworkServices")
-                        .HasForeignKey("InsuranceProviderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("InsuranceProviderId");
 
                     b.Navigation("InsuranceProvider");
                 });
 
-            modelBuilder.Entity("Salamaty.API.Models.ProductAlternative", b =>
+            modelBuilder.Entity("Salamaty.API.Models.Prescription", b =>
                 {
-                    b.HasOne("Salamaty.API.Models.Product", "AlternativeProduct")
+                    b.HasOne("Salamaty.API.Models.ProfileModels.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SalamatyAPI.Models.ProductAlternative", b =>
+                {
+                    b.HasOne("SalamatyAPI.Models.Product", "AlternativeProduct")
                         .WithMany("AlternativeTo")
                         .HasForeignKey("AlternativeProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Salamaty.API.Models.Product", "Product")
+                    b.HasOne("SalamatyAPI.Models.Product", "Product")
                         .WithMany("Alternatives")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -669,7 +755,7 @@ namespace Salamaty.API.Migrations
                     b.Navigation("NetworkServices");
                 });
 
-            modelBuilder.Entity("Salamaty.API.Models.Product", b =>
+            modelBuilder.Entity("SalamatyAPI.Models.Product", b =>
                 {
                     b.Navigation("AlternativeTo");
 

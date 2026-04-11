@@ -1,13 +1,11 @@
-﻿
-
-namespace Salamaty.API.Models
+﻿namespace SalamatyAPI.Models
 {
     public class ProductAlternative
     {
         public int ProductId { get; set; }
-        public Product Product { get; set; } = default!; // No need for the full namespace
+        public Product Product { get; set; } = default!;
 
         public int AlternativeProductId { get; set; }
-        public Product AlternativeProduct { get; set; } = default!; // Simpler!
+        public Product AlternativeProduct { get; set; } = default!;
     }
 }
