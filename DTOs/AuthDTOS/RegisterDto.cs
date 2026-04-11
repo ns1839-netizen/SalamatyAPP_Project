@@ -7,7 +7,8 @@ namespace Salamaty.API.DTOs.AuthDTOS
     {
         [Required(ErrorMessage = "Full Name is required.")]
         [MinLength(3, ErrorMessage = "Full Name must be at least 3 characters.")]
-        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Full Name must contain only letters and spaces.")]
+        [RegularExpression(@"^[\u0600-\u06FFa-zA-Z\s]+$", ErrorMessage = "Full Name must contain only letters and spaces.")]
+
         [SwaggerSchema(Description = "User's full name")]
         public string FullName { get; set; } = "Ahmed Mohamed";
 
