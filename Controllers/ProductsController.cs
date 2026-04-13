@@ -89,6 +89,7 @@ public class ProductsController : ControllerBase
                 Id = pa.AlternativeProduct!.Id,
                 Name = pa.AlternativeProduct.Name ?? "",
                 Description = pa.AlternativeProduct.Description ?? "",
+                SideEffect = pa.AlternativeProduct.SideEffects ?? "",
                 ImageUrl = !string.IsNullOrEmpty(pa.AlternativeProduct.ImageUrl)
                     ? baseUrl + "/" + pa.AlternativeProduct.ImageUrl.TrimStart('/')
                     : null
@@ -119,13 +120,26 @@ public class ProductsController : ControllerBase
             .ToList();
 
         var pharmaciesData = await _db.InsuranceNetworkServices
-            .AsNoTracking()
-            .Where(s =>
-                !string.IsNullOrEmpty(s.Code) && // 🔥 fix
-                !string.IsNullOrEmpty(s.Type) &&
-                (s.Type == "pharmacy" || s.Type == "pharmacies" || s.Type == "hospital") &&
-                pharmacyCodes.Contains(s.Code))
-            .ToListAsync();
+    .AsNoTracking()
+    .Where(s =>
+        !string.IsNullOrEmpty(s.Code) &&
+        !string.IsNullOrEmpty(s.Type) &&
+        (s.Type == "pharmacy" || s.Type == "pharmacies" ) &&
+        pharmacyCodes.Contains(s.Code))
+    // 🔥 ADD THIS SELECT BLOCK BEFORE ToListAsync()
+    .Select(s => new
+    {
+        s.Id,
+        s.Name,
+        s.Type,
+        s.Address,
+        s.Phone,
+        s.Latitude,
+        s.Longitude,
+        s.OpenFrom,
+        s.OpenTo
+    })
+    .ToListAsync();
 
         var now = DateTime.Now.TimeOfDay;
         bool hasUserLocation = lat.HasValue && lng.HasValue;
@@ -139,8 +153,9 @@ public class ProductsController : ControllerBase
                 distanceKm = CalculateDistanceKm(lat!.Value, lng!.Value, s.Latitude.Value, s.Longitude.Value);
             }
 
-            string openStatusText = "Unknown";
-            bool isOpenNow = false;
+            // 1. Change the default values here to "Open 24 Hours" and true
+            string openStatusText = "Open 24 Hours";
+            bool isOpenNow = true;
 
             if (s.OpenFrom.HasValue && s.OpenTo.HasValue)
             {
@@ -160,6 +175,7 @@ public class ProductsController : ControllerBase
                 else
                 {
                     openStatusText = "Closed";
+                    isOpenNow = false; // 2. Add this line so it correctly closes!
                 }
             }
 
