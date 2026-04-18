@@ -12,7 +12,7 @@ namespace SalamatyAPI.Data
             : base(options)
         {
         }
-
+        public DbSet<Product> Products { get; set; }
         public DbSet<MedicalProduct> MedicalProducts { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
         public DbSet<Banner> Banners { get; set; }

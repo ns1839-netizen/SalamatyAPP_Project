@@ -1,99 +1,87 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Salamaty.API.DTOs.PrescriptionDTOS;
 using Salamaty.API.Models;
 using SalamatyAPI.Data;
 
 namespace Salamaty.API.Services.PrescriptionServices
 {
+    // كلاسات مساعدة لاستقبال رد الـ AI
+    public class AIScanResponse
+    {
+        public List<AIMedicineResult> Medicines { get; set; } = new();
+    }
+    public class AIMedicineResult
+    {
+        public string? Matched_drug { get; set; }
+        public double Match_score { get; set; }
+    }
+
+    // الكلاس الخاص بالنتيجة النهائية المقسمة
+    public class ScanResultDto
+    {
+        public List<DetectedMedicineDto> AvailableMedicines { get; set; } = new();
+        public List<DetectedMedicineDto> NotAvailableMedicines { get; set; } = new();
+    }
+
     public class PrescriptionService : IPrescriptionService
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly HttpClient _httpClient;
 
-        public PrescriptionService(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+        public PrescriptionService(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, HttpClient httpClient)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _httpClient = httpClient;
         }
 
-        public async Task<List<DetectedMedicineDto>> ScanPrescriptionAsync(IFormFile prescriptionImage, string userId)
+        public async Task<ScanResultDto> ScanPrescriptionAsync(IFormFile prescriptionImage, string userId)
         {
-            // 1. حفظ الصورة في wwwroot/Prescriptions
-            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Prescriptions");
-            if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
-
+            // 1. سيف الصورة في wwwroot للهيستوري
             string uniqueFileName = Guid.NewGuid().ToString() + "_" + prescriptionImage.FileName;
-            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Prescriptions", uniqueFileName);
+            using (var stream = new FileStream(filePath, FileMode.Create)) { await prescriptionImage.CopyToAsync(stream); }
 
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                await prescriptionImage.CopyToAsync(fileStream);
-            }
+            // 2. كلمي API الـ AI (مريم ناصر)
+            using var content = new MultipartFormDataContent();
+            content.Add(new StreamContent(prescriptionImage.OpenReadStream()), "file", prescriptionImage.FileName);
 
-            // 2. محاكاة الـ AI (نفترض إنه قرأ أسامي فيها أخطاء بسيطة)
-            var aiDetectedNames = new List<string> { "Augmentin", "Azithral", "Aciloc" };
+            var response = await _httpClient.PostAsync("https://mariamnasser02-slamaty-prescription-api.hf.space/api/scan", content);
+            var aiResult = await response.Content.ReadFromJsonAsync<AIScanResponse>();
 
-            // 3. البحث الذكي (Fuzzy Match)
-            // بنسحب الأدوية اللي بتبدأ بنفس الحروف أولاً لزيادة السرعة
-            var allProducts = await _context.MedicalProducts.ToListAsync();
+            // 3. فلترة (أكبر من 50%)
+            var namesFromAi = aiResult.Medicines
+                .Where(m => m.Match_score > 50 && !string.IsNullOrEmpty(m.Matched_drug))
+                .Select(m => m.Matched_drug.ToLower())
+                .Distinct().ToList();
 
-            var matchedProducts = allProducts
-                .Where(p => aiDetectedNames.Any(aiName =>
-                    p.Name.Contains(aiName, StringComparison.OrdinalIgnoreCase) ||
-                    CalculateSimilarity(p.Name, aiName) > 0.7)) // نسبة تشابه 70%
+            // 4. البحث في جدول Products وتصنيف المتاح وغير المتاح
+            var availableInDb = await _context.Products
+                .Where(p => namesFromAi.Any(name => p.Name.ToLower().Contains(name)))
                 .Select(p => new DetectedMedicineDto
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    Price = p.Price ?? 0,
-                    ImageUrl = p.ImageUrl ?? string.Empty,
-                    Uses = p.Uses ?? string.Empty,
-                    Composition = p.Composition ?? string.Empty
-                }).ToList();
+                    Price = p.Price,
+                    ImageUrl = p.ImageUrl,
+                    IsAvailable = true
+                }).ToListAsync();
 
-            // 4. حفظ العملية في جدول الـ Prescriptions (الـ History)
-            var prescriptionHistory = new Prescription
+            var notAvailable = namesFromAi
+                .Where(name => !availableInDb.Any(db => db.Name.ToLower().Contains(name)))
+                .Select(name => new DetectedMedicineDto { Name = name, IsAvailable = false })
+                .ToList();
+
+            // 5. سجل العملية في جدول الـ Prescriptions (History)
+            _context.Prescriptions.Add(new Prescription
             {
                 UserId = userId,
                 ImagePath = "/Prescriptions/" + uniqueFileName,
-                ScanDate = DateTime.UtcNow,
-                DetectedMedicines = string.Join(", ", matchedProducts.Select(m => m.Name))
-            };
-
-            _context.Prescriptions.Add(prescriptionHistory);
+                DetectedMedicines = string.Join(", ", availableInDb.Select(m => m.Name))
+            });
             await _context.SaveChangesAsync();
 
-            return matchedProducts;
-        }
-
-        // خوارزمية بسيطة لحساب تشابه الكلمات (Fuzzy Search Logic)
-        private double CalculateSimilarity(string source, string target)
-        {
-            if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(target)) return 0;
-            if (source == target) return 1.0;
-
-            int stepsToSame = LevenshteinDistance(source, target);
-            return 1.0 - ((double)stepsToSame / Math.Max(source.Length, target.Length));
-        }
-
-        private int LevenshteinDistance(string s, string t)
-        {
-            int n = s.Length;
-            int m = t.Length;
-            int[,] d = new int[n + 1, m + 1];
-            if (n == 0) return m;
-            if (m == 0) return n;
-            for (int i = 0; i <= n; d[i, 0] = i++) ;
-            for (int j = 0; j <= m; d[0, j] = j++) ;
-            for (int i = 1; i <= n; i++)
-            {
-                for (int j = 1; j <= m; j++)
-                {
-                    int cost = (t[j - 1] == s[i - 1]) ? 0 : 1;
-                    d[i, j] = Math.Min(Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1), d[i - 1, j - 1] + cost);
-                }
-            }
-            return d[n, m];
+            return new ScanResultDto { AvailableMedicines = availableInDb, NotAvailableMedicines = notAvailable };
         }
     }
 }
