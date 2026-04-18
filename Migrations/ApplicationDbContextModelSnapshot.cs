@@ -22,6 +22,42 @@ namespace Salamaty.API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("InsuranceProfile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BackImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CardHolderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FrontImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("InsuranceProviderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InsuranceProviderId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("InsuranceProfiles");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -155,6 +191,30 @@ namespace Salamaty.API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Salamaty.API.Models.Favorite", b =>
+                {
+                    b.Property<int>("FavoriteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FavoriteId"));
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("FavoriteId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Favourites", (string)null);
+                });
+
             modelBuilder.Entity("Salamaty.API.Models.HomeModels.Banner", b =>
                 {
                     b.Property<int>("Id")
@@ -266,6 +326,156 @@ namespace Salamaty.API.Migrations
                     b.ToTable("MedicalProviders");
                 });
 
+            modelBuilder.Entity("Salamaty.API.Models.InsuranceNetworkService", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Area")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Governorate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("InsuranceProviderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InsuranceProviderName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("Longitude")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeSpan?>("OpenFrom")
+                        .HasColumnType("time");
+
+                    b.Property<TimeSpan?>("OpenTo")
+                        .HasColumnType("time");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InsuranceProviderId");
+
+                    b.ToTable("InsuranceNetworkServices");
+                });
+
+            modelBuilder.Entity("Salamaty.API.Models.InsuranceProvider", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("LogoUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InsuranceProviders");
+                });
+
+            modelBuilder.Entity("Salamaty.API.Models.MedicalProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AverageReviewPercent")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Composition")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ExcellentReviewPercent")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Manufacturer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("SideEffects")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Uses")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MedicalProducts");
+                });
+
+            modelBuilder.Entity("Salamaty.API.Models.Prescription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DetectedMedicines")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ScanDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Prescriptions");
+                });
+
             modelBuilder.Entity("Salamaty.API.Models.ProfileModels.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -365,6 +575,74 @@ namespace Salamaty.API.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("SalamatyAPI.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Pharmacies")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("SideEffects")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("SalamatyAPI.Models.ProductAlternative", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AlternativeProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "AlternativeProductId");
+
+                    b.HasIndex("AlternativeProductId");
+
+                    b.ToTable("ProductAlternatives");
+                });
+
+            modelBuilder.Entity("InsuranceProfile", b =>
+                {
+                    b.HasOne("Salamaty.API.Models.InsuranceProvider", "InsuranceProvider")
+                        .WithMany("InsuranceProfiles")
+                        .HasForeignKey("InsuranceProviderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Salamaty.API.Models.ProfileModels.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InsuranceProvider");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -414,6 +692,74 @@ namespace Salamaty.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Salamaty.API.Models.Favorite", b =>
+                {
+                    b.HasOne("SalamatyAPI.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Salamaty.API.Models.ProfileModels.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Salamaty.API.Models.InsuranceNetworkService", b =>
+                {
+                    b.HasOne("Salamaty.API.Models.InsuranceProvider", "InsuranceProvider")
+                        .WithMany("NetworkServices")
+                        .HasForeignKey("InsuranceProviderId");
+
+                    b.Navigation("InsuranceProvider");
+                });
+
+            modelBuilder.Entity("Salamaty.API.Models.Prescription", b =>
+                {
+                    b.HasOne("Salamaty.API.Models.ProfileModels.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SalamatyAPI.Models.ProductAlternative", b =>
+                {
+                    b.HasOne("SalamatyAPI.Models.Product", "AlternativeProduct")
+                        .WithMany("AlternativeTo")
+                        .HasForeignKey("AlternativeProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SalamatyAPI.Models.Product", "Product")
+                        .WithMany("Alternatives")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AlternativeProduct");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Salamaty.API.Models.InsuranceProvider", b =>
+                {
+                    b.Navigation("InsuranceProfiles");
+
+                    b.Navigation("NetworkServices");
+                });
+
+            modelBuilder.Entity("SalamatyAPI.Models.Product", b =>
+                {
+                    b.Navigation("AlternativeTo");
+
+                    b.Navigation("Alternatives");
                 });
 #pragma warning restore 612, 618
         }
