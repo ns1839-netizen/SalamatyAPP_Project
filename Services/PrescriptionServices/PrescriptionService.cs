@@ -1,21 +1,33 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Text.Json.Serialization; // مهم جداً للـ Mapping
+using Microsoft.EntityFrameworkCore;
 using Salamaty.API.Models;
 using SalamatyAPI.Data;
 
 namespace Salamaty.API.Services.PrescriptionServices
 {
-    // كلاسات مساعدة لاستقبال رد الـ AI
+    // 1. الكلاسات المساعدة بأسماء مطابقة تماماً لرد الـ AI
     public class AIScanResponse
     {
+        [JsonPropertyName("medicines")]
         public List<AIMedicineResult> Medicines { get; set; } = new();
-    }
-    public class AIMedicineResult
-    {
-        public string? Matched_drug { get; set; }
-        public double Match_score { get; set; }
+
+        [JsonPropertyName("total_found")]
+        public int TotalFound { get; set; }
     }
 
-    // الكلاس الخاص بالنتيجة النهائية المقسمة
+    public class AIMedicineResult
+    {
+        [JsonPropertyName("ocr_text")]
+        public string? OcrText { get; set; }
+
+        [JsonPropertyName("matched_drug")]
+        public string? MatchedDrug { get; set; }
+
+        [JsonPropertyName("match_score")]
+        public double MatchScore { get; set; }
+    }
+
+    // 2. الكلاس الخاص بالنتيجة النهائية اللي بترجع للـ Flutter
     public class ScanResultDto
     {
         public List<DetectedMedicineDto> AvailableMedicines { get; set; } = new();
@@ -37,51 +49,97 @@ namespace Salamaty.API.Services.PrescriptionServices
 
         public async Task<ScanResultDto> ScanPrescriptionAsync(IFormFile prescriptionImage, string userId)
         {
-            // 1. سيف الصورة في wwwroot للهيستوري
-            string uniqueFileName = Guid.NewGuid().ToString() + "_" + prescriptionImage.FileName;
-            string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Prescriptions", uniqueFileName);
-            using (var stream = new FileStream(filePath, FileMode.Create)) { await prescriptionImage.CopyToAsync(stream); }
+            var finalResult = new ScanResultDto();
 
-            // 2. كلمي API الـ AI (مريم ناصر)
-            using var content = new MultipartFormDataContent();
-            content.Add(new StreamContent(prescriptionImage.OpenReadStream()), "file", prescriptionImage.FileName);
+            // تأمين اسم الملف
+            string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(prescriptionImage.FileName);
 
-            var response = await _httpClient.PostAsync("https://mariamnasser02-slamaty-prescription-api.hf.space/api/scan", content);
-            var aiResult = await response.Content.ReadFromJsonAsync<AIScanResponse>();
-
-            // 3. فلترة (أكبر من 50%)
-            var namesFromAi = aiResult.Medicines
-                .Where(m => m.Match_score > 50 && !string.IsNullOrEmpty(m.Matched_drug))
-                .Select(m => m.Matched_drug.ToLower())
-                .Distinct().ToList();
-
-            // 4. البحث في جدول Products وتصنيف المتاح وغير المتاح
-            var availableInDb = await _context.Products
-                .Where(p => namesFromAi.Any(name => p.Name.ToLower().Contains(name)))
-                .Select(p => new DetectedMedicineDto
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Price = p.Price,
-                    ImageUrl = p.ImageUrl,
-                    IsAvailable = true
-                }).ToListAsync();
-
-            var notAvailable = namesFromAi
-                .Where(name => !availableInDb.Any(db => db.Name.ToLower().Contains(name)))
-                .Select(name => new DetectedMedicineDto { Name = name, IsAvailable = false })
-                .ToList();
-
-            // 5. سجل العملية في جدول الـ Prescriptions (History)
-            _context.Prescriptions.Add(new Prescription
+            try
             {
-                UserId = userId,
-                ImagePath = "/Prescriptions/" + uniqueFileName,
-                DetectedMedicines = string.Join(", ", availableInDb.Select(m => m.Name))
-            });
-            await _context.SaveChangesAsync();
+                // الخطوة 1: حفظ الصورة في wwwroot/Prescriptions
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Prescriptions");
+                if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
 
-            return new ScanResultDto { AvailableMedicines = availableInDb, NotAvailableMedicines = notAvailable };
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await prescriptionImage.CopyToAsync(stream);
+                }
+
+                // الخطوة 2: إرسال الصورة لـ API الـ AI (مريم ناصر)
+                using var requestContent = new MultipartFormDataContent();
+                var imageStream = prescriptionImage.OpenReadStream();
+                requestContent.Add(new StreamContent(imageStream), "file", prescriptionImage.FileName);
+
+                var aiUrl = "https://mariamnasser02-slamaty-prescription-api.hf.space/api/scan";
+                var response = await _httpClient.PostAsync(aiUrl, requestContent);
+
+                // لو السيرفر الخارجي مش متاح أو هنج (حرف الـ I)
+                if (!response.IsSuccessStatusCode)
+                    return finalResult;
+
+                // الخطوة 3: قراءة وتحويل الـ JSON (الـ Deserialization)
+                var aiResult = await response.Content.ReadFromJsonAsync<AIScanResponse>();
+
+                if (aiResult?.Medicines == null || !aiResult.Medicines.Any())
+                    return finalResult;
+
+                // الخطوة 4: فلترة الأسماء (أكبر من 50%) وتجهيزها للبحث
+                var namesFromAi = aiResult.Medicines
+                    .Where(m => m.MatchScore > 50 && !string.IsNullOrEmpty(m.MatchedDrug))
+                    .Select(m => m.MatchedDrug!.ToLower().Trim())
+                    .Distinct()
+                    .ToList();
+
+                // الخطوة 5: البحث "المرن" في جدول الـ Products
+                // هنا بنجيب الأدوية اللي اسمها في الداتابيز يشبه اللي الـ AI لقاه
+                var availableInDb = await _context.Products
+                    .Where(p => namesFromAi.Any(aiName =>
+                        p.Name.ToLower().Contains(aiName) || aiName.Contains(p.Name.ToLower())))
+                    .Select(p => new DetectedMedicineDto
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Price = p.Price.GetValueOrDefault(),
+                        ImageUrl = p.ImageUrl ?? string.Empty,
+                        IsAvailable = true
+                    }).ToListAsync();
+
+                // الأدوية اللي الـ AI لقاها بس مش موجودة عندنا في الـ Products
+                var notAvailable = namesFromAi
+                    .Where(name => !availableInDb.Any(db => db.Name.ToLower().Contains(name)))
+                    .Select(name => new DetectedMedicineDto
+                    {
+                        Name = name,
+                        IsAvailable = false,
+                        ImageUrl = string.Empty
+                    })
+                    .ToList();
+
+                // الخطوة 6: تسجيل العملية في الهيستوري (جدول Prescriptions)
+                if (availableInDb.Any() || notAvailable.Any())
+                {
+                    var prescriptionEntry = new Prescription
+                    {
+                        UserId = userId,
+                        ImagePath = "/Prescriptions/" + uniqueFileName,
+                        ScanDate = DateTime.UtcNow,
+                        DetectedMedicines = string.Join(", ", availableInDb.Select(m => m.Name))
+                    };
+                    _context.Prescriptions.Add(prescriptionEntry);
+                    await _context.SaveChangesAsync();
+                }
+
+                finalResult.AvailableMedicines = availableInDb;
+                finalResult.NotAvailableMedicines = notAvailable;
+            }
+            catch (Exception ex)
+            {
+                // تسجيل الخطأ عشان تقدري تشوفي الـ Console لو فيه مشكلة
+                Console.WriteLine($"[Prescription Error]: {ex.Message}");
+            }
+
+            return finalResult;
         }
     }
 }

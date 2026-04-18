@@ -132,6 +132,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAll", p =>
         p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
+// إضافة دعم الـ HttpClient للسيرفيس بتاعتك
+builder.Services.AddHttpClient<IPrescriptionService, PrescriptionService>();
 
 var app = builder.Build();
 
