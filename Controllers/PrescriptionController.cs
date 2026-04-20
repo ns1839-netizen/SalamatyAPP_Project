@@ -22,12 +22,8 @@ namespace Salamaty.API.Controllers
         }
 
         [HttpPost("scan")]
-        [Consumes("multipart/form-data")]
         public async Task<IActionResult> Scan(IFormFile image, [FromForm] string userId)
         {
-            if (image == null || image.Length == 0)
-                return BadRequest("Please upload a prescription image.");
-
             var result = await _prescriptionService.ScanPrescriptionAsync(image, userId);
             return Ok(new { success = true, data = result });
         }
