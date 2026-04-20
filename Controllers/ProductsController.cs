@@ -17,6 +17,8 @@ public class ProductsController : ControllerBase
         _db = db;
     }
 
+
+
     // GET /api/products
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductListDto>>> GetProducts(
