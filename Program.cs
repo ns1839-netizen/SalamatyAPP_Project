@@ -137,7 +137,7 @@ builder.Services.AddHttpClient<IPrescriptionService, PrescriptionService>();
 builder.Services.AddHttpClient<IPrescriptionService, PrescriptionService>(client =>
 {
     // هنخلي السيرفر بتاعنا يصبر لمدة 3 دقائق (180 ثانية) على الـ AI
-    client.Timeout = TimeSpan.FromMinutes(5);
+    client.Timeout = TimeSpan.FromMinutes(3);
 });
 var app = builder.Build();
 
