@@ -1,7 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text.Json;
+
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SalamatyAPI.Data;
 using SalamatyAPI.Dtos.Insurance;
+using Salamaty.API.DTOs.Insurance;
+
 
 namespace SalamatyAPI.Controllers
 {
@@ -169,5 +175,79 @@ namespace SalamatyAPI.Controllers
 
             return Path.Combine("Uploads", "InsuranceCards", userId, fileName).Replace("\\", "/");
         }
+
+
+        [HttpPost("scan")] 
+        public async Task<IActionResult> CheckInsuranceCard(
+         [FromQuery] string userId,
+         [FromForm] SubmitInsuranceInfoDto request) // <-- FIXED: Grouped all FromForm fields into your existing DTO!
+        {
+            // 1. Check if an image was actually uploaded
+            if (request.FrontImage == null || request.FrontImage.Length == 0)
+            {
+                return BadRequest("Front image is required.");
+            }
+
+            // 2. Prepare to call the External AI API
+            string aiApiUrl = "https://mariamnasser02-card-scanner.hf.space/scan";
+
+            using var httpClient = new HttpClient();
+            using var requestContent = new MultipartFormDataContent();
+
+            // 3. Read the uploaded file into a stream
+            using var stream = request.FrontImage.OpenReadStream(); // Notice we use request.FrontImage now
+            var fileContent = new StreamContent(stream);
+
+            // Set the content type (e.g., image/jpeg or image/png)
+            fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse(request.FrontImage.ContentType);
+
+            // IMPORTANT: The external AI API expects the parameter name to be "file"
+            requestContent.Add(fileContent, "file", request.FrontImage.FileName);
+
+            try
+            {
+                // 4. Send the POST request to the AI API
+                var response = await httpClient.PostAsync(aiApiUrl, requestContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // 5. Read the JSON response
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+
+                    // 6. Convert JSON to our C# Object
+                    var result = JsonSerializer.Deserialize<ScannerResponse>(jsonResponse);
+
+                    string extractedName = result?.Data?.Name;
+                    string extractedId = result?.Data?.Id;
+
+                    // TODO: Here you can check if the 'extractedId' matches your database
+                    // or return it to the user.
+
+                    return Ok(new
+                    {
+                        Message = "Card scanned successfully",
+                        ScannedId = extractedId,
+                        ScannedName = extractedName
+                    });
+                }
+                else
+                {
+                    return StatusCode((int)response.StatusCode, "Failed to scan card using AI API.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while connecting to the AI API: {ex.Message}");
+            }
+        }
+
+
+
+
+
+
+
     }
+
+
 }
