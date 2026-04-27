@@ -17,6 +17,8 @@ public class ProductsController : ControllerBase
         _db = db;
     }
 
+
+
     // GET /api/products
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductListDto>>> GetProducts(
@@ -99,12 +101,12 @@ public class ProductsController : ControllerBase
         return Ok(alternatives);
     }
 
+    // GET /api/products/{id}/nearby-pharmacies[HttpGet("{id}/nearby-pharmacies")]
     // GET /api/products/{id}/nearby-pharmacies
-    [HttpGet("{id}/nearby-pharmacies")]
+    [HttpGet("{id:int}/nearby-pharmacies")]
     public async Task<ActionResult<IEnumerable<NearbyPharmacyDto>>> GetNearbyPharmaciesForProduct(
         int id,
-        [FromQuery] double? lat,
-        [FromQuery] double? lng,
+        [FromQuery] double? lat, [FromQuery] double? lng,
         [FromQuery] double maxDistanceKm = 10)
     {
         var product = await _db.Products.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
@@ -113,33 +115,33 @@ public class ProductsController : ControllerBase
         if (string.IsNullOrWhiteSpace(product.Pharmacies))
             return Ok(new List<NearbyPharmacyDto>());
 
+        // Safely split the pharmacy codes (rewritten to avoid the code-breaking glitch!)
         var pharmacyCodes = product.Pharmacies
-            .Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries)
+            .Split(',', ';')
             .Select(c => c.Trim())
             .Where(c => !string.IsNullOrEmpty(c))
             .ToList();
 
         var pharmaciesData = await _db.InsuranceNetworkServices
-    .AsNoTracking()
-    .Where(s =>
-        !string.IsNullOrEmpty(s.Code) &&
-        !string.IsNullOrEmpty(s.Type) &&
-        (s.Type == "pharmacy" || s.Type == "pharmacies" ) &&
-        pharmacyCodes.Contains(s.Code))
-    // 🔥 ADD THIS SELECT BLOCK BEFORE ToListAsync()
-    .Select(s => new
-    {
-        s.Id,
-        s.Name,
-        s.Type,
-        s.Address,
-        s.Phone,
-        s.Latitude,
-        s.Longitude,
-        s.OpenFrom,
-        s.OpenTo
-    })
-    .ToListAsync();
+            .AsNoTracking()
+            .Where(s =>
+                !string.IsNullOrEmpty(s.Code) &&
+                !string.IsNullOrEmpty(s.Type) &&
+                (s.Type == "pharmacy" || s.Type == "pharmacies") &&
+                pharmacyCodes.Contains(s.Code))
+            .Select(s => new
+            {
+                s.Id,
+                s.Name,
+                s.Type,
+                s.Address,
+                s.Phone,
+                s.Latitude,
+                s.Longitude,
+                s.OpenFrom,
+                s.OpenTo
+            })
+            .ToListAsync();
 
         var now = DateTime.Now.TimeOfDay;
         bool hasUserLocation = lat.HasValue && lng.HasValue;
@@ -147,38 +149,35 @@ public class ProductsController : ControllerBase
         var resultList = pharmaciesData.Select(s =>
         {
             double distanceKm = 9999;
+            string locUrl = "";
 
-            if (hasUserLocation && s.Latitude.HasValue && s.Longitude.HasValue)
+            // ✅ 1. Calculate Distance & Generate Google Maps URL
+            if (s.Latitude.HasValue && s.Longitude.HasValue)
             {
-                distanceKm = CalculateDistanceKm(lat!.Value, lng!.Value, s.Latitude.Value, s.Longitude.Value);
+                if (hasUserLocation)
+                {
+                    distanceKm = CalculateDistanceKm(lat!.Value, lng!.Value, s.Latitude.Value, s.Longitude.Value);
+                }
+
+                // FIXED: Combine Name and Address/Area to search Google Maps properly!
+                // Example result: "Al Bustan Pharmacy, 16 Al Bustan Street, Abdeen"
+                string pharmacyName = s.Name ?? "";
+                string pharmacyAddress = s.Address ?? "";
+
+                // Combine them into one search text
+                string searchText = $"{pharmacyName}, {pharmacyAddress}";
+
+                // Encode it for a URL (changes spaces to %20, etc.)
+                string encodedQuery = Uri.EscapeDataString(searchText);
+
+                locUrl = $"https://www.google.com/maps/search/?api=1&query={encodedQuery}";
             }
 
-            // 1. Change the default values here to "Open 24 Hours" and true
+            // ✅ 2. Handle the Open/Closed Status (Now ALWAYS Open 24 Hours)
             string openStatusText = "Open 24 Hours";
             bool isOpenNow = true;
 
-            if (s.OpenFrom.HasValue && s.OpenTo.HasValue)
-            {
-                var openFrom = s.OpenFrom.Value;
-                var openTo = s.OpenTo.Value;
-
-                if (openFrom == TimeSpan.Zero && openTo == TimeSpan.Zero)
-                {
-                    openStatusText = "Open 24 Hours";
-                    isOpenNow = true;
-                }
-                else if (openFrom <= now && now <= openTo)
-                {
-                    openStatusText = $"Open until {TimeOnly.FromTimeSpan(openTo):h tt}";
-                    isOpenNow = true;
-                }
-                else
-                {
-                    openStatusText = "Closed";
-                    isOpenNow = false; // 2. Add this line so it correctly closes!
-                }
-            }
-
+            // ✅ 3. Return the mapped DTO
             return new NearbyPharmacyDto
             {
                 Id = s.Id,
@@ -190,10 +189,11 @@ public class ProductsController : ControllerBase
                 DistanceText = (hasUserLocation && distanceKm < 999)
                     ? $"{distanceKm:F1} KM away"
                     : "",
-                OpenStatusText = openStatusText,
-                IsOpenNow = isOpenNow,
+                OpenStatusText = openStatusText, // Will always be "Open 24 Hours"
+                IsOpenNow = isOpenNow,           // Will always be true
                 Latitude = s.Latitude ?? 0,
-                Longitude = s.Longitude ?? 0
+                Longitude = s.Longitude ?? 0,
+                LocationUrl = locUrl             // Will drop an exact pin!
             };
         })
         .Where(p => !hasUserLocation || p.DistanceKm <= maxDistanceKm)
@@ -203,6 +203,8 @@ public class ProductsController : ControllerBase
 
         return Ok(resultList);
     }
+
+    // --- Distance Helper Methods ---
 
     private static double CalculateDistanceKm(double lat1, double lon1, double lat2, double lon2)
     {
