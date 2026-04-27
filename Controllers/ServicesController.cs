@@ -1,10 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Mscc.GenerativeAI.Types;
 using SalamatyAPI.Data;
 using SalamatyAPI.Dtos.Services;
+using SalamatyAPI.Models.Enums;
+
+
+
 
 namespace SalamatyAPI.Controllers
 {
+
     [ApiController]
     [Route("api/[controller]")]
     public class ServicesController : ControllerBase
@@ -15,14 +22,12 @@ namespace SalamatyAPI.Controllers
         {
             _db = db;
         }
-
         [HttpGet("insurance-providers/{providerId}/nearby")]
-        public async Task<ActionResult<IEnumerable<NearbyServiceDto>>> GetNearbyServices(
+        public async Task<ActionResult> GetNearbyServices(
             int providerId,
             [FromQuery] double? lat,
-            [FromQuery] double? lng,
-            [FromQuery] double radius = 10,
-            [FromQuery] string type = "All",
+            [FromQuery] double? lng, [FromQuery] double radius = 10,
+            [FromQuery] InsuranceServiceType type = InsuranceServiceType.All,
             [FromQuery] bool openNow = false)
         {
             try
@@ -30,11 +35,12 @@ namespace SalamatyAPI.Controllers
                 var query = _db.InsuranceNetworkServices
                     .Where(s => s.InsuranceProviderId == providerId);
 
-                // ✅ حماية من null في Type
-                if (!string.Equals(type, "All", StringComparison.OrdinalIgnoreCase))
+                // Filter by Lab, Pharmacy, or Hospital
+                if (type != InsuranceServiceType.All)
                 {
+                    string selectedType = type.ToString().ToLower();
                     query = query.Where(s => s.Type != null &&
-                                             s.Type.ToLower().Contains(type.ToLower()));
+                                             s.Type.ToLower().Contains(selectedType));
                 }
 
                 var services = await query.ToListAsync();
@@ -46,11 +52,12 @@ namespace SalamatyAPI.Controllers
                     .Select(s =>
                     {
                         double distance = 0;
+                        string locUrl = "";
 
-                        // ✅ حساب المسافة
-                        if (hasLocation)
+                        // Calculate Distance and Create Google Maps Location URL
+                        if (s.Latitude.HasValue && s.Longitude.HasValue)
                         {
-                            if (s.Latitude.HasValue && s.Longitude.HasValue)
+                            if (hasLocation)
                             {
                                 distance = HaversineDistance(
                                     lat.Value,
@@ -62,21 +69,49 @@ namespace SalamatyAPI.Controllers
                                 if (distance > radius)
                                     return null;
                             }
-                            else
-                            {
-                                return null;
-                            }
+
+                            // ✅ FIXED: Combine Name and Address for perfect Google Maps search
+                            string facilityName = s.Name ?? "";
+                            string facilityAddress = s.Address ?? "";
+                            string searchText = $"{facilityName}, {facilityAddress}";
+
+                            string encodedQuery = Uri.EscapeDataString(searchText);
+                            locUrl = $"https://www.google.com/maps/search/?api=1&query={encodedQuery}";
                         }
-
-                        // ✅ حماية من null في OpenFrom / OpenTo
-                        bool isOpen = false;
-
-                        if (s.OpenFrom.HasValue && s.OpenTo.HasValue)
+                        else if (hasLocation)
                         {
-                            isOpen = nowTime >= s.OpenFrom.Value &&
-                                     nowTime <= s.OpenTo.Value;
+                            return null;
                         }
 
+                        // ✅ NEW LOGIC: Handle Open/Closed Status based on Facility Type
+                        bool isOpen = false;
+                        string openUntilStr = "";
+                        string safeType = (s.Type ?? "").ToLower();
+
+                        if (safeType.Contains("pharmacy") || safeType.Contains("hospital") || safeType.Contains("pharmacies"))
+                        {
+                            // 1. Hospitals and Pharmacies are open 24 Hours
+                            isOpen = true;
+                            openUntilStr = "Open 24 Hours";
+                        }
+                        else if (safeType.Contains("lab") || safeType.Contains("analysis"))
+                        {
+                            // 2. Labs are open until 11:00 PM
+                            TimeSpan labCloseTime = new TimeSpan(23, 0, 0);
+
+                            isOpen = nowTime <= labCloseTime;
+                            openUntilStr = "Open until 11 PM"; // Changed to text format!
+                        }
+                        else
+                        {
+                            // 3. Other types (Clinics, Physical Therapy, etc.) are open until 10:00 PM
+                            TimeSpan otherCloseTime = new TimeSpan(22, 0, 0);
+
+                            isOpen = nowTime <= otherCloseTime;
+                            openUntilStr = "Open until 10 PM"; // Changed to text format!
+                        }
+
+                        // Filter out closed places if the user checked the "openNow" box
                         if (openNow && !isOpen)
                             return null;
 
@@ -89,21 +124,24 @@ namespace SalamatyAPI.Controllers
                             Latitude = s.Latitude ?? 0,
                             Longitude = s.Longitude ?? 0,
                             DistanceKm = Math.Round(distance, 2),
-                            Status = isOpen ? "open" : "closed",
-                            OpenUntil = s.OpenTo.HasValue
-                                ? s.OpenTo.Value.ToString(@"hh\:mm")
-                                : ""
+                            Status = isOpen ? "open" : "closed", // Dynamically set to open/closed
+                            OpenUntil = openUntilStr,            // Assigns our custom strings
+                            LocationUrl = locUrl // ✅ Pass the created Google Maps link!
                         };
                     })
                     .Where(x => x != null)
                     .ToList();
 
-                // ✅ ترتيب النتائج
+                // Sort Results
                 var finalResult = hasLocation
-                    ? resultList.OrderBy(x => x.DistanceKm)
-                    : resultList.OrderBy(x => x.Name);
+                    ? resultList.OrderBy(x => x.DistanceKm).ToList()
+                    : resultList.OrderBy(x => x.Name).ToList();
 
-                return Ok(finalResult);
+                return Ok(new
+                {
+                    success = true,
+                    data = finalResult
+                });
             }
             catch (Exception ex)
             {
