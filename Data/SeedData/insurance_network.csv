@@ -1,7 +1,7 @@
 Server provider,Specialization,code,Latitude,Longitude,the address,phone,Governorate,area,provider
-Cleopatra Hospital,hospital,PH11,30.093594522739043,31.329863834624376,"39 Cleopatra Street, Salah El Din Square, Heliopolis",24143931,Cairo,New Cairo,AXA Egypt
-Cairo Specialized Hospital,hospital,PH12,30.095157139329356,31.317080157901398,4 Abu Ubaid Al-Bakri Street - from Granada - Heliopolis,24504905- 24509800-24507500,Cairo,New Cairo,AXA Egypt
-Saudi German Hospital,hospital,PH04,30.132394615385333,31.384840123877236,Intersection of Taha Hussein Axis with Joseph Tito Street,16259-0226252400,Cairo,New Cairo,AXA Egypt
+Cleopatra Hospital,hospital,PH11,30.09359452,31.32986383,"39 Cleopatra Street, Salah El Din Square, Heliopolis",24143931,Cairo,New Cairo,AXA Egypt
+Cairo Specialized Hospital,hospital,PH12,30.09515714,31.31708016,4 Abu Ubaid Al-Bakri Street - from Granada - Heliopolis,24504905- 24509800-24507500,Cairo,New Cairo,AXA Egypt
+Saudi German Hospital,hospital,PH04,30.13239462,31.38484012,Intersection of Taha Hussein Axis with Joseph Tito Street,16259-0226252400,Cairo,New Cairo,AXA Egypt
 As-Salam International Hospital,hospital,PH44,29.98502527,31.23098908,Maadi Nile Corniche,19885,Cairo,Maadi,MetLife Egypt
 Dar Al Fouad Hospital,hospital,PH17,30.06593312,31.3199223,Intersection of Al Nasr Road and Youssef Abbas Street - International Forest Land,0225777300 - 01125777300 -16370,Cairo,Nasr City,MetLife Egypt
 Andalusia Maadi Hospital,hospital,PH32,29.97381221,31.28212732,New Maadi – Wireless Division,227537773,Cairo,Maadi,MetLife Egypt
@@ -15,24 +15,24 @@ El Galaa Hospital,hospital,PH32,30.09911902,31.35086153,2 Al-Orouba Street - Sal
 Italian hospital,hospital,PH76,30.06689535,31.28242893,"17 Al Sarayat Street, Abbasiya",24678191,Cairo,Abbasid,Suez Canal Insurance
 St. Peter's International Hospital,hospital,PH11,30.11566341,31.3474586,"3 Abdel Rahman El Rafei Street, Heliopolis Square, Cairo",26235797,Cairo,New Cairo,Suez Canal Insurance
 Al Badr Specialized Hospital,hospital,PH12,30.09351269,31.33531695,"37 Murad Street - Salah El Din Square, Heliopolis",24155387,Cairo,New Cairo,Misr Insurance
-El Araby Hospital,hospital,PH04,30.301442769178095,31.252032558422094,"98 Nafak Al Sabtia, El-Attar, Shubra",25785004,Cairo,Shubra,Misr Insurance
+El Araby Hospital,hospital,PH04,30.30144277,31.25203256,"98 Nafak Al Sabtia, El-Attar, Shubra",25785004,Cairo,Shubra,Misr Insurance
 Arab Contractors Hospital,hospital,PH44,30.05825789,31.33236343,465 Al Jabal Al Akhdar - Nasr City,24881475,Cairo,Nasr City,Misr Insurance
 Teachers Hospital,hospital,PH17,30.04457959,31.22536958,"3 Mahmoud Mokhtar Street (formerly Al-Ma'rad), Al-Jazira - Cairo",27374725,Cairo,Zamalek,AXA Egypt
 Hassabo Hospital,hospital,PH32,30.06852139,31.34939388,"15 Ahmed Fakhry Street, Nasr City, Sixth District",23520040,Cairo,Nasr City,AXA Egypt
-Almasah Hospital,hospital,PH76,30.054858398762743,31.379335603794217,26 Metwally El Shaarawy Street - 10th District - Nasr City,23575162,Cairo,Nasr City,AXA Egypt
-Palestine Hospital,hospital,PH11,30.08493376106483,31.339310506699256,64 Al Thawra Street – Heliopolis,22909007,Cairo,New Cairo,MetLife Egypt
-Capital Hospital,hospital,PH12,30.09605360060203,31.33101519920861,"Othman Ibn Affan, El-Bostan, Heliopolis",24159383- 24159384 - 01062111122,Cairo,New Cairo,MetLife Egypt
-El Zaitoun Specialized Hospital,hospital,PH04,30.10228320083094,31.312432714518927,"2 El-Aziz Bellah, El-Zaytoun Sharkeya",26353162,Cairo,Helmiya El-Zaytoun,MetLife Egypt
-Al-Hilal Hospital,hospital,PH44,30.065353106005176,31.24120657617359,"El-Galaa St, Al Gayarah, Al Azbakeya",25750171,Cairo,downtown,Misr Life Insurance
-Al Amal Hospital in Hadayek El Qubba,hospital,PH17,30.092519000247265,31.29084699131819,"67 Arafat Street, Hadayek El Qubba - Administrative Control Division, next to El Naqrashi Secondary School",25431118,Cairo,Qubba Gardens,Misr Life Insurance
-Al-Zaytoun Specialized Hospital,hospital,PH32,30.10995514584399,31.29400663338915,"4 Abd Al Sabouar Mohammed Mahdi, Al Amireyah Ash Shamaleyah, Amreya",22846000,Cairo,Helmiya El-Zaytoun,Misr Life Insurance
-Coptic Association Hospital,hospital,PH76,30.110734757902556,31.313275622046117,"39 Salim Al Awal, El-Zaytoun Sharkeya",2257780,Cairo,Helmiya El-Zaytoun,Egypt Healthcare
-Al Safwa Hospital in Shubra,hospital,PH11,30.093098700577492,31.24588934271924,"3 Munyat Al-Sirj Street, next to Khair Zaman Street – Shubra Street",24302001,Cairo,Shubra,Egypt Healthcare
-Al-Muqattam Specialized Hospital,hospital,PH12,30.012640663056366,31.327394593206417,End of Street 9 - Al-Muqattam,25079852,Cairo,Al-Muqattam,Egypt Healthcare
-One Day Surgeries Hospital - El Zawya El Hamra,hospital,PH04,30.088036927101033,31.27325824520336,"El-Zawya El-Hamraa, El Zawya El Hamra,",24231300,Cairo,Red Corner,Suez Canal Insurance
-Cairo Fatemic Hospital,hospital,PH44,30.047493636479242,31.270743357259455,"El-Gamaleya, El Gamaliya,",29241392,Cairo,the study,Suez Canal Insurance
-Ahl Masr Burn Hospital,hospital,PH17,30.050561586693686,31.518969729037842,Second New Cairo,23639665,Cairo,Ancient Egypt,Suez Canal Insurance
-Ain Shams University Specialized Hospital,hospital,PH32,30.078720859855185,31.28760404902258,The Abbasid Caliph Al-Ma'mun,24826606,Cairo,Abbasid,Misr Insurance
+Almasah Hospital,hospital,PH76,30.0548584,31.3793356,26 Metwally El Shaarawy Street - 10th District - Nasr City,23575162,Cairo,Nasr City,AXA Egypt
+Palestine Hospital,hospital,PH11,30.08493376,31.33931051,64 Al Thawra Street – Heliopolis,22909007,Cairo,New Cairo,MetLife Egypt
+Capital Hospital,hospital,PH12,30.0960536,31.3310152,"Othman Ibn Affan, El-Bostan, Heliopolis",24159383- 24159384 - 01062111122,Cairo,New Cairo,MetLife Egypt
+El Zaitoun Specialized Hospital,hospital,PH04,30.1022832,31.31243271,"2 El-Aziz Bellah, El-Zaytoun Sharkeya",26353162,Cairo,Helmiya El-Zaytoun,MetLife Egypt
+Al-Hilal Hospital,hospital,PH44,30.06535311,31.24120658,"El-Galaa St, Al Gayarah, Al Azbakeya",25750171,Cairo,downtown,Misr Life Insurance
+Al Amal Hospital in Hadayek El Qubba,hospital,PH17,30.092519,31.29084699,"67 Arafat Street, Hadayek El Qubba - Administrative Control Division, next to El Naqrashi Secondary School",25431118,Cairo,Qubba Gardens,Misr Life Insurance
+Al-Zaytoun Specialized Hospital,hospital,PH32,30.10995515,31.29400663,"4 Abd Al Sabouar Mohammed Mahdi, Al Amireyah Ash Shamaleyah, Amreya",22846000,Cairo,Helmiya El-Zaytoun,Misr Life Insurance
+Coptic Association Hospital,hospital,PH76,30.11073476,31.31327562,"39 Salim Al Awal, El-Zaytoun Sharkeya",2257780,Cairo,Helmiya El-Zaytoun,Egypt Healthcare
+Al Safwa Hospital in Shubra,hospital,PH11,30.0930987,31.24588934,"3 Munyat Al-Sirj Street, next to Khair Zaman Street – Shubra Street",24302001,Cairo,Shubra,Egypt Healthcare
+Al-Muqattam Specialized Hospital,hospital,PH12,30.01264066,31.32739459,End of Street 9 - Al-Muqattam,25079852,Cairo,Al-Muqattam,Egypt Healthcare
+One Day Surgeries Hospital - El Zawya El Hamra,hospital,PH04,30.08803693,31.27325825,"El-Zawya El-Hamraa, El Zawya El Hamra,",24231300,Cairo,Red Corner,Suez Canal Insurance
+Cairo Fatemic Hospital,hospital,PH44,30.04749364,31.27074336,"El-Gamaleya, El Gamaliya,",29241392,Cairo,the study,Suez Canal Insurance
+Ahl Masr Burn Hospital,hospital,PH17,30.05056159,31.51896973,Second New Cairo,23639665,Cairo,Ancient Egypt,Suez Canal Insurance
+Ain Shams University Specialized Hospital,hospital,PH32,30.07872086,31.28760405,The Abbasid Caliph Al-Ma'mun,24826606,Cairo,Abbasid,Misr Insurance
 Dr. Othman Hospital,hospital,PH76,29.96745548,31.2519002,16 Street 107 - Maadi Gardens,25260169,Cairo,Maadi,Misr Insurance
 Al-Fath Islamic Hospital,hospital,PH11,29.9667065,31.25423205,Street 9 in Maadi,23585651,Cairo,Maadi,Misr Insurance
 Dar Al Shifa Hospital in Cairo,hospital,PH12,30.07171709,31.27860486,375 Ramses Street – Abbassia,24870739,Cairo,Abbasid,AXA Egypt
@@ -254,8 +254,8 @@ Care Pharmacies (Amon Pharmacy),pharmacies,PH76,30.11451484,31.33355471,58 Al Hi
 Care Pharmacies (Osama Hassan Pharmacy),pharmacies,PH11,30.11758241,31.35139175,"52 Abdel Rahman El Rafei Street, parallel to Abdel Hamid Badawi Street - Heliopolis - Cairo",011-50258426,Cairo,New Cairo,AXA Egypt
 Care Pharmacies (Dr. Rasha's Pharmacy),pharmacies,PH12,30.08759679,31.34633661,"115 Omar Ibn Al-Khattab Street, Tivoli, Shop No. 1 - Heliopolis - Cairo",011-50954414,Cairo,New Cairo,MetLife Egypt
 Care Pharmacies (Dr. Mustafa Jamal Pharmacy),pharmacies,PH04,30.12505629,31.36538435,10 Al-Mu'arrikh Muhammad Rifaat Street - New Nozha - Cairo,011-53466977,Cairo,picnic,Misr Life Insurance
-Care Pharmacies (Sabry Pharmacy),pharmacies,PH44,30.09837443411133,31.31416084898323,91 El Farik Aziz El Masry Street - formerly Gesr El Suez - Heliopolis - Cairo,011-01833496,Cairo,Suez Bridge,Egypt Healthcare
-Care Pharmacies (Dr. Mohamed El-Moselhy Pharmacy),pharmacies,PH17,30.131139664209442,31.37564949040672,Badr Division - New Nozha - Heliopolis - Cairo,011-01833497,Cairo,picnic,Suez Canal Insurance
+Care Pharmacies (Sabry Pharmacy),pharmacies,PH44,30.09837443,31.31416085,91 El Farik Aziz El Masry Street - formerly Gesr El Suez - Heliopolis - Cairo,011-01833496,Cairo,Suez Bridge,Egypt Healthcare
+Care Pharmacies (Dr. Mohamed El-Moselhy Pharmacy),pharmacies,PH17,30.13113966,31.37564949,Badr Division - New Nozha - Heliopolis - Cairo,011-01833497,Cairo,picnic,Suez Canal Insurance
 Care Pharmacies (Noura Pharmacy),pharmacies,PH32,30.10284514,31.30326756,Al-Maqrizi Street - Manshiyat Al-Bakri - Cairo,011-56984208,Cairo,New Cairo,Misr Insurance
 Care Pharmacies (Dr. Rania Hassan Pharmacy),pharmacies,PH76,30.10604099,31.3667395,19 Al Safa Street - Sheraton Residences - Nozha - Cairo,011-56984177,Cairo,picnic,AXA Egypt
 Care Pharmacies (Dr. Heba Magdy Pharmacy),pharmacies,PH11,30.10564718,31.36908876,"6 El Shaheed Sayed Zakaria Street, Block 1216, Sheraton Airport - Nozha - Cairo",011-03057610,Cairo,Sheraton,MetLife Egypt
@@ -700,111 +700,111 @@ Al Nada Specialized Hospital,hospital,PH04,29.31272216,30.85633772,"El Masalla, 
 Fayoum Scan Center,Radiology Center,PH44,29.31474911,30.85500594,"El Zahraa Tower, El Nabwy El Mohandes Street",1062070012,Fayoum,Fayoum,AXA Egypt
 El Mokhtabar,Analysis laboratories,PH17,29.30829193,30.8407229,"El Nasagoon Building, El Horreya Street",6377606,Fayoum,Fayoum,MetLife Egypt
 Alpha Lab,Analysis laboratories,PH32,29.30847938,30.84207,"Weavers Tower - Al Bahr Street, Faiyum Governorate",2150267,Fayoum,Fayoum,Misr Life Insurance
-Al Borg Laboratory,Analysis laboratories,PH76,29.30903535260597,30.842641428629715,"First Al Faiyum, Faiyum Governorate",372666,Fayoum,Fayoum,Egypt Healthcare
-First Lab,Analysis laboratories,PH11,29.306850369607755,30.846873891332304,"El Bashayer Tower, El Masalla Square",6344463,Fayoum,Fayoum,Suez Canal Insurance
-Hakim Pharmacy ,pharmacies,PH12,29.30949656194226,30.843184182603075,"El-Khalifa El-Maamoun, Qesm Al Fayoum, First Al Faiyum",6342929,Fayoum,Fayoum,Misr Insurance
-Cure pharmacy,pharmacies,PH04,29.3325463817359,30.839100272033356,"After Raneen Store, after the Governor's Villa, Road, Monshaat Abd Allah",011-11946966,Fayoum,Fayoum,AXA Egypt
-Al Salam Charity Hospital,hospital,PH44,29.072751329475068,31.096796576011762,Tosson Street - Beni Suef,2356262,Beni Suef,Beni Suef,MetLife Egypt
-Zahra Tower Hospital,hospital,PH17,29.07201473085274,31.0976999913323,43 Islam Street - intersection of Ahmed Orabi - Beni Suef,2353508,Beni Suef,Beni Suef,Misr Life Insurance
+Al Borg Laboratory,Analysis laboratories,PH76,29.30903535,30.84264143,"First Al Faiyum, Faiyum Governorate",372666,Fayoum,Fayoum,Egypt Healthcare
+First Lab,Analysis laboratories,PH11,29.30685037,30.84687389,"El Bashayer Tower, El Masalla Square",6344463,Fayoum,Fayoum,Suez Canal Insurance
+Hakim Pharmacy ,pharmacies,PH12,29.30949656,30.84318418,"El-Khalifa El-Maamoun, Qesm Al Fayoum, First Al Faiyum",6342929,Fayoum,Fayoum,Misr Insurance
+Cure pharmacy,pharmacies,PH04,29.33254638,30.83910027,"After Raneen Store, after the Governor's Villa, Road, Monshaat Abd Allah",011-11946966,Fayoum,Fayoum,AXA Egypt
+Al Salam Charity Hospital,hospital,PH44,29.07275133,31.09679658,Tosson Street - Beni Suef,2356262,Beni Suef,Beni Suef,MetLife Egypt
+Zahra Tower Hospital,hospital,PH17,29.07201473,31.09769999,43 Islam Street - intersection of Ahmed Orabi - Beni Suef,2353508,Beni Suef,Beni Suef,Misr Life Insurance
 El nada CLINICS,Specialized Clinics Center,PH32,29.13197904,31.09480166,"Ahmed Orabi Street - Morad Tower - Seventh Floor, El Zera'eyeen Square",01207777896-066326031,Beni Suef,Beni Suef,Egypt Healthcare
-International Eye Hospital,Specialized eye hospital,PH76,29.06718260246502,31.099241391776104,"Qism Bani Sweif, Beni Suef",19650,Beni Suef,Beni Suef,Suez Canal Insurance
-Capital Center for Radiology and Medical Analysis,Radiology Center,PH11,29.068999979995063,31.09863463240115,"339X+G99, Ahmed Orabi Street, Qism Bani Sweif",2367471-2367470,Beni Suef,Beni Suef,Misr Insurance
-Gamma Radiology Center,Radiology Center,PH12,29.081985735348553,31.096035952742447,"Abd El Salam Aref Street, El Zera'eyeen Square - El Sheimy Medical Tower - Floor 3, Beni Suef",1023001755,Beni Suef,Beni Suef,AXA Egypt
+International Eye Hospital,Specialized eye hospital,PH76,29.0671826,31.09924139,"Qism Bani Sweif, Beni Suef",19650,Beni Suef,Beni Suef,Suez Canal Insurance
+Capital Center for Radiology and Medical Analysis,Radiology Center,PH11,29.06899998,31.09863463,"339X+G99, Ahmed Orabi Street, Qism Bani Sweif",2367471-2367470,Beni Suef,Beni Suef,Misr Insurance
+Gamma Radiology Center,Radiology Center,PH12,29.08198574,31.09603595,"Abd El Salam Aref Street, El Zera'eyeen Square - El Sheimy Medical Tower - Floor 3, Beni Suef",1023001755,Beni Suef,Beni Suef,AXA Egypt
 Teba Center,Radiology Center,PH04,28.86051934,30.89704777,"Naser Branch, El Geish Street, next to Naser Central Hospital, in front of El Shameya Bridge",25773194,Beni Suef,Beni Suef,MetLife Egypt
 Teba Center,Radiology Center,PH44,29.13917621,30.94099308,"3WRV+3MW, Ihnasiya El Madina, Ihnasiya City, Ihnasiya,",1127884418,Beni Suef,Beni Suef,Misr Life Insurance
-Taiba Radiology Center,Radiology Center,PH17,28.877317382822465,30.89017243699709,"El Fashn Branch, El Ibrahimeya Street, in front of the old Central, next to Zohour El Haya Hospital",1145447485,Beni Suef,Beni Suef,Egypt Healthcare
-Taiba Radiology Center,Radiology Center,PH32,29.078051793571852,31.096147857259464,"Port Said Street, El Nada Tower, in front of El Modireya Crossing",2350153/159,Beni Suef,Beni Suef,Suez Canal Insurance
-Trust Laboratory Dr. Sanaa Abdel Shafi,Analysis laboratories,PH76,29.07747183633802,31.096064374635507,"Port Said Street, El Nada Tower, Beni Suef",2333698,Beni Suef,Beni Suef,Misr Insurance
-Trust Laboratory Dr. Sanaa Abdel Shafi,Analysis laboratories,PH11,29.081899391502823,31.094316502397426,"Salah Salem, above El Doghry, Beni Suef",2162095,Beni Suef,Beni Suef,AXA Egypt
-Alfa Lab,Analysis laboratories,PH12,29.072002853748888,31.09781973738975,"74 Ahmed Orabi Street, intersection of El Helal - Beni Suef",2352221,Beni Suef,Beni Suef,MetLife Egypt
-Al Borg Laboratory,Analysis laboratories,PH04,29.090089509520222,31.097719170675845,"2 Dr. Ali El Shafei Street, next to Omar Effendi",2336892,Beni Suef,Beni Suef,Misr Life Insurance
-Al Shams Lab,Analysis laboratories,PH44,29.14912805889291,31.125880721981687,"44WG+4WJ, Al Nade Al Reyadi, Nasir City, Nasser",19445,Beni Suef,Beni Suef,Egypt Healthcare
-Al Shams Lab,Analysis laboratories,PH17,29.076197599809053,31.09889530670983,"362 Belal Tower, El Geish Street, Suez, Beni Suef",19445,Beni Suef,Beni Suef,Suez Canal Insurance
-Royal Lab,Analysis laboratories,PH32,29.072417650962382,31.097541362494226,"85 Safeya Zaghloul Street, Beni Suef",16064,Beni Suef,Beni Suef,Misr Insurance
-First Lab,Analysis laboratories,PH76,26.820816303132922,30.80239607599009,"Abd El Salam Aref Street, Awqaf Buildings - El Kawthar Building",2347474,Beni Suef,Beni Suef,AXA Egypt
-El Mokhtabar,Analysis laboratories,PH11,29.07479046037293,31.093443897945278,"6 Hareth Square, corner of El Gebaly Street",2350098,Beni Suef,Beni Suef,MetLife Egypt
-Mahmoud hanafy pharmacy,pharmacies,PH12,29.074382407910768,31.082945111232803,"Mohy El-Din Car Park, near Mahmoud Hanafy Pharmacy",2313901,Beni Suef,Beni Suef,Misr Life Insurance
-Sobhy Pharmacy,pharmacies,PH04,29.07153516258317,31.09754528165063,"Abd El-Salam Aref, Qism Bani Sweif, Beni Suef",1115805670,Beni Suef,Beni Suef,Egypt Healthcare
-Care Pharmacies (Al-Abbasiya Pharmacy),pharmacies,PH44,29.076207315891203,31.09455904986392,"23rd of July, El Reyady Street (formerly El Malek Farouk Street)",011-01433102,Beni Suef,Beni Suef,Suez Canal Insurance
+Taiba Radiology Center,Radiology Center,PH17,28.87731738,30.89017244,"El Fashn Branch, El Ibrahimeya Street, in front of the old Central, next to Zohour El Haya Hospital",1145447485,Beni Suef,Beni Suef,Egypt Healthcare
+Taiba Radiology Center,Radiology Center,PH32,29.07805179,31.09614786,"Port Said Street, El Nada Tower, in front of El Modireya Crossing",2350153/159,Beni Suef,Beni Suef,Suez Canal Insurance
+Trust Laboratory Dr. Sanaa Abdel Shafi,Analysis laboratories,PH76,29.07747184,31.09606437,"Port Said Street, El Nada Tower, Beni Suef",2333698,Beni Suef,Beni Suef,Misr Insurance
+Trust Laboratory Dr. Sanaa Abdel Shafi,Analysis laboratories,PH11,29.08189939,31.0943165,"Salah Salem, above El Doghry, Beni Suef",2162095,Beni Suef,Beni Suef,AXA Egypt
+Alfa Lab,Analysis laboratories,PH12,29.07200285,31.09781974,"74 Ahmed Orabi Street, intersection of El Helal - Beni Suef",2352221,Beni Suef,Beni Suef,MetLife Egypt
+Al Borg Laboratory,Analysis laboratories,PH04,29.09008951,31.09771917,"2 Dr. Ali El Shafei Street, next to Omar Effendi",2336892,Beni Suef,Beni Suef,Misr Life Insurance
+Al Shams Lab,Analysis laboratories,PH44,29.14912806,31.12588072,"44WG+4WJ, Al Nade Al Reyadi, Nasir City, Nasser",19445,Beni Suef,Beni Suef,Egypt Healthcare
+Al Shams Lab,Analysis laboratories,PH17,29.0761976,31.09889531,"362 Belal Tower, El Geish Street, Suez, Beni Suef",19445,Beni Suef,Beni Suef,Suez Canal Insurance
+Royal Lab,Analysis laboratories,PH32,29.07241765,31.09754136,"85 Safeya Zaghloul Street, Beni Suef",16064,Beni Suef,Beni Suef,Misr Insurance
+First Lab,Analysis laboratories,PH76,26.8208163,30.80239608,"Abd El Salam Aref Street, Awqaf Buildings - El Kawthar Building",2347474,Beni Suef,Beni Suef,AXA Egypt
+El Mokhtabar,Analysis laboratories,PH11,29.07479046,31.0934439,"6 Hareth Square, corner of El Gebaly Street",2350098,Beni Suef,Beni Suef,MetLife Egypt
+Mahmoud hanafy pharmacy,pharmacies,PH12,29.07438241,31.08294511,"Mohy El-Din Car Park, near Mahmoud Hanafy Pharmacy",2313901,Beni Suef,Beni Suef,Misr Life Insurance
+Sobhy Pharmacy,pharmacies,PH04,29.07153516,31.09754528,"Abd El-Salam Aref, Qism Bani Sweif, Beni Suef",1115805670,Beni Suef,Beni Suef,Egypt Healthcare
+Care Pharmacies (Al-Abbasiya Pharmacy),pharmacies,PH44,29.07620732,31.09455905,"23rd of July, El Reyady Street (formerly El Malek Farouk Street)",011-01433102,Beni Suef,Beni Suef,Suez Canal Insurance
 Care Pharmacies (Dr. Rania Elsayed Younes Habas Pharmacy),pharmacies,PH17,29.13084364,31.09339076,Salah Salem – El Telefzyon Buildings – Beni Suef,011-02232044,Beni Suef,Beni Suef,Misr Insurance
-Care Pharmacies (Dr. Najah Qutb Pharmacy),pharmacies,PH32,29.34590564758673,31.208649233970565,"El Mahaleg Shops - El Wasety, Beni Suef",011-01833485,Beni Suef,Beni Suef,AXA Egypt
-Minya National Hospital,hospital,PH76,28.092299599140972,30.757241259314178,"69 Saad Zaghloul, Qism Minya, First Al Minya",2319319,Minya,Minya,MetLife Egypt
-El Raey El Saleh Hospital,hospital,PH11,28.31932450778173,30.70671099136257,Samalout - Minya,7714925,Minya,Minya,Misr Life Insurance
-Horus Eye Hospital,hospital,PH12,28.10949928909953,30.750206648990797,"15 El Nasr Street, Ard Sultan",‏0862320254‏-‏0862320255‏,Minya,Minya,Egypt Healthcare
-Al Borg Laboratory,Analysis laboratories,PH04,28.227582979569835,30.80025853964474,"85 Saad Zaghloul Street, near the station",2329692,Minya,Minya,Suez Canal Insurance
-Al Borg Laboratory,Analysis laboratories,PH44,28.64988202828657,30.840650020140632,8 El Gomhoureya Street - Maghagha,7567953,Minya,Minya,Misr Insurance
-El Mokhtabar,Analysis laboratories,PH17,28.64835853123031,30.83869702017089,"Taha Hussein Street, in front of Abou El Ala Mosque - Maghagha",7567999,Minya,Minya,AXA Egypt
+Care Pharmacies (Dr. Najah Qutb Pharmacy),pharmacies,PH32,29.34590565,31.20864923,"El Mahaleg Shops - El Wasety, Beni Suef",011-01833485,Beni Suef,Beni Suef,AXA Egypt
+Minya National Hospital,hospital,PH76,28.0922996,30.75724126,"69 Saad Zaghloul, Qism Minya, First Al Minya",2319319,Minya,Minya,MetLife Egypt
+El Raey El Saleh Hospital,hospital,PH11,28.31932451,30.70671099,Samalout - Minya,7714925,Minya,Minya,Misr Life Insurance
+Horus Eye Hospital,hospital,PH12,28.10949929,30.75020665,"15 El Nasr Street, Ard Sultan",‏0862320254‏-‏0862320255‏,Minya,Minya,Egypt Healthcare
+Al Borg Laboratory,Analysis laboratories,PH04,28.22758298,30.80025854,"85 Saad Zaghloul Street, near the station",2329692,Minya,Minya,Suez Canal Insurance
+Al Borg Laboratory,Analysis laboratories,PH44,28.64988203,30.84065002,8 El Gomhoureya Street - Maghagha,7567953,Minya,Minya,Misr Insurance
+El Mokhtabar,Analysis laboratories,PH17,28.64835853,30.83869702,"Taha Hussein Street, in front of Abou El Ala Mosque - Maghagha",7567999,Minya,Minya,AXA Egypt
 Royal Lab,Analysis laboratories,PH32,28.09840221,30.75340324,"69 Saad Zaghloul Street, El Sarafa Tower, Third Floor, beginning of Minya",16064,Minya,Minya,MetLife Egypt
-Al Shams Lab,Analysis laboratories,PH76,28.494886055897272,30.799833277838477,"Minya, El Mahatta Square - next to the Train Station",19445,Minya,Minya,Misr Life Insurance
-Life Lab,Analysis laboratories,PH11,28.42612192372724,30.772987629037846,"El Ibrahimeya Street, Matai Center, next to the Medical Center",199920164,Minya,Minya,Egypt Healthcare
-Al Mokhtabar lab,Radiology Center,PH12,27.785296612689642,30.846561064605524,"5 El Mogairy Street, Mallawi",862586016,Minya,Minya,Suez Canal Insurance
-Care Pharmacies (Randa Mohamed Fathi New Pharmacy),pharmacies,PH04,28.096625760356016,30.762027327332863,"236 El-Horeya, Qism Minya, First Al Minya",011-01902279,Minya,Minya,Misr Insurance
+Al Shams Lab,Analysis laboratories,PH76,28.49488606,30.79983328,"Minya, El Mahatta Square - next to the Train Station",19445,Minya,Minya,Misr Life Insurance
+Life Lab,Analysis laboratories,PH11,28.42612192,30.77298763,"El Ibrahimeya Street, Matai Center, next to the Medical Center",199920164,Minya,Minya,Egypt Healthcare
+Al Mokhtabar lab,Radiology Center,PH12,27.78529661,30.84656106,"5 El Mogairy Street, Mallawi",862586016,Minya,Minya,Suez Canal Insurance
+Care Pharmacies (Randa Mohamed Fathi New Pharmacy),pharmacies,PH04,28.09662576,30.76202733,"236 El-Horeya, Qism Minya, First Al Minya",011-01902279,Minya,Minya,Misr Insurance
 Care Pharmacies (Randa Mohamed Fathi Pharmacy),pharmacies,PH44,28.09764794,30.75657988,Intersection of Saad Zaghloul with El Mahatta Square - Minya,011-56984024,Minya,Minya,AXA Egypt
 Care Pharmacies (Dr. Azmy Ayad Wahba Pharmacy),pharmacies,PH17,28.10758037,30.74962223,Adnan El Maleky Street - Ard El Sultan - Minya,011-56984250,Minya,Minya,MetLife Egypt
 Care Pharmacies (Al Baraka Pharmacy),pharmacies,PH32,28.11179625,30.75026468,Taha Hussein Street - Minya,011-56984327,Minya,Minya,Misr Life Insurance
 Al-Shifa International Hospital,hospital,PH76,26.15435016,32.70612241,Corniche El Nil - Dendera Bridge,1021989199,Qena,Qena,Egypt Healthcare
-Dar Al Oyoun Hospital,Specialized eye hospital,PH11,26.317551657946005,32.6873463724463,"Qena Hospital Street, next to the Faculty of Medicine - Qena",5347693,Qena,Qena,Suez Canal Insurance
-El Mokhtabar,Analysis laboratories,PH12,25.299482845933237,32.555372493148916,"7 El Gomhoureya Street (formerly El Gameel) - Saheela Tower, Bandar Qena",5347366,Qena,Qena,Misr Insurance
-El Mokhtabar,Analysis laboratories,PH04,26.073059050864032,32.24305483230276,"1 Hosny Mubarak Street, Awqaf Building, Nagaa Hamadi",570079,Qena,Qena,AXA Egypt
-El Hekma Laboratory,Analysis laboratories,PH44,26.19016613750311,32.751102461448156,"Qena 1, Main Lab in Upper Egypt, El Gomhoureya Street, next to Anis Demetry",16059,Qena,Qena,MetLife Egypt
-El Hekma Laboratory,Analysis laboratories,PH17,26.04914348220871,32.241110920182976,"Nagaa Hamadi, 25th of January Street (formerly Mubarak Street)",16059,Qena,Qena,Misr Life Insurance
-El Hekma Laboratory,Analysis laboratories,PH32,25.999744953227726,32.8100514066675,"Qeft, El Geish Street, next to Qeft Educational Hospital",16059,Qena,Qena,Egypt Healthcare
-Al Borg Laboratory,Analysis laboratories,PH76,26.04937094292071,32.241060464365304,Applieds Building - Nagaa Hamadi,6574337,Qena,Qena,Suez Canal Insurance
-Al Borg Laboratory,Analysis laboratories,PH11,26.16102369952868,32.72502967781475,1 El Mahatta Square - Qena,5346375,Qena,Qena,Misr Insurance
-Royal Lab,Analysis laboratories,PH12,26.15936038622696,32.722583270958616,"Next to the fire station - In front of the Yasmin Hotel, 10 Luxor, Qism Qena, Qena,",16064,Qena,Qena,AXA Egypt
-Care Pharmacies (Al-Zain Pharmacy),pharmacies,PH04,26.158712299162637,32.715820626575024,"23rd of July Street, Bandar Qena",011-40100409,Qena,Qena,MetLife Egypt
-"Care Pharmacies (New Al-Hilal Pharmacy, Dr. Mahmoud)",pharmacies,PH44,26.17821877202711,32.74068604191723,"New Awqaf Building, El Mahatta Square - Qena",011-03057602,Qena,Qena,Misr Life Insurance
-Care Pharmacies (Sameh Pharmacy),pharmacies,PH17,26.076334740759087,32.238390650400646,14 30th of March Street - Nagaa Hamadi,011-01853177,Qena,Qena,Egypt Healthcare
-Ibn Sina Specialized Hospital,hospital,PH32,30.04012974691176,31.208386549008967,Ishaq Street - El Aref Square,2311936,Sohag,Sohag,Suez Canal Insurance
-Hospital Medicine House,hospital,PH76,26.554932304392707,31.689334564655,"El-Khouly, Sohag 1",4602502,Sohag,Sohag,Misr Insurance
-El Haya Hospital,hospital,PH11,26.541853361308238,31.699131010341528,"Sohag, next to the Police Club, El Qebly",2157003-2157000,Sohag,Sohag,AXA Egypt
-Misr Hospital,hospital,PH12,26.55496812988388,31.707777764352702,"45 Hydrogen Factory Street, off Corniche El Nil",4607477,Sohag,Sohag,MetLife Egypt
-Sohag Military Hospital,hospital,PH04,26.545358317584004,31.707248082536605,"GPP5+WFC, Sohag Bridge, Al Kabsh, Sohag 1",093/2309947,Sohag,Sohag,Misr Life Insurance
-El Mokhtabar,Analysis laboratories,PH44,26.565076421897597,31.686218178547875,"El Aref Square, El Madany Building",2337753,Sohag,Sohag,Egypt Healthcare
-El Mokhtabar,Analysis laboratories,PH17,30.070133647656633,31.253331959550277,"14 Thabet Ibn Aslam Street, off El Sayeda Khadija, behind Bank of Cairo - Girga",4666879,Sohag,Sohag,Suez Canal Insurance
-Royal Lab,Analysis laboratories,PH32,26.548397045555667,31.701332475605785,"16 El Aref Bellah Square, above Makky Law Firm Center",16064,Sohag,Sohag,Misr Insurance
-Nile Pharmacy,pharmacies,PH76,26.556357420323454,31.69941816733359,"Assiut Sohag Street, next to the City Council",2323310,Sohag,Sohag,AXA Egypt
-Care Pharmacies (Dr. Shereen Ali Saleh Pharmacy),pharmacies,PH11,26.565445529646453,31.695586936131654,"El Galaa Street, El Fanar Mall - Sohag",011-46766869,Sohag,Sohag,MetLife Egypt
-Care Pharmacies (Ahmed Ali Yousef Pharmacy),pharmacies,PH12,26.567180132189904,31.70604141381221,El Gamaa Street - Student Activities Building - Nasr City - Sohag,011-46771742,Sohag,Sohag,Misr Life Insurance
-Care Pharmacies (Michel's Pharmacy),pharmacies,PH04,26.577134758014285,31.70070360144446,El Gomhoureya Street - Sohag,011-56984028,Sohag,Sohag,Egypt Healthcare
-Care Pharmacies (Dr. Hossam El-Fay's New Pharmacy),pharmacies,PH44,26.573913019050888,31.687158045683415,City Street - Grand City Mall - Qalfaw - Sohag,011-03612383,Sohag,Sohag,Suez Canal Insurance
-Care Pharmacies (Dr. Kyrillos Khalil Pharmacy),pharmacies,PH17,26.90266440299682,31.43575752149074,Ahmed Orabi Street - Tama - Sohag,011-03217782,Sohag,Sohag,Misr Insurance
-Students Hospital of Asyut University,hospital,PH32,27.190941964245376,31.16210164313327,"55P7+R4C, Besery Way, Asyut 1",2345730-2368371,Asyut,Asyut,AXA Egypt
-Al-Zahraa Hospital,hospital,PH76,27.189471650127395,31.180685121651724,"Frial Area, El Galaa Street – East District - Assiut",2311600-2326023,Asyut,Asyut,MetLife Egypt
-Saint Maria Hospital,hospital,PH11,27.191981846156125,31.18542592906668,"21 El Hakmdar Street, off El Gomhoureya Street - East District - Assiut",2310515-2322610,Asyut,Asyut,Misr Life Insurance
-Nafadi Radiology Center,Radiology Center,PH12,27.186679431210585,31.186186567684288,"El Gomhoureya Street, Othman Towers - Ground Floor",2302800,Asyut,Asyut,Egypt Healthcare
-Al Shams Lab,Analysis laboratories,PH04,27.18627048902931,31.18605128302914,22 El Gomhoureya Street - Al Ferdous Tower - above Bank of Cairo - Assiut,19445,Asyut,Asyut,Suez Canal Insurance
-Royal Lab,Analysis laboratories,PH44,27.18179654712351,31.186750987964814,"Extending Yosry Ragheb Street, Al Azhar Tower, Assiut",16064,Asyut,Asyut,Misr Insurance
+Dar Al Oyoun Hospital,Specialized eye hospital,PH11,26.31755166,32.68734637,"Qena Hospital Street, next to the Faculty of Medicine - Qena",5347693,Qena,Qena,Suez Canal Insurance
+El Mokhtabar,Analysis laboratories,PH12,25.29948285,32.55537249,"7 El Gomhoureya Street (formerly El Gameel) - Saheela Tower, Bandar Qena",5347366,Qena,Qena,Misr Insurance
+El Mokhtabar,Analysis laboratories,PH04,26.07305905,32.24305483,"1 Hosny Mubarak Street, Awqaf Building, Nagaa Hamadi",570079,Qena,Qena,AXA Egypt
+El Hekma Laboratory,Analysis laboratories,PH44,26.19016614,32.75110246,"Qena 1, Main Lab in Upper Egypt, El Gomhoureya Street, next to Anis Demetry",16059,Qena,Qena,MetLife Egypt
+El Hekma Laboratory,Analysis laboratories,PH17,26.04914348,32.24111092,"Nagaa Hamadi, 25th of January Street (formerly Mubarak Street)",16059,Qena,Qena,Misr Life Insurance
+El Hekma Laboratory,Analysis laboratories,PH32,25.99974495,32.81005141,"Qeft, El Geish Street, next to Qeft Educational Hospital",16059,Qena,Qena,Egypt Healthcare
+Al Borg Laboratory,Analysis laboratories,PH76,26.04937094,32.24106046,Applieds Building - Nagaa Hamadi,6574337,Qena,Qena,Suez Canal Insurance
+Al Borg Laboratory,Analysis laboratories,PH11,26.1610237,32.72502968,1 El Mahatta Square - Qena,5346375,Qena,Qena,Misr Insurance
+Royal Lab,Analysis laboratories,PH12,26.15936039,32.72258327,"Next to the fire station - In front of the Yasmin Hotel, 10 Luxor, Qism Qena, Qena,",16064,Qena,Qena,AXA Egypt
+Care Pharmacies (Al-Zain Pharmacy),pharmacies,PH04,26.1587123,32.71582063,"23rd of July Street, Bandar Qena",011-40100409,Qena,Qena,MetLife Egypt
+"Care Pharmacies (New Al-Hilal Pharmacy, Dr. Mahmoud)",pharmacies,PH44,26.17821877,32.74068604,"New Awqaf Building, El Mahatta Square - Qena",011-03057602,Qena,Qena,Misr Life Insurance
+Care Pharmacies (Sameh Pharmacy),pharmacies,PH17,26.07633474,32.23839065,14 30th of March Street - Nagaa Hamadi,011-01853177,Qena,Qena,Egypt Healthcare
+Ibn Sina Specialized Hospital,hospital,PH32,30.04012975,31.20838655,Ishaq Street - El Aref Square,2311936,Sohag,Sohag,Suez Canal Insurance
+Hospital Medicine House,hospital,PH76,26.5549323,31.68933456,"El-Khouly, Sohag 1",4602502,Sohag,Sohag,Misr Insurance
+El Haya Hospital,hospital,PH11,26.54185336,31.69913101,"Sohag, next to the Police Club, El Qebly",2157003-2157000,Sohag,Sohag,AXA Egypt
+Misr Hospital,hospital,PH12,26.55496813,31.70777776,"45 Hydrogen Factory Street, off Corniche El Nil",4607477,Sohag,Sohag,MetLife Egypt
+Sohag Military Hospital,hospital,PH04,26.54535832,31.70724808,"GPP5+WFC, Sohag Bridge, Al Kabsh, Sohag 1",093/2309947,Sohag,Sohag,Misr Life Insurance
+El Mokhtabar,Analysis laboratories,PH44,26.56507642,31.68621818,"El Aref Square, El Madany Building",2337753,Sohag,Sohag,Egypt Healthcare
+El Mokhtabar,Analysis laboratories,PH17,30.07013365,31.25333196,"14 Thabet Ibn Aslam Street, off El Sayeda Khadija, behind Bank of Cairo - Girga",4666879,Sohag,Sohag,Suez Canal Insurance
+Royal Lab,Analysis laboratories,PH32,26.54839705,31.70133248,"16 El Aref Bellah Square, above Makky Law Firm Center",16064,Sohag,Sohag,Misr Insurance
+Nile Pharmacy,pharmacies,PH76,26.55635742,31.69941817,"Assiut Sohag Street, next to the City Council",2323310,Sohag,Sohag,AXA Egypt
+Care Pharmacies (Dr. Shereen Ali Saleh Pharmacy),pharmacies,PH11,26.56544553,31.69558694,"El Galaa Street, El Fanar Mall - Sohag",011-46766869,Sohag,Sohag,MetLife Egypt
+Care Pharmacies (Ahmed Ali Yousef Pharmacy),pharmacies,PH12,26.56718013,31.70604141,El Gamaa Street - Student Activities Building - Nasr City - Sohag,011-46771742,Sohag,Sohag,Misr Life Insurance
+Care Pharmacies (Michel's Pharmacy),pharmacies,PH04,26.57713476,31.7007036,El Gomhoureya Street - Sohag,011-56984028,Sohag,Sohag,Egypt Healthcare
+Care Pharmacies (Dr. Hossam El-Fay's New Pharmacy),pharmacies,PH44,26.57391302,31.68715805,City Street - Grand City Mall - Qalfaw - Sohag,011-03612383,Sohag,Sohag,Suez Canal Insurance
+Care Pharmacies (Dr. Kyrillos Khalil Pharmacy),pharmacies,PH17,26.9026644,31.43575752,Ahmed Orabi Street - Tama - Sohag,011-03217782,Sohag,Sohag,Misr Insurance
+Students Hospital of Asyut University,hospital,PH32,27.19094196,31.16210164,"55P7+R4C, Besery Way, Asyut 1",2345730-2368371,Asyut,Asyut,AXA Egypt
+Al-Zahraa Hospital,hospital,PH76,27.18947165,31.18068512,"Frial Area, El Galaa Street – East District - Assiut",2311600-2326023,Asyut,Asyut,MetLife Egypt
+Saint Maria Hospital,hospital,PH11,27.19198185,31.18542593,"21 El Hakmdar Street, off El Gomhoureya Street - East District - Assiut",2310515-2322610,Asyut,Asyut,Misr Life Insurance
+Nafadi Radiology Center,Radiology Center,PH12,27.18667943,31.18618657,"El Gomhoureya Street, Othman Towers - Ground Floor",2302800,Asyut,Asyut,Egypt Healthcare
+Al Shams Lab,Analysis laboratories,PH04,27.18627049,31.18605128,22 El Gomhoureya Street - Al Ferdous Tower - above Bank of Cairo - Assiut,19445,Asyut,Asyut,Suez Canal Insurance
+Royal Lab,Analysis laboratories,PH44,27.18179655,31.18675099,"Extending Yosry Ragheb Street, Al Azhar Tower, Assiut",16064,Asyut,Asyut,Misr Insurance
 El Mokhtabar,Analysis laboratories,PH17,27.17931922,31.18719755,"Yosry Ragheb Street, Awqaf Building No. 4",2370061,Asyut,Asyut,AXA Egypt
 Al Borg Laboratory,Analysis laboratories,PH32,27.18191989,31.19087422,"El Mahatta Square, Khaled Ibn El Walid Towers",9203416,Asyut,Asyut,MetLife Egypt
 Alfa Labs,Analysis laboratories,PH76,27.18848593,31.19061673,"19 El Gomhoureya Street, El Ra'ey Tower",2299188,Asyut,Asyut,Misr Life Insurance
 El Ezaby Pharmacy,pharmacies,PH11,27.18183901,31.18732907,"Mahmoud Rashwan Street, Frial District - Assiut",2325539,Asyut,Asyut,Egypt Healthcare
-Care Pharmacies (Dr. Yasser Farouk Ayad Pharmacy),pharmacies,PH12,27.18041886242337,31.188766419616723,Assiut Station - Assiut,011-40166261,Asyut,Asyut,Suez Canal Insurance
-Care Pharmacies (Dr. Irene Breeze Youssef Pharmacy),pharmacies,PH04,27.18933823183207,31.18605212371424,"El Gomhoureya Street, East District - Assiut",011-03057607,Asyut,Asyut,Misr Insurance
-Care Pharmacies (Ahmed El-Nashar),pharmacies,PH44,27.19132021560893,31.18201806534814,Sohag Assiut Bahary Road - Abou Tieg - Sohag,011-03057606,Asyut,Asyut,AXA Egypt
-Luxor International Medical Complex,Luxor International Medical Complex,PH17,25.68726040281161,32.639896073601655,Luxor - Radio and Television Street,952277194,Luxor,Luxor,MetLife Egypt
-International Eye Hospital,Specialized eye hospital,PH32,26.17319550288479,32.69516268242004,"Ali Ibn Abi Taleb, Gazirat Al Awameyah, Luxor",19650,Luxor,Luxor,Misr Life Insurance
-Al-Radwaniyah Radiology Center,Radiology Center,PH76,25.694092485393078,32.64107007051506,"Moaz Ibn Abi Sofyan, Luxor City, Luxor",2275850,Luxor,Luxor,Egypt Healthcare
-Al Borg Laboratory,Analysis laboratories,PH11,25.695017799937133,32.640050906695706,Salah El Din Square - Luxor,2280171,Luxor,Luxor,Suez Canal Insurance
-Royal Lab Laboratories,Analysis laboratories,PH12,25.694352521545895,32.63968880664375,"El Telefzyon Street, El Hag Hussein El Belal Building, Luxor",16064,Luxor,Luxor,Misr Insurance
-Life Laboratory,Analysis laboratories,PH04,25.689739832776073,32.64076513923006,"El Telefzyon Street, next to Bank Misr",16059,Luxor,Luxor,AXA Egypt
-Al-Azaby Pharmacy,pharmacies,PH44,25.69137906196017,32.640749008544574,"El Telefzyon Street, next to Khair Zaman",115322777,Luxor,Luxor,MetLife Egypt
-Care Pharmacies (Rania Pharmacy),pharmacies,PH17,25.955854295174536,32.59380281224842,El Telefzyon Street - South Luxor District,011-03217789,Luxor,Luxor,Misr Life Insurance
+Care Pharmacies (Dr. Yasser Farouk Ayad Pharmacy),pharmacies,PH12,27.18041886,31.18876642,Assiut Station - Assiut,011-40166261,Asyut,Asyut,Suez Canal Insurance
+Care Pharmacies (Dr. Irene Breeze Youssef Pharmacy),pharmacies,PH04,27.18933823,31.18605212,"El Gomhoureya Street, East District - Assiut",011-03057607,Asyut,Asyut,Misr Insurance
+Care Pharmacies (Ahmed El-Nashar),pharmacies,PH44,27.19132022,31.18201807,Sohag Assiut Bahary Road - Abou Tieg - Sohag,011-03057606,Asyut,Asyut,AXA Egypt
+Luxor International Medical Complex,Luxor International Medical Complex,PH17,25.6872604,32.63989607,Luxor - Radio and Television Street,952277194,Luxor,Luxor,MetLife Egypt
+International Eye Hospital,Specialized eye hospital,PH32,26.1731955,32.69516268,"Ali Ibn Abi Taleb, Gazirat Al Awameyah, Luxor",19650,Luxor,Luxor,Misr Life Insurance
+Al-Radwaniyah Radiology Center,Radiology Center,PH76,25.69409249,32.64107007,"Moaz Ibn Abi Sofyan, Luxor City, Luxor",2275850,Luxor,Luxor,Egypt Healthcare
+Al Borg Laboratory,Analysis laboratories,PH11,25.6950178,32.64005091,Salah El Din Square - Luxor,2280171,Luxor,Luxor,Suez Canal Insurance
+Royal Lab Laboratories,Analysis laboratories,PH12,25.69435252,32.63968881,"El Telefzyon Street, El Hag Hussein El Belal Building, Luxor",16064,Luxor,Luxor,Misr Insurance
+Life Laboratory,Analysis laboratories,PH04,25.68973983,32.64076514,"El Telefzyon Street, next to Bank Misr",16059,Luxor,Luxor,AXA Egypt
+Al-Azaby Pharmacy,pharmacies,PH44,25.69137906,32.64074901,"El Telefzyon Street, next to Khair Zaman",115322777,Luxor,Luxor,MetLife Egypt
+Care Pharmacies (Rania Pharmacy),pharmacies,PH17,25.9558543,32.59380281,El Telefzyon Street - South Luxor District,011-03217789,Luxor,Luxor,Misr Life Insurance
 El Helal Specialized Hospital,hospital,PH32,24.35229669,33.29963555,Sharq El Bandar Street - El Tabea Square,972448020,Aswan,Aswan,Egypt Healthcare
-Royal Lab,Analysis laboratories,PH76,24.4080381293761,32.837608125960266,"95 Corniche El Nil Street, First Upper Floor, above Bank of Cairo, Aswan",16064,Aswan,Aswan,Suez Canal Insurance
-Al Borg Laboratory,Analysis laboratories,PH11,24.09506976784956,32.89545313452171,"93 Corniche El Nil, above Bank of Alexandria",2309670,Aswan,Aswan,Misr Insurance
-El Mokhtabar,Analysis laboratories,PH12,24.48300121052497,32.945790668242026,"Port Said Street, in front of the National Bank, Railway Station - Kom Ombo",3501666,Aswan,Aswan,AXA Egypt
-El Mokhtabar,Analysis laboratories,PH04,24.091560226290092,32.89585920669824,"97 Corniche El Nil Street, Mobinil Building",2306721,Aswan,Aswan,MetLife Egypt
+Royal Lab,Analysis laboratories,PH76,24.40803813,32.83760813,"95 Corniche El Nil Street, First Upper Floor, above Bank of Cairo, Aswan",16064,Aswan,Aswan,Suez Canal Insurance
+Al Borg Laboratory,Analysis laboratories,PH11,24.09506977,32.89545313,"93 Corniche El Nil, above Bank of Alexandria",2309670,Aswan,Aswan,Misr Insurance
+El Mokhtabar,Analysis laboratories,PH12,24.48300121,32.94579067,"Port Said Street, in front of the National Bank, Railway Station - Kom Ombo",3501666,Aswan,Aswan,AXA Egypt
+El Mokhtabar,Analysis laboratories,PH04,24.09156023,32.89585921,"97 Corniche El Nil Street, Mobinil Building",2306721,Aswan,Aswan,MetLife Egypt
 El Roumany Pharmacy,pharmacies,PH44,24.23234993,33.06756047,"El Bassaly Street, El Birka - Aswan",2467689,Aswan,Aswan,Misr Life Insurance
-Al-Azaby Pharmacy,pharmacies,PH17,29.986275034142587,31.230001457279638,"Corniche El Nil, Chamber of Commerce Building, next to Telecom Egypt",1125333710,Aswan,Aswan,Egypt Healthcare
-Care Pharmacies (Dr. Ahmed Jalal Pharmacy),pharmacies,PH32,24.085243378337232,32.90804553831077,El Seel Road - next to the Traffic Department - Aswan,011-19418820,Aswan,Aswan,Suez Canal Insurance
-Care Pharmacies (Dr. Ahmed Jalal Rashid's New Pharmacy),pharmacies,PH76,24.098941878744995,32.89984721341666,Corniche El Nil - Aswan Plaza Mall,011-03217786,Aswan,Aswan,Misr Insurance
-Matrouh Military Hospital,hospital,PH11,31.349807126927015,27.241410572601673,next to the Governorate Building - Matrouh,4935286-4939344,Marsa Matrouh,Marsa Matrouh,AXA Egypt
+Al-Azaby Pharmacy,pharmacies,PH17,29.98627503,31.23000146,"Corniche El Nil, Chamber of Commerce Building, next to Telecom Egypt",1125333710,Aswan,Aswan,Egypt Healthcare
+Care Pharmacies (Dr. Ahmed Jalal Pharmacy),pharmacies,PH32,24.08524338,32.90804554,El Seel Road - next to the Traffic Department - Aswan,011-19418820,Aswan,Aswan,Suez Canal Insurance
+Care Pharmacies (Dr. Ahmed Jalal Rashid's New Pharmacy),pharmacies,PH76,24.09894188,32.89984721,Corniche El Nil - Aswan Plaza Mall,011-03217786,Aswan,Aswan,Misr Insurance
+Matrouh Military Hospital,hospital,PH11,31.34980713,27.24141057,next to the Governorate Building - Matrouh,4935286-4939344,Marsa Matrouh,Marsa Matrouh,AXA Egypt
 Abdullah Eissa Specialized Hospital,hospital,PH12,31.35138337,27.24383773,"18 Abd Allah Eissa Street, off Alexandria Street",4943474-4934823,Marsa Matrouh,Marsa Matrouh,MetLife Egypt
-El Mokhtabar,Analysis laboratories,PH04,31.350458180312224,27.241744564351706,"Alexandria Street, in front of Matrouh General Hospital",4945661,Marsa Matrouh,Marsa Matrouh,Misr Life Insurance
-Al Borg Laboratory,Analysis laboratories,PH44,31.354710459593647,27.24010427785258,18 El Tahrir Street with Alexandria Street - Marsa Matrouh,4944337,Marsa Matrouh,Marsa Matrouh,Egypt Healthcare
-Techno Scan Osama Khalil,Radiology Center,PH17,31.35105331697138,27.242637506643742,Intersection of Abd Allah Eissa Street with Port Said Street,19989,Marsa Matrouh,Marsa Matrouh,Suez Canal Insurance
-Al-Halwani's Pharmacy,pharmacies,PH32,31.356262421942773,27.236433883562327,Goul Gamal – Matrouh,4934558,Marsa Matrouh,Marsa Matrouh,Misr Insurance
+El Mokhtabar,Analysis laboratories,PH04,31.35045818,27.24174456,"Alexandria Street, in front of Matrouh General Hospital",4945661,Marsa Matrouh,Marsa Matrouh,Misr Life Insurance
+Al Borg Laboratory,Analysis laboratories,PH44,31.35471046,27.24010428,18 El Tahrir Street with Alexandria Street - Marsa Matrouh,4944337,Marsa Matrouh,Marsa Matrouh,Egypt Healthcare
+Techno Scan Osama Khalil,Radiology Center,PH17,31.35105332,27.24263751,Intersection of Abd Allah Eissa Street with Port Said Street,19989,Marsa Matrouh,Marsa Matrouh,Suez Canal Insurance
+Al-Halwani's Pharmacy,pharmacies,PH32,31.35626242,27.23643388,Goul Gamal – Matrouh,4934558,Marsa Matrouh,Marsa Matrouh,Misr Insurance
 Dr. Fadl Mutair Pharmacy,pharmacies,PH76,31.35246287,27.23818598,"Shokry El Kawatly Street, next to El Deeb Shop - Matrouh",1008641051,Marsa Matrouh,Marsa Matrouh,AXA Egypt
 El Arish Military Hospital,hospital,PH11,31.14439256,33.82898257,"Arish - El Salama District, next to the Security Directorate",3352018,North Sinai,North Sinai,MetLife Egypt
 Drahem Pharmacy,pharmacies,PH12,31.51956978,31.85913915,"59 Salah Salem Street, in front of El Rahma Mosque",3341909,North Sinai,North Sinai,Misr Life Insurance
@@ -812,15 +812,15 @@ Sharm El Sheikh International Hospital,hospital,PH04,27.88192649,34.30036298,Sha
 El Fayrouz Lab,Analysis laboratories,PH44,28.2436163,33.6241303,El Mansheya El Qadima Street - El Tor City - South Sinai,01062889088-3776690,South Sinai,South Sinai,Suez Canal Insurance
 El Ezaby Pharmacy,pharmacies,PH17,27.86941948,34.31139184,"Sharm El Sheikh - Mercato Mall - Umm El Sayed Plateau, in front of Sharm Reef",3665256,South Sinai,South Sinai,Misr Insurance
 El Ezaby Pharmacy,pharmacies,PH32,28.0475876,34.440762,"Sharm El Sheikh - El Khan Mall, in front of Laguna Vista - Nabeq Area",9205486,South Sinai,South Sinai,AXA Egypt
-El-Ezaby Pharmacies,pharmacies,PH76,27.916661228662083,34.33239026250332,Sharm El Sheikh - Marriott Hotel - Naama Bay,3600312,South Sinai,South Sinai,MetLife Egypt
-Red Sea Hospital,hospital,PH11,27.23631351290346,33.83422313732819,"Zweidan, off El Nasr Street, next to El Qatary Mosque - El Zehar - Hurghada",3543850,Red Sea,Red Sea,Misr Life Insurance
+El-Ezaby Pharmacies,pharmacies,PH76,27.91666123,34.33239026,Sharm El Sheikh - Marriott Hotel - Naama Bay,3600312,South Sinai,South Sinai,MetLife Egypt
+Red Sea Hospital,hospital,PH11,27.23631351,33.83422314,"Zweidan, off El Nasr Street, next to El Qatary Mosque - El Zehar - Hurghada",3543850,Red Sea,Red Sea,Misr Life Insurance
 El Hekma Hospital,hospital,PH12,27.2505986,33.81836178,"Main El Nasr Street, in front of the National Bank – El Dahar - Hurghada",3554888-3553999,Red Sea,Red Sea,Egypt Healthcare
 Royal Hospital Hurghada,hospital,PH04,27.2266419,33.82618998,"1 Airport Road, in front of Ragjak School, Hurghada",01211113277-09200000,Red Sea,Red Sea,Suez Canal Insurance
 The Egyptian Hospital,hospital,PH44,27.19465729,33.83097535,"Hurghada – El Kawthar District, Mubarak – Red Sea",3450318,Red Sea,Red Sea,Misr Insurance
-Watany Eye Centre Hurghada,Specialized eye hospital,PH17,27.21716289882545,33.81989059131617,"beside Oriental Weavers, Airport street, Hurghada 1",3483486,Red Sea,Red Sea,AXA Egypt
-El Mokhtabar,Analysis laboratories,PH32,29.307961822389977,30.840707248985755,"El Genena Street, intersection of El Eza'a Street, Ras Ghareb",362881,Red Sea,Red Sea,MetLife Egypt
-El Mokhtabar,Analysis laboratories,PH76,27.249198169157413,33.8203692167377,"215 El Nasr Street, in front of the Post Office – Hurghada",3541187,Red Sea,Red Sea,Misr Life Insurance
-El Ezaby Pharmacy,pharmacies,PH11,27.095489840372384,33.82269472148324,Senzo Mall,3464866,Red Sea,Red Sea,Egypt Healthcare
-El Ezaby Pharmacy,pharmacies,PH12,27.24496124116526,33.82906118957661,"Shop No. 2, Ground Floor, Maharem Commercial Center",3547309/308,Red Sea,Red Sea,Suez Canal Insurance
-El Ezaby Pharmacy,pharmacies,PH04,27.18901792189629,33.80596472149336,"Abou Ashara Building, in front of the Airport Gate",3462687,Red Sea,Red Sea,Misr Insurance
-Al Salam Hospital,hospital,PH44,25.456561125912394,30.547176638676397,"Gamal Abd El Nasser Street, El Kharga, in front of the City Council - El Kharga",7933399-7933377,Red Sea,Red Sea,AXA Egypt
+Watany Eye Centre Hurghada,Specialized eye hospital,PH17,27.2171629,33.81989059,"beside Oriental Weavers, Airport street, Hurghada 1",3483486,Red Sea,Red Sea,AXA Egypt
+El Mokhtabar,Analysis laboratories,PH32,29.30796182,30.84070725,"El Genena Street, intersection of El Eza'a Street, Ras Ghareb",362881,Red Sea,Red Sea,MetLife Egypt
+El Mokhtabar,Analysis laboratories,PH76,27.24919817,33.82036922,"215 El Nasr Street, in front of the Post Office – Hurghada",3541187,Red Sea,Red Sea,Misr Life Insurance
+El Ezaby Pharmacy,pharmacies,PH11,27.09548984,33.82269472,Senzo Mall,3464866,Red Sea,Red Sea,Egypt Healthcare
+El Ezaby Pharmacy,pharmacies,PH12,27.24496124,33.82906119,"Shop No. 2, Ground Floor, Maharem Commercial Center",3547309/308,Red Sea,Red Sea,Suez Canal Insurance
+El Ezaby Pharmacy,pharmacies,PH04,27.18901792,33.80596472,"Abou Ashara Building, in front of the Airport Gate",3462687,Red Sea,Red Sea,Misr Insurance
+Al Salam Hospital,hospital,PH44,25.45656113,30.54717664,"Gamal Abd El Nasser Street, El Kharga, in front of the City Council - El Kharga",7933399-7933377,Red Sea,Red Sea,AXA Egypt
