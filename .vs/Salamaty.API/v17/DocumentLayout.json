@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|solutionrelative:controllers\\servicescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|c:\\users\\hp\\onedrive\\desktop\\salamatyapp_project\\data\\dbseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|solutionrelative:data\\dbseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|c:\\users\\hp\\onedrive\\desktop\\salamatyapp_project\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|solutionrelative:controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -17,10 +21,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|c:\\users\\hp\\onedrive\\desktop\\salamatyapp_project\\models\\enums\\insuranceservicetype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|solutionrelative:models\\enums\\insuranceservicetype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|c:\\users\\hp\\onedrive\\desktop\\salamatyapp_project\\data\\dbseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|solutionrelative:data\\dbseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|c:\\users\\hp\\onedrive\\desktop\\salamatyapp_project\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -142,7 +142,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
@@ -158,8 +158,12 @@
               "IsPinned": true
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "NearbyPharmacyDto.cs",
               "DocumentMoniker": "C:\\Users\\HP\\OneDrive\\Desktop\\SalamatyAPP_Project\\DTOs\\Services\\NearbyPharmacyDto.cs",
               "RelativeDocumentMoniker": "DTOs\\Services\\NearbyPharmacyDto.cs",
@@ -167,8 +171,7 @@
               "RelativeToolTip": "DTOs\\Services\\NearbyPharmacyDto.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAABMAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-27T19:08:12.469Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-27T19:08:12.469Z"
             },
             {
               "$type": "Document",
@@ -180,8 +183,7 @@
               "RelativeToolTip": "Models\\Enums\\FacilityType.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T21:02:11.39Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-26T21:02:11.39Z"
             },
             {
               "$type": "Document",
@@ -193,8 +195,7 @@
               "RelativeToolTip": "DTOs\\Services\\NearbyServiceDto.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T20:59:56.102Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-26T20:59:56.102Z"
             },
             {
               "$type": "Document",
@@ -216,7 +217,7 @@
               "RelativeDocumentMoniker": "Controllers\\ServicesController.cs",
               "ToolTip": "C:\\Users\\HP\\OneDrive\\Desktop\\SalamatyAPP_Project\\Controllers\\ServicesController.cs*",
               "RelativeToolTip": "Controllers\\ServicesController.cs*",
-              "ViewState": "AgIAAGIAAAAAAAAAAAAAAHUAAABZAAAAAAAAAA==",
+              "ViewState": "AgIAAGQAAAAAAAAAAAAAAHYAAABUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-13T14:13:13.983Z",
               "EditorCaption": ""
@@ -243,12 +244,11 @@
               "RelativeToolTip": "Controllers\\InsuranceController.cs",
               "ViewState": "AgIAAEIAAAAAAAAAAAAkwFQAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-06T14:59:32.719Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-06T14:59:32.719Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "ProductsController.cs",
               "DocumentMoniker": "C:\\Users\\HP\\OneDrive\\Desktop\\SalamatyAPP_Project\\Controllers\\ProductsController.cs",
               "RelativeDocumentMoniker": "Controllers\\ProductsController.cs",
@@ -256,8 +256,7 @@
               "RelativeToolTip": "Controllers\\ProductsController.cs",
               "ViewState": "AgIAAJoAAAAAAAAAAAAkwKwAAABbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-06T14:46:03.073Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-06T14:46:03.073Z"
             },
             {
               "$type": "Document",
@@ -285,7 +284,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "DbSeeder.cs",
               "DocumentMoniker": "C:\\Users\\HP\\OneDrive\\Desktop\\SalamatyAPP_Project\\Data\\DbSeeder.cs",
               "RelativeDocumentMoniker": "Data\\DbSeeder.cs",
@@ -342,8 +341,7 @@
               "RelativeToolTip": "Controllers\\FacilitiesController.cs",
               "ViewState": "AgIAAFYAAAAAAAAAAAAgwF0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-17T20:16:47.104Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-17T20:16:47.104Z"
             },
             {
               "$type": "Document",
@@ -491,7 +489,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "InsuranceServiceType.cs",
               "DocumentMoniker": "C:\\Users\\HP\\OneDrive\\Desktop\\SalamatyAPP_Project\\Models\\Enums\\InsuranceServiceType.cs",
               "RelativeDocumentMoniker": "Models\\Enums\\InsuranceServiceType.cs",
@@ -499,8 +497,7 @@
               "RelativeToolTip": "Models\\Enums\\InsuranceServiceType.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-11T21:32:50.105Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-11T21:32:50.105Z"
             },
             {
               "$type": "Document",
@@ -548,8 +545,7 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-03-11T21:02:15.011Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-11T21:02:15.011Z"
             }
           ]
         },

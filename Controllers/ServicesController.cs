@@ -96,19 +96,29 @@ namespace SalamatyAPI.Controllers
                         }
                         else if (safeType.Contains("lab") || safeType.Contains("analysis"))
                         {
-                            // 2. Labs are open until 11:00 PM
-                            TimeSpan labCloseTime = new TimeSpan(23, 0, 0);
+                            // 2. Labs (Assume they open at 8:00 AM and close at 11:00 PM)
+                            TimeSpan labOpenTime = new TimeSpan(8, 0, 0);   // 8:00 AM
+                            TimeSpan labCloseTime = new TimeSpan(23, 0, 0); // 11:00 PM
 
-                            isOpen = nowTime <= labCloseTime;
-                            openUntilStr = "Open until 11 PM"; // Changed to text format!
+                            // It is only open if current time is BETWEEN 8 AM and 11 PM
+                            isOpen = nowTime >= labOpenTime && nowTime <= labCloseTime;
+
+                            // If it's open, show text. If it's closed, say "Closed"
+                            openUntilStr = isOpen ? "Open until 11 PM" : "Closed";
                         }
                         else
                         {
-                            // 3. Other types (Clinics, Physical Therapy, etc.) are open until 10:00 PM
-                            TimeSpan otherCloseTime = new TimeSpan(22, 0, 0);
 
-                            isOpen = nowTime <= otherCloseTime;
-                            openUntilStr = "Open until 10 PM"; // Changed to text format!
+                            // 2. Labs (Assume they open at 8:00 AM and close at 11:00 PM)
+                            TimeSpan otherOpenTime = new TimeSpan(9, 0, 0);   // 8:00 AM
+                            TimeSpan otherCloseTime = new TimeSpan(22, 0, 0);// 11:00 PM
+
+                            // It is only open if current time is BETWEEN 8 AM and 11 PM
+                            isOpen = nowTime >= otherOpenTime && nowTime <= otherCloseTime;
+
+                            // If it's open, show text. If it's closed, say "Closed"
+                            openUntilStr = isOpen ? "Open until 10 PM" : "Closed";
+                         
                         }
 
                         // Filter out closed places if the user checked the "openNow" box
