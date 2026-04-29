@@ -189,7 +189,7 @@ namespace SalamatyAPI.Controllers
             }
 
             // 2. Prepare to call the External AI API
-            string aiApiUrl = "https://mariamnasser02-card-scanner.hf.space/scan";
+            string aiApiUrl = "https://ai-team-salamaty-card-scanner.hf.space/docs#/default/scan%20card%20scan%20post";
 
             using var httpClient = new HttpClient();
             using var requestContent = new MultipartFormDataContent();
