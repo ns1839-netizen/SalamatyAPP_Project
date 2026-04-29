@@ -14,15 +14,15 @@ namespace Salamaty.API.DTOs.Insurance
     public class ScannerData
     {
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
         [JsonPropertyName("Valid date")]
-        public string ValidDate { get; set; }
+        public string? ValidDate { get; set; }
 
         [JsonPropertyName("Policy")]
-        public string Policy { get; set; }
+        public string? Policy { get; set; }
     }
 
     public class UploadInsuranceCardDto
