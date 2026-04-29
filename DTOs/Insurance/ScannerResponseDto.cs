@@ -18,6 +18,11 @@ namespace Salamaty.API.DTOs.Insurance
 
         [JsonPropertyName("id")]
         public string Id { get; set; }
+        [JsonPropertyName("Valid date")]
+        public string ValidDate { get; set; }
+
+        [JsonPropertyName("Policy")]
+        public string Policy { get; set; }
     }
 
     public class UploadInsuranceCardDto

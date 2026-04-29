@@ -176,11 +176,10 @@ namespace SalamatyAPI.Controllers
             return Path.Combine("Uploads", "InsuranceCards", userId, fileName).Replace("\\", "/");
         }
 
-
-        [HttpPost("scan")] 
+        [HttpPost("scan")]
         public async Task<IActionResult> CheckInsuranceCard(
-         [FromQuery] string userId,
-         [FromForm] SubmitInsuranceInfoDto request) // <-- FIXED: Grouped all FromForm fields into your existing DTO!
+                   [FromQuery] string userId,
+                   [FromForm] SubmitInsuranceInfoDto request)
         {
             // 1. Check if an image was actually uploaded
             if (request.FrontImage == null || request.FrontImage.Length == 0)
@@ -188,14 +187,14 @@ namespace SalamatyAPI.Controllers
                 return BadRequest("Front image is required.");
             }
 
-            // 2. Prepare to call the External AI API
-            string aiApiUrl = "https://ai-team-salamaty-card-scanner.hf.space/docs#/default/scan%20card%20scan%20post";
+            // 2. FIXED: Point to the actual API endpoint, not the Swagger docs page!
+            string aiApiUrl = "https://ai-team-salamaty-card-scanner.hf.space/scan";
 
             using var httpClient = new HttpClient();
             using var requestContent = new MultipartFormDataContent();
 
             // 3. Read the uploaded file into a stream
-            using var stream = request.FrontImage.OpenReadStream(); // Notice we use request.FrontImage now
+            using var stream = request.FrontImage.OpenReadStream();
             var fileContent = new StreamContent(stream);
 
             // Set the content type (e.g., image/jpeg or image/png)
@@ -217,17 +216,20 @@ namespace SalamatyAPI.Controllers
                     // 6. Convert JSON to our C# Object
                     var result = JsonSerializer.Deserialize<ScannerResponse>(jsonResponse);
 
+                    // 7. Extract ALL the fields (including the new ones!)
                     string extractedName = result?.Data?.Name;
                     string extractedId = result?.Data?.Id;
+                    string extractedValidDate = result?.Data?.ValidDate;
+                    string extractedPolicy = result?.Data?.Policy;
 
-                    // TODO: Here you can check if the 'extractedId' matches your database
-                    // or return it to the user.
-
+                    // Return all the extracted data to your frontend
                     return Ok(new
                     {
                         Message = "Card scanned successfully",
                         ScannedId = extractedId,
-                        ScannedName = extractedName
+                        ScannedName = extractedName,
+                        ScannedValidDate = extractedValidDate,
+                        ScannedPolicy = extractedPolicy
                     });
                 }
                 else
