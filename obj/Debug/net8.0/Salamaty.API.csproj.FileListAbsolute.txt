@@ -389,14 +389,7 @@ C:\Users\HP\OneDrive\Desktop\SalamatyAPP_Project\obj\Debug\net8.0\refint\Salamat
 C:\Users\HP\OneDrive\Desktop\SalamatyAPP_Project\obj\Debug\net8.0\Salamaty.API.pdb
 C:\Users\HP\OneDrive\Desktop\SalamatyAPP_Project\obj\Debug\net8.0\Salamaty.API.genruntimeconfig.cache
 C:\Users\HP\OneDrive\Desktop\SalamatyAPP_Project\obj\Debug\net8.0\ref\Salamaty.API.dll
-C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\Salamaty.API.csproj.AssemblyReference.cache
-C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\Salamaty.API.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\Salamaty.API.AssemblyInfoInputs.cache
-C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\Salamaty.API.AssemblyInfo.cs
-C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\Salamaty.API.csproj.CoreCompileInputs.cache
-C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\Salamaty.API.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\Salamaty.API.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\Salamaty.API.sourcelink.json
+C:\Users\HP\OneDrive\Desktop\SalamatyAPP_Project\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\bin\Debug\net8.0\appsettings.json
 C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\bin\Debug\net8.0\global.json
@@ -569,6 +562,14 @@ C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\bin\D
 C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\Salamaty.API.csproj.AssemblyReference.cache
+C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\Salamaty.API.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\Salamaty.API.AssemblyInfoInputs.cache
+C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\Salamaty.API.AssemblyInfo.cs
+C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\Salamaty.API.csproj.CoreCompileInputs.cache
+C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\Salamaty.API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\Salamaty.API.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\Salamaty.API.sourcelink.json
 C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\scopedcss\bundle\Salamaty.API.styles.css
 C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\staticwebassets.development.json
@@ -586,4 +587,3 @@ C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\D
 C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\Salamaty.API.pdb
 C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\Salamaty.API.genruntimeconfig.cache
 C:\Users\zas\Desktop\Graduation_Project\Salamaty_Api\Salamaty\Salamaty.API\obj\Debug\net8.0\ref\Salamaty.API.dll
-C:\Users\HP\OneDrive\Desktop\SalamatyAPP_Project\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
