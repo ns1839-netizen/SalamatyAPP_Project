@@ -83,15 +83,17 @@ namespace Salamaty.API.Services.PrescriptionServices
 
                 finalResult.ExtractedMedicines = namesFromAi;
 
-                // 4. البحث في جدول الـ Products 
+                // 4. البحث في جدول الـ Products (تعديل احترافي للمسافات)
                 var availableInDb = await _context.Products
-                    .Where(p => namesFromAi.Any(aiName => p.Name.ToLower().Contains(aiName)))
+                    .Where(p => namesFromAi.Any(aiName =>
+                        // بنشيل المسافات من اسم الدواء في الداتابيز وبنحوله لـ lower
+                        p.Name.Replace(" ", "").ToLower().Contains(aiName.Replace(" ", ""))
+                    ))
                     .Select(p => new DetectedMedicineDto
                     {
                         Id = p.Id,
                         Name = p.Name,
                         Price = p.Price.GetValueOrDefault(),
-                        // الصور هنا محلية فبنضيف الـ Localhost
                         ImageUrl = string.IsNullOrEmpty(p.ImageUrl)
                                    ? ""
                                    : $"https://localhost:7140/{p.ImageUrl.Replace("\\", "/")}",
