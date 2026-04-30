@@ -12,6 +12,7 @@ public class NearbyServiceDto
     public double? DistanceKm { get; set; }
 
     public string Status { get; set; } = null!;   // "open" / "closed"
+    public string? Phone { get; set; }
     public string? OpenUntil { get; set; }
     public string? LocationUrl { get; set; } // "22:00"
 

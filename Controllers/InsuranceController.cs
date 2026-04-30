@@ -178,54 +178,80 @@ namespace SalamatyAPI.Controllers
 
         [HttpPost("scan")]
         public async Task<IActionResult> CheckInsuranceCard(
-                   [FromQuery] string userId,
-                   [FromForm] SubmitInsuranceInfoDto request)
+        [FromQuery] string userId,
+        [FromForm] SubmitInsuranceInfoDto request)
         {
             // 1. Check if an image was actually uploaded
             if (request.FrontImage == null || request.FrontImage.Length == 0)
             {
-                return BadRequest("Front image is required.");
+                return BadRequest(new { success = false, message = "Front image is required." });
             }
 
-            // 2. FIXED: Point to the actual API endpoint, not the Swagger docs page!
+            // 2. Prepare to call the External AI API
             string aiApiUrl = "https://ai-team-salamaty-card-scanner.hf.space/scan";
 
             using var httpClient = new HttpClient();
             using var requestContent = new MultipartFormDataContent();
 
-            // 3. Read the uploaded file into a stream
             using var stream = request.FrontImage.OpenReadStream();
             var fileContent = new StreamContent(stream);
-
-            // Set the content type (e.g., image/jpeg or image/png)
             fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse(request.FrontImage.ContentType);
-
-            // IMPORTANT: The external AI API expects the parameter name to be "file"
             requestContent.Add(fileContent, "file", request.FrontImage.FileName);
 
             try
             {
-                // 4. Send the POST request to the AI API
                 var response = await httpClient.PostAsync(aiApiUrl, requestContent);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    // 5. Read the JSON response
                     var jsonResponse = await response.Content.ReadAsStringAsync();
-
-                    // 6. Convert JSON to our C# Object
                     var result = JsonSerializer.Deserialize<ScannerResponse>(jsonResponse);
 
-                    // 7. Extract ALL the fields (including the new ones!)
-                    string extractedName = result?.Data?.Name;
-                    string extractedId = result?.Data?.Id;
-                    string extractedValidDate = result?.Data?.ValidDate;
-                    string extractedPolicy = result?.Data?.Policy;
+                    string? extractedName = result?.Data?.Name?.Trim();
+                    string? extractedId = result?.Data?.Id?.Trim();
+                    string? extractedValidDate = result?.Data?.ValidDate?.Trim();
+                    string? extractedPolicy = result?.Data?.Policy?.Trim();
 
-                    // Return all the extracted data to your frontend
+                    // ====================================================================
+                    // CONSTRAINT 1: PREVENT RANDOM PHOTOS (LIKE CARPETS OR SELFIES)
+                    // ====================================================================
+                    // If the AI returns "Not Found" or null, it means it's not an insurance card!
+                    bool isNotCard = string.IsNullOrEmpty(extractedId) || extractedId.Contains("Not Found") ||
+                                     string.IsNullOrEmpty(extractedName) || extractedName.Contains("Not Found");
+
+                    if (isNotCard)
+                    {
+                        return BadRequest(new
+                        {
+                            success = false,
+                            message = "Invalid image. Please upload a clear picture of a valid insurance card."
+                        });
+                    }
+
+                    // ====================================================================
+                    // CONSTRAINT 2: PREVENT FAKE/WRONG IDs (LIKE TYPING "1")
+                    // ====================================================================
+                    // Check if the ID the user typed matches the ID the AI read from the photo.
+                    if (!string.IsNullOrWhiteSpace(request.CardHolderId))
+                    {
+                        string typedId = request.CardHolderId.Trim();
+
+                        // We use .Contains in case the AI reads "ID: 10014" and the user typed "10014"
+                        if (!extractedId.Contains(typedId, StringComparison.OrdinalIgnoreCase))
+                        {
+                            return BadRequest(new
+                            {
+                                success = false,
+                                message = $"The ID you entered ({typedId}) does not match the ID found on the card."
+                            });
+                        }
+                    }
+
+                    // If it passes both constraints, return success!
                     return Ok(new
                     {
-                        Message = "Card scanned successfully",
+                        success = true,
+                        message = "Card scanned and verified successfully",
                         ScannedId = extractedId,
                         ScannedName = extractedName,
                         ScannedValidDate = extractedValidDate,
@@ -234,12 +260,12 @@ namespace SalamatyAPI.Controllers
                 }
                 else
                 {
-                    return StatusCode((int)response.StatusCode, "Failed to scan card using AI API.");
+                    return StatusCode((int)response.StatusCode, new { success = false, message = "Failed to scan card using AI API." });
                 }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while connecting to the AI API: {ex.Message}");
+                return StatusCode(500, new { success = false, message = $"An error occurred while connecting to the AI API: {ex.Message}" });
             }
         }
 
