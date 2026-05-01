@@ -74,8 +74,10 @@ namespace SalamatyAPI.Controllers
                 Id = profile.InsuranceProviderId,
                 Name = profile.InsuranceProvider.Name,
                 LogoUrl = !string.IsNullOrEmpty(profile.InsuranceProvider.LogoUrl) ? baseUrl + profile.InsuranceProvider.LogoUrl : null,
-                PolicyNumber = $"P{profile.Id:D8}",
-                ValidUntil = DateTime.UtcNow.AddYears(3)
+                PolicyNumber = !string.IsNullOrEmpty(profile.PolicyNumber) ? profile.PolicyNumber : "Not Found",
+
+                ValidUntil = !string.IsNullOrEmpty(profile.ValidUntil) ? profile.ValidUntil : "Not Found" ,
+                Status = !string.IsNullOrEmpty(profile.Status) ? profile.Status : "Not Found"
             };
 
             int providerId = profile.InsuranceProviderId;
@@ -138,6 +140,10 @@ namespace SalamatyAPI.Controllers
 
             profile.CardHolderId = dto.CardHolderId;
 
+            // 👇 ADDED THESE TWO LINES TO SAVE THE AI DATA TO THE DATABASE 👇
+            profile.PolicyNumber = dto.PolicyNumber;
+            profile.ValidUntil = dto.ValidUntil;
+
             if (dto.FrontImage != null)
                 profile.FrontImagePath = await SaveInsuranceImage(userId, "front", dto.FrontImage);
 
@@ -156,7 +162,10 @@ namespace SalamatyAPI.Controllers
             {
                 message = "Insurance information saved successfully.",
                 cardHolderId = profile.CardHolderId,
-                providerId = profile.InsuranceProviderId,
+                policyNumber = profile.PolicyNumber, // <-- Added here to confirm it saved
+                validUntil = profile.ValidUntil,
+                Status = profile.Status, // <-- Added here to confirm it saved
+            providerId = profile.InsuranceProviderId,
                 frontImagePath = GetFullUrl(profile.FrontImagePath),
                 backImagePath = GetFullUrl(profile.BackImagePath)
             });
@@ -186,6 +195,12 @@ namespace SalamatyAPI.Controllers
                 return BadRequest(new { success = false, message = "Front image is required to scan." });
             }
 
+            var dbProvider = await _context.InsuranceProviders.FindAsync(request.ProviderId);
+            if (dbProvider == null)
+            {
+                return BadRequest(new { success = false, message = "Invalid Insurance Provider selected." });
+            }
+
             // 2. Prepare to call the External AI API
             string aiApiUrl = "https://ai-team-salamaty-card-scanner.hf.space/scan";
 
@@ -206,10 +221,13 @@ namespace SalamatyAPI.Controllers
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     var result = JsonSerializer.Deserialize<ScannerResponse>(jsonResponse);
 
+                    // 👇 UPDATED HERE: Use ExpiryDate and grab the new Status field!
                     string? extractedName = result?.Data?.Name?.Trim();
                     string? extractedId = result?.Data?.Id?.Trim();
-                    string? extractedValidDate = result?.Data?.ValidDate?.Trim();
+                    string? extractedValidDate = result?.Data?.ExpiryDate?.Trim();
                     string? extractedPolicy = result?.Data?.Policy?.Trim();
+                    string? extractedStatus = result?.Data?.Status?.Trim();
+                    string? extractedProvider = result?.Data?.InsuranceProvider?.Trim();
 
                     // ====================================================================
                     // CONSTRAINT: PREVENT RANDOM PHOTOS (CARPETS, SELFIES, ETC)
@@ -226,7 +244,27 @@ namespace SalamatyAPI.Controllers
                         });
                     }
 
-                    // Return the data so the Mobile App can fill the text boxes!
+                    // CONSTRAINT 2: CHECK IF THE PROVIDER MATCHES
+                    // ====================================================================
+                    if (!string.IsNullOrEmpty(extractedProvider) && !extractedProvider.Contains("Not Found"))
+                    {
+                        // Check if the AI text contains the DB name (e.g., "MedRight Insurance" contains "MedRight")
+                        // OR if the DB name contains the AI text
+                        bool isProviderMatch = extractedProvider.Contains(dbProvider.Name, StringComparison.OrdinalIgnoreCase) ||
+                                               dbProvider.Name.Contains(extractedProvider, StringComparison.OrdinalIgnoreCase);
+
+                        if (!isProviderMatch)
+                        {
+                            return BadRequest(new
+                            {
+                                success = false,
+                                message = $"Mismatch Error: You selected '{dbProvider.Name}', but the uploaded card belongs to '{extractedProvider}'."
+                            });
+                        }
+                    }
+
+
+                    // Return all the data so the Mobile App can fill the text boxes!
                     return Ok(new
                     {
                         success = true,
@@ -236,7 +274,9 @@ namespace SalamatyAPI.Controllers
                             ScannedId = extractedId,
                             ScannedName = extractedName,
                             ScannedValidDate = extractedValidDate,
-                            ScannedPolicy = extractedPolicy
+                            ScannedPolicy = extractedPolicy,
+                            ScannedStatus = extractedStatus ,
+                            ScannedProvider = extractedProvider// <-- Now the mobile app knows if it's expired!
                         }
                     });
                 }
@@ -250,10 +290,6 @@ namespace SalamatyAPI.Controllers
                 return StatusCode(500, new { success = false, message = $"An error occurred while connecting to the AI API: {ex.Message}" });
             }
         }
-
-
-
-
 
 
 
