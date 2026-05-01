@@ -40,7 +40,7 @@ namespace Salamaty.API.Services.PrescriptionServices
             ApplicationDbContext context,
             IWebHostEnvironment webHostEnvironment,
             HttpClient httpClient,
-            IHttpContextAccessor httpContextAccessor) // حقن الـ Accessor للرابط الديناميكي
+            IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
@@ -54,9 +54,8 @@ namespace Salamaty.API.Services.PrescriptionServices
             string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(prescriptionImage.FileName);
             string aiUrl = "https://ai-team-salamaty-slamaty-prescription-api.hf.space/api/scan";
 
-            // بناء الرابط الديناميكي للسيرفر (سواء كان localhost أو عنوان السيرفر المرفوع)
             var request = _httpContextAccessor.HttpContext?.Request;
-            var baseUrl = request != null ? $"{request.Scheme}://{request.Host}" : "https://salamaty-api.somee.com"; // ضعي هنا رابط سيرفرك كاحتياطي
+            var baseUrl = request != null ? $"{request.Scheme}://{request.Host}" : "http://salamaty.runasp.net";
 
             try
             {
@@ -81,7 +80,7 @@ namespace Salamaty.API.Services.PrescriptionServices
 
                 if (aiResult?.Medicines == null || !aiResult.Medicines.Any()) return finalResult;
 
-                // 3. الفلترة المبدئية من الـ AI
+                // 3. فلترة الـ AI (Match Score >= 50)
                 var namesFromAi = aiResult.Medicines
                     .Where(m => m.MatchScore >= 50 && !string.IsNullOrWhiteSpace(m.MatchedDrug))
                     .Select(m => m.MatchedDrug!.ToLower().Trim())
@@ -90,36 +89,43 @@ namespace Salamaty.API.Services.PrescriptionServices
                 if (!namesFromAi.Any()) return finalResult;
                 finalResult.ExtractedMedicines = namesFromAi;
 
-                // 4. البحث "الراداري" الشامل (Handles Spaces, Caps, Lowers, Substrings)
-                var availableInDb = await _context.Products.ToListAsync(); // سحبنا القائمة للميموري لعمليات الـ string المعقدة لو الداتا مش ضخمة جداً
+                // 4. البحث الدقيق جداً (Strict Precision Search)
+                // سحب البيانات للميموري لضمان تنفيذ الـ String Operations بشكل صحيح
+                var allProducts = await _context.Products.ToListAsync();
 
-                var matchedProducts = availableInDb.Where(p => namesFromAi.Any(aiName =>
+                var matchedProducts = allProducts.Where(p => namesFromAi.Any(aiName =>
                 {
+                    // تنظيف كامل للأسماء من المسافات
                     var cleanDbName = p.Name.ToLower().Replace(" ", "");
                     var cleanAiName = aiName.Replace(" ", "");
 
+                    // مطابقة كاملة فقط! (إما يساوي تماماً أو يبدأ به في حالة التركيزات)
                     return cleanDbName == cleanAiName ||
-                           cleanDbName.Contains(cleanAiName) ||
-                           cleanAiName.Contains(cleanDbName);
+                           cleanDbName.StartsWith(cleanAiName) ||
+                           cleanAiName.StartsWith(cleanDbName);
                 })).Select(p => new DetectedMedicineDto
                 {
                     Id = p.Id,
                     Name = p.Name,
                     Price = p.Price.GetValueOrDefault(),
-                    // الرابط الديناميكي الجديد
                     ImageUrl = string.IsNullOrEmpty(p.ImageUrl)
                                ? ""
                                : $"{baseUrl}/{p.ImageUrl.Replace("\\", "/")}",
                     IsAvailable = true
                 }).ToList();
 
-                finalResult.AvailableMedicines = matchedProducts;
+                // فلترة نهائية لمنع "الزيادات" (مثل لقط Neuroton مع Neurotone)
+                // بنأخد فقط الأقرب طولاً للاسم المستخرج
+                finalResult.AvailableMedicines = matchedProducts
+                    .GroupBy(p => p.Name.ToLower().Replace(" ", ""))
+                    .Select(g => g.First())
+                    .ToList();
 
-                // 5. تحديد غير المتاح (مع منع التكرار الذكي)
+                // 5. تحديد غير المتاح (بناءً على ما لم يجد مطابقة دقيقة)
                 finalResult.NotAvailableMedicines = namesFromAi
                     .Where(aiName => !matchedProducts.Any(db =>
-                        db.Name.ToLower().Replace(" ", "").Contains(aiName.Replace(" ", "")) ||
-                        aiName.Replace(" ", "").Contains(db.Name.ToLower().Replace(" ", ""))
+                        db.Name.ToLower().Replace(" ", "") == aiName.Replace(" ", "") ||
+                        db.Name.ToLower().Replace(" ", "").StartsWith(aiName.Replace(" ", ""))
                     ))
                     .Select(aiName => new DetectedMedicineDto { Name = aiName, IsAvailable = false })
                     .ToList();
