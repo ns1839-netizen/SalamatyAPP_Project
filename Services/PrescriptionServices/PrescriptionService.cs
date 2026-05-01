@@ -46,19 +46,17 @@ namespace Salamaty.API.Services.PrescriptionServices
         {
             var finalResult = new ScanResultDto();
             string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(prescriptionImage.FileName);
-
-            // 1. الرابط الجديد تماماً
             string aiUrl = "https://ai-team-salamaty-slamaty-prescription-api.hf.space/api/scan";
 
             try
             {
-                // حفظ صورة الروشتة
+                // 1. حفظ الصورة
                 string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Prescriptions");
                 if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create)) { await prescriptionImage.CopyToAsync(fileStream); }
 
-                // 2. إرسال الصورة للـ AI
+                // 2. طلب الـ AI
                 using var requestContent = new MultipartFormDataContent();
                 var imageStream = prescriptionImage.OpenReadStream();
                 var streamContent = new StreamContent(imageStream);
@@ -73,41 +71,50 @@ namespace Salamaty.API.Services.PrescriptionServices
 
                 if (aiResult?.Medicines == null || !aiResult.Medicines.Any()) return finalResult;
 
-                // 3. فلترة النتائج
+                // 3. الفلترة
                 var namesFromAi = aiResult.Medicines
                     .Where(m => m.MatchScore >= 70 && !string.IsNullOrWhiteSpace(m.MatchedDrug))
                     .Select(m => m.MatchedDrug!.ToLower().Trim())
                     .Distinct().ToList();
 
                 if (!namesFromAi.Any()) return finalResult;
-
                 finalResult.ExtractedMedicines = namesFromAi;
 
-                // 4. البحث في جدول الـ Products 
+                // 4. البحث "المقيد" (Strict Search) لمنع ظهور أدوية فرعية مثل Relax بدل Multirelax
                 var availableInDb = await _context.Products
-                    .Where(p => namesFromAi.Any(aiName => p.Name.ToLower().Contains(aiName)))
+                    .Where(p => namesFromAi.Any(aiName =>
+                        // المطابقة لازم تكون متساوية تماماً بعد حذف المسافات
+                        p.Name.ToLower().Replace(" ", "") == aiName.Replace(" ", "") ||
+                        // أو لو اسم الداتابيز هو البداية الحقيقية (عشان لو فيه 40mg زيادة)
+                        p.Name.ToLower().Replace(" ", "").StartsWith(aiName.Replace(" ", "")) ||
+                        aiName.Replace(" ", "").StartsWith(p.Name.ToLower().Replace(" ", ""))
+                    ))
                     .Select(p => new DetectedMedicineDto
                     {
                         Id = p.Id,
                         Name = p.Name,
                         Price = p.Price.GetValueOrDefault(),
-                        // الصور هنا محلية فبنضيف الـ Localhost
                         ImageUrl = string.IsNullOrEmpty(p.ImageUrl)
                                    ? ""
                                    : $"https://localhost:7140/{p.ImageUrl.Replace("\\", "/")}",
                         IsAvailable = true
                     }).ToListAsync();
 
-                // 5. تحديد غير المتاح
+                // 5. تحديد غير المتاح (مع منع التكرار)
                 var notAvailable = namesFromAi
-                    .Where(aiName => !availableInDb.Any(db => db.Name.ToLower().Contains(aiName)))
+                    .Where(aiName =>
+                        !availableInDb.Any(db =>
+                            db.Name.ToLower().Replace(" ", "") == aiName.Replace(" ", "") ||
+                            db.Name.ToLower().Replace(" ", "").Contains(aiName.Replace(" ", ""))
+                        )
+                    )
                     .Select(aiName => new DetectedMedicineDto { Name = aiName, IsAvailable = false })
                     .ToList();
 
                 finalResult.AvailableMedicines = availableInDb;
                 finalResult.NotAvailableMedicines = notAvailable;
 
-                // 6. حفظ الهيستوري
+                // 6. الهيستوري
                 try
                 {
                     var history = new Prescription
@@ -120,15 +127,9 @@ namespace Salamaty.API.Services.PrescriptionServices
                     _context.Prescriptions.Add(history);
                     await _context.SaveChangesAsync();
                 }
-                catch (Exception dbEx)
-                {
-                    Console.WriteLine($">>>> History Save Failed: {dbEx.Message}");
-                }
+                catch (Exception dbEx) { Console.WriteLine($">>>> History Save Failed: {dbEx.Message}"); }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"[Critical Service Error]: {ex.Message}");
-            }
+            catch (Exception ex) { Console.WriteLine($"[Critical Service Error]: {ex.Message}"); }
 
             return finalResult;
         }
