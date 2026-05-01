@@ -176,15 +176,14 @@ namespace SalamatyAPI.Controllers
             return Path.Combine("Uploads", "InsuranceCards", userId, fileName).Replace("\\", "/");
         }
 
+
         [HttpPost("scan")]
-        public async Task<IActionResult> CheckInsuranceCard(
-        [FromQuery] string userId,
-        [FromForm] SubmitInsuranceInfoDto request)
+        public async Task<IActionResult> ScanInsuranceCard([FromForm] UploadInsuranceCardDto request)
         {
             // 1. Check if an image was actually uploaded
             if (request.FrontImage == null || request.FrontImage.Length == 0)
             {
-                return BadRequest(new { success = false, message = "Front image is required." });
+                return BadRequest(new { success = false, message = "Front image is required to scan." });
             }
 
             // 2. Prepare to call the External AI API
@@ -213,9 +212,8 @@ namespace SalamatyAPI.Controllers
                     string? extractedPolicy = result?.Data?.Policy?.Trim();
 
                     // ====================================================================
-                    // CONSTRAINT 1: PREVENT RANDOM PHOTOS (LIKE CARPETS OR SELFIES)
+                    // CONSTRAINT: PREVENT RANDOM PHOTOS (CARPETS, SELFIES, ETC)
                     // ====================================================================
-                    // If the AI returns "Not Found" or null, it means it's not an insurance card!
                     bool isNotCard = string.IsNullOrEmpty(extractedId) || extractedId.Contains("Not Found") ||
                                      string.IsNullOrEmpty(extractedName) || extractedName.Contains("Not Found");
 
@@ -228,34 +226,18 @@ namespace SalamatyAPI.Controllers
                         });
                     }
 
-                    // ====================================================================
-                    // CONSTRAINT 2: PREVENT FAKE/WRONG IDs (LIKE TYPING "1")
-                    // ====================================================================
-                    // Check if the ID the user typed matches the ID the AI read from the photo.
-                    if (!string.IsNullOrWhiteSpace(request.CardHolderId))
-                    {
-                        string typedId = request.CardHolderId.Trim();
-
-                        // We use .Contains in case the AI reads "ID: 10014" and the user typed "10014"
-                        if (!extractedId.Contains(typedId, StringComparison.OrdinalIgnoreCase))
-                        {
-                            return BadRequest(new
-                            {
-                                success = false,
-                                message = $"The ID you entered ({typedId}) does not match the ID found on the card."
-                            });
-                        }
-                    }
-
-                    // If it passes both constraints, return success!
+                    // Return the data so the Mobile App can fill the text boxes!
                     return Ok(new
                     {
                         success = true,
-                        message = "Card scanned and verified successfully",
-                        ScannedId = extractedId,
-                        ScannedName = extractedName,
-                        ScannedValidDate = extractedValidDate,
-                        ScannedPolicy = extractedPolicy
+                        message = "Card scanned successfully. Please review your details.",
+                        data = new
+                        {
+                            ScannedId = extractedId,
+                            ScannedName = extractedName,
+                            ScannedValidDate = extractedValidDate,
+                            ScannedPolicy = extractedPolicy
+                        }
                     });
                 }
                 else
