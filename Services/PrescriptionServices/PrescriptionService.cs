@@ -21,6 +21,10 @@ namespace Salamaty.API.Services.PrescriptionServices
 
         [JsonPropertyName("match_score")]
         public double MatchScore { get; set; }
+
+        // التعديل الجديد: استقبال الـ final_confidence من الـ AI
+        [JsonPropertyName("final_confidence")]
+        public double FinalConfidence { get; set; }
     }
 
     public class ScanResultDto
@@ -58,7 +62,6 @@ namespace Salamaty.API.Services.PrescriptionServices
             string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(prescriptionImage.FileName);
             string aiUrl = "https://ai-team-salamaty-slamaty-prescription-api.hf.space/api/scan";
 
-            // بناء الرابط الديناميكي للسيرفر المرفوع
             var request = _httpContextAccessor.HttpContext?.Request;
             var baseUrl = request != null ? $"{request.Scheme}://{request.Host}" : "http://salamaty.runasp.net";
 
@@ -85,22 +88,22 @@ namespace Salamaty.API.Services.PrescriptionServices
 
                 if (aiResult?.Medicines == null) return finalResult;
 
-                // 3. المطابقة المثالية (Exact Match Only)
-                // تجهيز أسماء الـ AI بدون مسافات وبحروف صغيرة
+                // 3. المطابقة المثالية (Exact Match Only) بناءً على FinalConfidence
+                // التعديل هنا: استخدام FinalConfidence >= 70
                 var cleanAiNames = aiResult.Medicines
-                    .Where(m => m.MatchScore >= 50 && !string.IsNullOrWhiteSpace(m.MatchedDrug))
+                    .Where(m => m.FinalConfidence >= 70 && !string.IsNullOrWhiteSpace(m.MatchedDrug))
                     .Select(m => m.MatchedDrug!.ToLower().Replace(" ", "").Trim())
                     .Distinct().ToList();
 
                 if (!cleanAiNames.Any()) return finalResult;
 
-                // وضع الأسماء الأصلية للعرض
+                // وضع الأسماء الأصلية للعرض (أيضاً بناءً على الشرط الجديد)
                 finalResult.ExtractedMedicines = aiResult.Medicines
-                    .Where(m => m.MatchScore >= 50 && !string.IsNullOrWhiteSpace(m.MatchedDrug))
+                    .Where(m => m.FinalConfidence >= 70 && !string.IsNullOrWhiteSpace(m.MatchedDrug))
                     .Select(m => m.MatchedDrug ?? "")
                     .Distinct().ToList();
 
-                // سحب الأدوية للمطابقة (بأمان ضد الـ Null)
+                // سحب الأدوية للمطابقة
                 var allProducts = await _context.Products.ToListAsync();
 
                 var matchedProducts = allProducts.Where(p =>
