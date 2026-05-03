@@ -135,6 +135,7 @@ namespace SalamatyAPI.Controllers
                             Longitude = s.Longitude ?? 0,
                             DistanceKm = Math.Round(distance, 2),
                             Status = isOpen ? "open" : "closed", // Dynamically set to open/closed
+                            Phone = s.Phone,
                             OpenUntil = openUntilStr,            // Assigns our custom strings
                             LocationUrl = locUrl // ✅ Pass the created Google Maps link!
                         };

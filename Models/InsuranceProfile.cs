@@ -15,6 +15,9 @@ public class InsuranceProfile
     public virtual InsuranceProvider InsuranceProvider { get; set; } = null!;
 
     public string CardHolderId { get; set; } = null!;
+    public string? PolicyNumber { get; set; }
+    public string? ValidUntil { get; set; }
+    public string? Status { get; set; }
     public string FrontImagePath { get; set; } = null!;
     public string BackImagePath { get; set; } = null!;
 }

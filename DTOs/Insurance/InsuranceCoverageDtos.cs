@@ -18,7 +18,8 @@
         public string Name { get; set; } = null!;
         public string? LogoUrl { get; set; }
         public string PolicyNumber { get; set; } = null!;
-        public DateTime? ValidUntil { get; set; }
+        public string? ValidUntil { get; set; }
+        public string? Status { get; set; }
     }
 
     public class CoverageSectionDto

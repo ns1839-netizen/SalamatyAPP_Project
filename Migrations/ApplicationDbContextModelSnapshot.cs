@@ -17,7 +17,7 @@ namespace Salamaty.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -45,9 +45,18 @@ namespace Salamaty.API.Migrations
                     b.Property<int>("InsuranceProviderId")
                         .HasColumnType("int");
 
+                    b.Property<string>("PolicyNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ValidUntil")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -583,6 +592,9 @@ namespace Salamaty.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Alternatives")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
 
@@ -602,6 +614,9 @@ namespace Salamaty.API.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("SideEffects")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Uses")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -732,13 +747,13 @@ namespace Salamaty.API.Migrations
             modelBuilder.Entity("SalamatyAPI.Models.ProductAlternative", b =>
                 {
                     b.HasOne("SalamatyAPI.Models.Product", "AlternativeProduct")
-                        .WithMany("AlternativeTo")
+                        .WithMany()
                         .HasForeignKey("AlternativeProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SalamatyAPI.Models.Product", "Product")
-                        .WithMany("Alternatives")
+                        .WithMany("ProductAlternatives")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -757,9 +772,7 @@ namespace Salamaty.API.Migrations
 
             modelBuilder.Entity("SalamatyAPI.Models.Product", b =>
                 {
-                    b.Navigation("AlternativeTo");
-
-                    b.Navigation("Alternatives");
+                    b.Navigation("ProductAlternatives");
                 });
 #pragma warning restore 612, 618
         }

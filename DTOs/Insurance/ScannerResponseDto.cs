@@ -13,16 +13,23 @@ namespace Salamaty.API.DTOs.Insurance
 
     public class ScannerData
     {
-        [JsonPropertyName("name")]
+        [JsonPropertyName("customer_name")]
         public string? Name { get; set; }
 
-        [JsonPropertyName("id")]
+        [JsonPropertyName("member_id")]
         public string? Id { get; set; }
-        [JsonPropertyName("Valid date")]
-        public string? ValidDate { get; set; }
 
-        [JsonPropertyName("Policy")]
+        [JsonPropertyName("policy_no")]
         public string? Policy { get; set; }
+
+        [JsonPropertyName("expiry_date")]
+        public string? ExpiryDate { get; set; }
+
+        [JsonPropertyName("status")]
+        public string? Status { get; set; }
+      
+        [JsonPropertyName("insurance_provider")]
+        public string? InsuranceProvider { get; set; }
     }
 
     public class UploadInsuranceCardDto

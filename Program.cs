@@ -181,20 +181,20 @@ app.UseAuthorization();
 app.MapControllers();
 
 // ===== 9. Database Seeding =====
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    try
-    {
-        var context = services.GetRequiredService<ApplicationDbContext>();
-        var environment = services.GetRequiredService<IWebHostEnvironment>();
-        DbSeeder.Seed(context, environment);
-    }
-    catch (Exception ex)
-    {
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred during database seeding.");
-    }
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
+//    try
+//    {
+//        var context = services.GetRequiredService<ApplicationDbContext>();
+//        var environment = services.GetRequiredService<IWebHostEnvironment>();
+//        DbSeeder.Seed(context, environment);
+//    }
+//    catch (Exception ex)
+//    {
+//        var logger = services.GetRequiredService<ILogger<Program>>();
+//        logger.LogError(ex, "An error occurred during database seeding.");
+//    }
+//}
 
 app.Run();
