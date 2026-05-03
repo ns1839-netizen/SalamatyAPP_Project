@@ -7,6 +7,7 @@ using SalamatyAPI.Data;
 
 namespace Salamaty.API.Services.PrescriptionServices
 {
+    // 1. الكلاسات المساعدة (خارج كلاس السيرفيس لسهولة الوصول)
     public class AIScanResponse
     {
         [JsonPropertyName("medicines")]
