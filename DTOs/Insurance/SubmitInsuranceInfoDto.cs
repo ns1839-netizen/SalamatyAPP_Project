@@ -31,5 +31,6 @@ namespace SalamatyAPI.Dtos.Insurance
 
         // "Insurance Back Side" image
         public IFormFile? BackImage { get; set; }
+        public string? FullName { get; set; }
     }
 }
