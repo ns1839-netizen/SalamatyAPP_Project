@@ -74,8 +74,10 @@ namespace SalamatyAPI.Controllers
                 Id = profile.InsuranceProviderId,
                 Name = profile.InsuranceProvider.Name,
                 LogoUrl = !string.IsNullOrEmpty(profile.InsuranceProvider.LogoUrl) ? baseUrl + profile.InsuranceProvider.LogoUrl : null,
-                PolicyNumber = $"P{profile.Id:D8}",
-                ValidUntil = DateTime.UtcNow.AddYears(3)
+                PolicyNumber = !string.IsNullOrEmpty(profile.PolicyNumber) ? profile.PolicyNumber : "Not Found",
+
+                ValidUntil = !string.IsNullOrEmpty(profile.ValidUntil) ? profile.ValidUntil : "Not Found" ,
+                Status = !string.IsNullOrEmpty(profile.Status) ? profile.Status : "Not Found"
             };
 
             int providerId = profile.InsuranceProviderId;
@@ -138,6 +140,10 @@ namespace SalamatyAPI.Controllers
 
             profile.CardHolderId = dto.CardHolderId;
 
+            // 👇 ADDED THESE TWO LINES TO SAVE THE AI DATA TO THE DATABASE 👇
+            profile.PolicyNumber = dto.PolicyNumber;
+            profile.ValidUntil = dto.ValidUntil;
+
             if (dto.FrontImage != null)
                 profile.FrontImagePath = await SaveInsuranceImage(userId, "front", dto.FrontImage);
 
@@ -156,7 +162,10 @@ namespace SalamatyAPI.Controllers
             {
                 message = "Insurance information saved successfully.",
                 cardHolderId = profile.CardHolderId,
-                providerId = profile.InsuranceProviderId,
+                policyNumber = profile.PolicyNumber, // <-- Added here to confirm it saved
+                validUntil = profile.ValidUntil,
+                Status = profile.Status, // <-- Added here to confirm it saved
+            providerId = profile.InsuranceProviderId,
                 frontImagePath = GetFullUrl(profile.FrontImagePath),
                 backImagePath = GetFullUrl(profile.BackImagePath)
             });
@@ -176,76 +185,111 @@ namespace SalamatyAPI.Controllers
             return Path.Combine("Uploads", "InsuranceCards", userId, fileName).Replace("\\", "/");
         }
 
+
         [HttpPost("scan")]
-        public async Task<IActionResult> CheckInsuranceCard(
-                   [FromQuery] string userId,
-                   [FromForm] SubmitInsuranceInfoDto request)
+        public async Task<IActionResult> ScanInsuranceCard([FromForm] UploadInsuranceCardDto request)
         {
             // 1. Check if an image was actually uploaded
             if (request.FrontImage == null || request.FrontImage.Length == 0)
             {
-                return BadRequest("Front image is required.");
+                return BadRequest(new { success = false, message = "Front image is required to scan." });
             }
 
-            // 2. FIXED: Point to the actual API endpoint, not the Swagger docs page!
+            var dbProvider = await _context.InsuranceProviders.FindAsync(request.ProviderId);
+            if (dbProvider == null)
+            {
+                return BadRequest(new { success = false, message = "Invalid Insurance Provider selected." });
+            }
+
+            // 2. Prepare to call the External AI API
             string aiApiUrl = "https://ai-team-salamaty-card-scanner.hf.space/scan";
 
             using var httpClient = new HttpClient();
             using var requestContent = new MultipartFormDataContent();
 
-            // 3. Read the uploaded file into a stream
             using var stream = request.FrontImage.OpenReadStream();
             var fileContent = new StreamContent(stream);
-
-            // Set the content type (e.g., image/jpeg or image/png)
             fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse(request.FrontImage.ContentType);
-
-            // IMPORTANT: The external AI API expects the parameter name to be "file"
             requestContent.Add(fileContent, "file", request.FrontImage.FileName);
 
             try
             {
-                // 4. Send the POST request to the AI API
                 var response = await httpClient.PostAsync(aiApiUrl, requestContent);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    // 5. Read the JSON response
                     var jsonResponse = await response.Content.ReadAsStringAsync();
-
-                    // 6. Convert JSON to our C# Object
                     var result = JsonSerializer.Deserialize<ScannerResponse>(jsonResponse);
 
-                    // 7. Extract ALL the fields (including the new ones!)
-                    string extractedName = result?.Data?.Name;
-                    string extractedId = result?.Data?.Id;
-                    string extractedValidDate = result?.Data?.ValidDate;
-                    string extractedPolicy = result?.Data?.Policy;
+                    // 👇 UPDATED HERE: Use ExpiryDate and grab the new Status field!
+                    string? extractedName = result?.Data?.Name?.Trim();
+                    string? extractedId = result?.Data?.Id?.Trim();
+                    string? extractedValidDate = result?.Data?.ExpiryDate?.Trim();
+                    string? extractedPolicy = result?.Data?.Policy?.Trim();
+                    string? extractedStatus = result?.Data?.Status?.Trim();
+                    string? extractedProvider = result?.Data?.InsuranceProvider?.Trim();
 
-                    // Return all the extracted data to your frontend
+                    // ====================================================================
+                    // CONSTRAINT: PREVENT RANDOM PHOTOS (CARPETS, SELFIES, ETC)
+                    // ====================================================================
+                    bool isNotCard = string.IsNullOrEmpty(extractedId) || extractedId.Contains("Not Found") ||
+                                     string.IsNullOrEmpty(extractedName) || extractedName.Contains("Not Found");
+
+                    if (isNotCard)
+                    {
+                        return BadRequest(new
+                        {
+                            success = false,
+                            message = "Invalid image. Please upload a clear picture of a valid insurance card."
+                        });
+                    }
+
+                    // CONSTRAINT 2: CHECK IF THE PROVIDER MATCHES
+                    // ====================================================================
+                    if (!string.IsNullOrEmpty(extractedProvider) && !extractedProvider.Contains("Not Found"))
+                    {
+                        // Check if the AI text contains the DB name (e.g., "MedRight Insurance" contains "MedRight")
+                        // OR if the DB name contains the AI text
+                        bool isProviderMatch = extractedProvider.Contains(dbProvider.Name, StringComparison.OrdinalIgnoreCase) ||
+                                               dbProvider.Name.Contains(extractedProvider, StringComparison.OrdinalIgnoreCase);
+
+                        if (!isProviderMatch)
+                        {
+                            return BadRequest(new
+                            {
+                                success = false,
+                                message = $"Mismatch Error: You selected '{dbProvider.Name}', but the uploaded card belongs to '{extractedProvider}'."
+                            });
+                        }
+                    }
+
+
+                    // Return all the data so the Mobile App can fill the text boxes!
                     return Ok(new
                     {
-                        Message = "Card scanned successfully",
-                        ScannedId = extractedId,
-                        ScannedName = extractedName,
-                        ScannedValidDate = extractedValidDate,
-                        ScannedPolicy = extractedPolicy
+                        success = true,
+                        message = "Card scanned successfully. Please review your details.",
+                        data = new
+                        {
+                            ScannedId = extractedId,
+                            ScannedName = extractedName,
+                            ScannedValidDate = extractedValidDate,
+                            ScannedPolicy = extractedPolicy,
+                            ScannedStatus = extractedStatus ,
+                            ScannedProvider = extractedProvider// <-- Now the mobile app knows if it's expired!
+                        }
                     });
                 }
                 else
                 {
-                    return StatusCode((int)response.StatusCode, "Failed to scan card using AI API.");
+                    return StatusCode((int)response.StatusCode, new { success = false, message = "Failed to scan card using AI API." });
                 }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while connecting to the AI API: {ex.Message}");
+                return StatusCode(500, new { success = false, message = $"An error occurred while connecting to the AI API: {ex.Message}" });
             }
         }
-
-
-
-
 
 
 
