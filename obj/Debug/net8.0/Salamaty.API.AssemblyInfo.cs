@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Salamaty.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+12d5e7599e2c3b961a288c771b1ac17c5d81a1e1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3ab2925da0695b729f470eb34930406319cdb278")]
 [assembly: System.Reflection.AssemblyProductAttribute("Salamaty.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Salamaty.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
