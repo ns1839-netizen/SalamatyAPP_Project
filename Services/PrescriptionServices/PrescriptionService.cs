@@ -7,10 +7,11 @@ using SalamatyAPI.Data;
 
 namespace Salamaty.API.Services.PrescriptionServices
 {
+    // 1. الكلاسات المساعدة (خارج كلاس السيرفيس لسهولة الوصول)
     public class AIScanResponse
     {
         [JsonPropertyName("medicines")]
-        public List<AIMedicineResult> Medicines { get; set; } = new();
+        public List<AIMedicineResult>? Medicines { get; set; } = new();
     }
 
     public class AIMedicineResult
@@ -20,6 +21,10 @@ namespace Salamaty.API.Services.PrescriptionServices
 
         [JsonPropertyName("match_score")]
         public double MatchScore { get; set; }
+
+        // التعديل الجديد: استقبال الـ final_confidence من الـ AI
+        [JsonPropertyName("final_confidence")]
+        public double FinalConfidence { get; set; }
     }
 
     public class ScanResultDto
@@ -34,23 +39,35 @@ namespace Salamaty.API.Services.PrescriptionServices
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly HttpClient _httpClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PrescriptionService(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, HttpClient httpClient)
+        public PrescriptionService(
+            ApplicationDbContext context,
+            IWebHostEnvironment webHostEnvironment,
+            HttpClient httpClient,
+            IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
             _httpClient = httpClient;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<ScanResultDto> ScanPrescriptionAsync(IFormFile prescriptionImage, string userId)
         {
             var finalResult = new ScanResultDto();
+
+            if (prescriptionImage == null || string.IsNullOrEmpty(userId)) return finalResult;
+
             string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(prescriptionImage.FileName);
             string aiUrl = "https://ai-team-salamaty-slamaty-prescription-api.hf.space/api/scan";
 
+            var request = _httpContextAccessor.HttpContext?.Request;
+            var baseUrl = request != null ? $"{request.Scheme}://{request.Host}" : "http://salamaty.runasp.net";
+
             try
             {
-                // 1. حفظ الصورة
+                // 1. حفظ الصورة محلياً
                 string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Prescriptions");
                 if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
@@ -69,50 +86,50 @@ namespace Salamaty.API.Services.PrescriptionServices
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
                 var aiResult = await response.Content.ReadFromJsonAsync<AIScanResponse>(options);
 
-                if (aiResult?.Medicines == null || !aiResult.Medicines.Any()) return finalResult;
+                if (aiResult?.Medicines == null) return finalResult;
 
-                // 3. الفلترة
-                var namesFromAi = aiResult.Medicines
-                    .Where(m => m.MatchScore >= 70 && !string.IsNullOrWhiteSpace(m.MatchedDrug))
-                    .Select(m => m.MatchedDrug!.ToLower().Trim())
+                // 3. المطابقة المثالية (Exact Match Only) بناءً على FinalConfidence
+                // التعديل هنا: استخدام FinalConfidence >= 70
+                var cleanAiNames = aiResult.Medicines
+                    .Where(m => m.FinalConfidence >= 70 && !string.IsNullOrWhiteSpace(m.MatchedDrug))
+                    .Select(m => m.MatchedDrug!.ToLower().Replace(" ", "").Trim())
                     .Distinct().ToList();
 
-                if (!namesFromAi.Any()) return finalResult;
-                finalResult.ExtractedMedicines = namesFromAi;
+                if (!cleanAiNames.Any()) return finalResult;
 
-                // 4. البحث "المقيد" (Strict Search) لمنع ظهور أدوية فرعية مثل Relax بدل Multirelax
-                var availableInDb = await _context.Products
-                    .Where(p => namesFromAi.Any(aiName =>
-                        // المطابقة لازم تكون متساوية تماماً بعد حذف المسافات
-                        p.Name.ToLower().Replace(" ", "") == aiName.Replace(" ", "") ||
-                        // أو لو اسم الداتابيز هو البداية الحقيقية (عشان لو فيه 40mg زيادة)
-                        p.Name.ToLower().Replace(" ", "").StartsWith(aiName.Replace(" ", "")) ||
-                        aiName.Replace(" ", "").StartsWith(p.Name.ToLower().Replace(" ", ""))
+                // وضع الأسماء الأصلية للعرض (أيضاً بناءً على الشرط الجديد)
+                finalResult.ExtractedMedicines = aiResult.Medicines
+                    .Where(m => m.FinalConfidence >= 70 && !string.IsNullOrWhiteSpace(m.MatchedDrug))
+                    .Select(m => m.MatchedDrug ?? "")
+                    .Distinct().ToList();
+
+                // سحب الأدوية للمطابقة
+                var allProducts = await _context.Products.ToListAsync();
+
+                var matchedProducts = allProducts.Where(p =>
+                {
+                    var cleanDbName = (p.Name ?? "").ToLower().Replace(" ", "");
+                    return cleanAiNames.Contains(cleanDbName);
+                }).Select(p => new DetectedMedicineDto
+                {
+                    Id = p.Id,
+                    Name = p.Name ?? "Unknown",
+                    Price = p.Price.GetValueOrDefault(),
+                    ImageUrl = string.IsNullOrEmpty(p.ImageUrl)
+                               ? ""
+                               : $"{baseUrl}/{p.ImageUrl.Replace("\\", "/")}",
+                    IsAvailable = true
+                }).ToList();
+
+                finalResult.AvailableMedicines = matchedProducts;
+
+                // 5. تحديد غير المتاح بالمطابقة الدقيقة
+                finalResult.NotAvailableMedicines = finalResult.ExtractedMedicines
+                    .Where(aiOriginal => !matchedProducts.Any(db =>
+                        (db.Name ?? "").ToLower().Replace(" ", "") == aiOriginal.ToLower().Replace(" ", "")
                     ))
-                    .Select(p => new DetectedMedicineDto
-                    {
-                        Id = p.Id,
-                        Name = p.Name,
-                        Price = p.Price.GetValueOrDefault(),
-                        ImageUrl = string.IsNullOrEmpty(p.ImageUrl)
-                                   ? ""
-                                   : $"https://localhost:7140/{p.ImageUrl.Replace("\\", "/")}",
-                        IsAvailable = true
-                    }).ToListAsync();
-
-                // 5. تحديد غير المتاح (مع منع التكرار)
-                var notAvailable = namesFromAi
-                    .Where(aiName =>
-                        !availableInDb.Any(db =>
-                            db.Name.ToLower().Replace(" ", "") == aiName.Replace(" ", "") ||
-                            db.Name.ToLower().Replace(" ", "").Contains(aiName.Replace(" ", ""))
-                        )
-                    )
                     .Select(aiName => new DetectedMedicineDto { Name = aiName, IsAvailable = false })
                     .ToList();
-
-                finalResult.AvailableMedicines = availableInDb;
-                finalResult.NotAvailableMedicines = notAvailable;
 
                 // 6. الهيستوري
                 try
@@ -122,7 +139,7 @@ namespace Salamaty.API.Services.PrescriptionServices
                         UserId = userId,
                         ImagePath = "/Prescriptions/" + uniqueFileName,
                         ScanDate = DateTime.UtcNow,
-                        DetectedMedicines = string.Join(", ", namesFromAi)
+                        DetectedMedicines = string.Join(", ", finalResult.ExtractedMedicines)
                     };
                     _context.Prescriptions.Add(history);
                     await _context.SaveChangesAsync();
