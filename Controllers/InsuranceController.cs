@@ -65,7 +65,7 @@ namespace SalamatyAPI.Controllers
 
             var userDto = new UserSectionDto
             {
-                FullName = profile.User.FullName,
+                FullName = !string.IsNullOrEmpty(profile.CardHolderName) ? profile.CardHolderName : profile.User.FullName,
                 CardHolderId = profile.CardHolderId
             };
 
@@ -126,11 +126,6 @@ namespace SalamatyAPI.Controllers
         {
             var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-            if (user != null && !string.IsNullOrEmpty(dto.FullName))
-            {
-                user.FullName = dto.FullName; // تحديث الاسم
-            }
 
             var profile = await _context.InsuranceProfiles.FirstOrDefaultAsync(p => p.UserId == userId);
 
@@ -145,10 +140,12 @@ namespace SalamatyAPI.Controllers
             }
 
             profile.CardHolderId = dto.CardHolderId;
+            profile.CardHolderName = dto.FullName;
 
-            // 👇 ADDED THESE TWO LINES TO SAVE THE AI DATA TO THE DATABASE 👇
+            // 👇 ADDED THESE THREE LINES TO SAVE THE AI DATA TO THE DATABASE 👇
             profile.PolicyNumber = dto.PolicyNumber;
             profile.ValidUntil = dto.ValidUntil;
+            profile.Status = dto.Status; // <--- هذا هو السطر الذي كان مفقوداً !!!
 
             if (dto.FrontImage != null)
                 profile.FrontImagePath = await SaveInsuranceImage(userId, "front", dto.FrontImage);
@@ -167,12 +164,12 @@ namespace SalamatyAPI.Controllers
             return Ok(new
             {
                 message = "Insurance information saved successfully.",
-                fullName = user?.FullName,
+                cardHolderName = profile.CardHolderName,
                 cardHolderId = profile.CardHolderId,
-                policyNumber = profile.PolicyNumber, // <-- Added here to confirm it saved
+                policyNumber = profile.PolicyNumber,
                 validUntil = profile.ValidUntil,
-                Status = profile.Status, // <-- Added here to confirm it saved
-            providerId = profile.InsuranceProviderId,
+                status = profile.Status, // <-- Now it will return "Valid ✅" instead of null!
+                providerId = profile.InsuranceProviderId,
                 frontImagePath = GetFullUrl(profile.FrontImagePath),
                 backImagePath = GetFullUrl(profile.BackImagePath)
             });
