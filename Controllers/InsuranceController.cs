@@ -65,7 +65,7 @@ namespace SalamatyAPI.Controllers
 
             var userDto = new UserSectionDto
             {
-                FullName = profile.User.FullName,
+                FullName = !string.IsNullOrEmpty(profile.CardHolderName) ? profile.CardHolderName : profile.User.FullName,
                 CardHolderId = profile.CardHolderId
             };
 
@@ -126,11 +126,6 @@ namespace SalamatyAPI.Controllers
         {
             var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-            if (user != null && !string.IsNullOrEmpty(dto.FullName))
-            {
-                user.FullName = dto.FullName; // تحديث الاسم
-            }
 
             var profile = await _context.InsuranceProfiles.FirstOrDefaultAsync(p => p.UserId == userId);
 
@@ -145,6 +140,7 @@ namespace SalamatyAPI.Controllers
             }
 
             profile.CardHolderId = dto.CardHolderId;
+            profile.CardHolderName = dto.FullName;
 
             // 👇 ADDED THESE THREE LINES TO SAVE THE AI DATA TO THE DATABASE 👇
             profile.PolicyNumber = dto.PolicyNumber;
@@ -168,7 +164,7 @@ namespace SalamatyAPI.Controllers
             return Ok(new
             {
                 message = "Insurance information saved successfully.",
-                fullName = user?.FullName,
+                cardHolderName = profile.CardHolderName,
                 cardHolderId = profile.CardHolderId,
                 policyNumber = profile.PolicyNumber,
                 validUntil = profile.ValidUntil,
