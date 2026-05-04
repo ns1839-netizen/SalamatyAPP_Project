@@ -141,8 +141,6 @@ namespace SalamatyAPI.Controllers
 
             profile.CardHolderId = dto.CardHolderId;
             profile.CardHolderName = dto.FullName;
-
-            // 👇 ADDED THESE THREE LINES TO SAVE THE AI DATA TO THE DATABASE 👇
             profile.PolicyNumber = dto.PolicyNumber;
             profile.ValidUntil = dto.ValidUntil;
             profile.Status = dto.Status; // <--- هذا هو السطر الذي كان مفقوداً !!!
