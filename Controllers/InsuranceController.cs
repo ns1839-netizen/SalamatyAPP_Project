@@ -126,6 +126,12 @@ namespace SalamatyAPI.Controllers
         {
             var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
 
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user != null && !string.IsNullOrEmpty(dto.FullName))
+            {
+                user.FullName = dto.FullName; // تحديث الاسم
+            }
+
             var profile = await _context.InsuranceProfiles.FirstOrDefaultAsync(p => p.UserId == userId);
 
             if (profile == null)
@@ -161,6 +167,7 @@ namespace SalamatyAPI.Controllers
             return Ok(new
             {
                 message = "Insurance information saved successfully.",
+                fullName = user?.FullName,
                 cardHolderId = profile.CardHolderId,
                 policyNumber = profile.PolicyNumber, // <-- Added here to confirm it saved
                 validUntil = profile.ValidUntil,
