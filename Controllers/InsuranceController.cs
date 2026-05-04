@@ -146,9 +146,10 @@ namespace SalamatyAPI.Controllers
 
             profile.CardHolderId = dto.CardHolderId;
 
-            // 👇 ADDED THESE TWO LINES TO SAVE THE AI DATA TO THE DATABASE 👇
+            // 👇 ADDED THESE THREE LINES TO SAVE THE AI DATA TO THE DATABASE 👇
             profile.PolicyNumber = dto.PolicyNumber;
             profile.ValidUntil = dto.ValidUntil;
+            profile.Status = dto.Status; // <--- هذا هو السطر الذي كان مفقوداً !!!
 
             if (dto.FrontImage != null)
                 profile.FrontImagePath = await SaveInsuranceImage(userId, "front", dto.FrontImage);
@@ -169,10 +170,10 @@ namespace SalamatyAPI.Controllers
                 message = "Insurance information saved successfully.",
                 fullName = user?.FullName,
                 cardHolderId = profile.CardHolderId,
-                policyNumber = profile.PolicyNumber, // <-- Added here to confirm it saved
+                policyNumber = profile.PolicyNumber,
                 validUntil = profile.ValidUntil,
-                Status = profile.Status, // <-- Added here to confirm it saved
-            providerId = profile.InsuranceProviderId,
+                status = profile.Status, // <-- Now it will return "Valid ✅" instead of null!
+                providerId = profile.InsuranceProviderId,
                 frontImagePath = GetFullUrl(profile.FrontImagePath),
                 backImagePath = GetFullUrl(profile.BackImagePath)
             });
