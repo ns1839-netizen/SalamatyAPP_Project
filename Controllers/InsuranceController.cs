@@ -1,12 +1,10 @@
-﻿using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Text.Json;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Salamaty.API.DTOs.Insurance;
 using SalamatyAPI.Data;
 using SalamatyAPI.Dtos.Insurance;
-using Salamaty.API.DTOs.Insurance;
 
 
 namespace SalamatyAPI.Controllers
@@ -76,7 +74,7 @@ namespace SalamatyAPI.Controllers
                 LogoUrl = !string.IsNullOrEmpty(profile.InsuranceProvider.LogoUrl) ? baseUrl + profile.InsuranceProvider.LogoUrl : null,
                 PolicyNumber = !string.IsNullOrEmpty(profile.PolicyNumber) ? profile.PolicyNumber : "Not Found",
 
-                ValidUntil = !string.IsNullOrEmpty(profile.ValidUntil) ? profile.ValidUntil : "Not Found" ,
+                ValidUntil = !string.IsNullOrEmpty(profile.ValidUntil) ? profile.ValidUntil : "Not Found",
                 Status = !string.IsNullOrEmpty(profile.Status) ? profile.Status : "Not Found"
             };
 
@@ -120,12 +118,86 @@ namespace SalamatyAPI.Controllers
             });
         }
 
+        //[HttpPost("information")]
+        //[RequestSizeLimit(10_000_000)]
+
+        //public async Task<IActionResult> SubmitInsuranceInformation([FromQuery] string userId, [FromForm] SubmitInsuranceInfoDto dto)
+        //{
+        //    var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+
+
+        //    var profile = await _context.InsuranceProfiles.FirstOrDefaultAsync(p => p.UserId == userId);
+
+        //    if (profile == null)
+        //    {
+        //        profile = new InsuranceProfile { UserId = userId, InsuranceProviderId = dto.ProviderId };
+        //        _context.InsuranceProfiles.Add(profile);
+        //    }
+        //    else
+        //    {
+        //        profile.InsuranceProviderId = dto.ProviderId;
+        //    }
+
+        //    profile.CardHolderId = dto.CardHolderId;
+        //    profile.CardHolderName = dto.FullName;
+        //    profile.PolicyNumber = dto.PolicyNumber;
+        //    profile.ValidUntil = dto.ValidUntil;
+        //    profile.Status = dto.Status; // <--- هذا هو السطر الذي كان مفقوداً !!!
+
+        //    if (dto.FrontImage != null)
+        //        profile.FrontImagePath = await SaveInsuranceImage(userId, "front", dto.FrontImage);
+
+        //    if (dto.BackImage != null)
+        //        profile.BackImagePath = await SaveInsuranceImage(userId, "back", dto.BackImage);
+
+        //    await _context.SaveChangesAsync();
+
+        //    string GetFullUrl(string path)
+        //    {
+        //        if (string.IsNullOrEmpty(path)) return null;
+        //        return path.StartsWith("/") ? baseUrl + path : $"{baseUrl}/{path}";
+        //    }
+
+        //    return Ok(new
+        //    {
+        //        message = "Insurance information saved successfully.",
+        //        cardHolderName = profile.CardHolderName,
+        //        cardHolderId = profile.CardHolderId,
+        //        policyNumber = profile.PolicyNumber,
+        //        validUntil = profile.ValidUntil,
+        //        status = profile.Status, // <-- Now it will return "Valid ✅" instead of null!
+        //        providerId = profile.InsuranceProviderId,
+        //        frontImagePath = GetFullUrl(profile.FrontImagePath),
+        //        backImagePath = GetFullUrl(profile.BackImagePath)
+        //    });
+        //}
+
+        //private async Task<string> SaveInsuranceImage(string userId, string side, IFormFile file)
+        //{
+        //    var uploadsRoot = Path.Combine(_env.ContentRootPath, "Uploads", "InsuranceCards", userId);
+        //    Directory.CreateDirectory(uploadsRoot);
+
+        //    var fileName = $"{side}_{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+        //    var fullPath = Path.Combine(uploadsRoot, fileName);
+
+        //    await using var stream = new FileStream(fullPath, FileMode.Create);
+        //    await file.CopyToAsync(stream);
+
+        //    return Path.Combine("Uploads", "InsuranceCards", userId, fileName).Replace("\\", "/");
+        //}
+
         [HttpPost("information")]
         [RequestSizeLimit(10_000_000)]
         public async Task<IActionResult> SubmitInsuranceInformation([FromQuery] string userId, [FromForm] SubmitInsuranceInfoDto dto)
         {
             var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
 
+            // 1. التأكد أن الـ Provider موجود في الداتابيز لمنع الـ Null Reference لاحقاً
+            var providerExists = await _context.InsuranceProviders.AnyAsync(p => p.Id == dto.ProviderId);
+            if (!providerExists)
+            {
+                return BadRequest(new { success = false, message = $"Insurance Provider with ID {dto.ProviderId} not found." });
+            }
 
             var profile = await _context.InsuranceProfiles.FirstOrDefaultAsync(p => p.UserId == userId);
 
@@ -139,40 +211,43 @@ namespace SalamatyAPI.Controllers
                 profile.InsuranceProviderId = dto.ProviderId;
             }
 
-            profile.CardHolderId = dto.CardHolderId;
-            profile.CardHolderName = dto.FullName;
-            profile.PolicyNumber = dto.PolicyNumber;
-            profile.ValidUntil = dto.ValidUntil;
-            profile.Status = dto.Status; // <--- هذا هو السطر الذي كان مفقوداً !!!
+            // 2. تحديث البيانات (استخدام الـ ?? لمنع تخزين NULL)
+            profile.CardHolderId = dto.CardHolderId ?? "N/A";
+            profile.CardHolderName = dto.FullName ?? "Unknown";
+            profile.PolicyNumber = dto.PolicyNumber ?? "Not Found";
+            profile.ValidUntil = dto.ValidUntil ?? "Not Found";
+            profile.Status = dto.Status ?? "Valid ✅";
 
+            // 3. رفع الصور
             if (dto.FrontImage != null)
                 profile.FrontImagePath = await SaveInsuranceImage(userId, "front", dto.FrontImage);
 
             if (dto.BackImage != null)
                 profile.BackImagePath = await SaveInsuranceImage(userId, "back", dto.BackImage);
 
-            await _context.SaveChangesAsync();
-
-            string GetFullUrl(string path)
+            try
             {
-                if (string.IsNullOrEmpty(path)) return null;
-                return path.StartsWith("/") ? baseUrl + path : $"{baseUrl}/{path}";
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = "Database save failed", details = ex.InnerException?.Message ?? ex.Message });
             }
 
             return Ok(new
             {
+                success = true,
                 message = "Insurance information saved successfully.",
-                cardHolderName = profile.CardHolderName,
-                cardHolderId = profile.CardHolderId,
-                policyNumber = profile.PolicyNumber,
-                validUntil = profile.ValidUntil,
-                status = profile.Status, // <-- Now it will return "Valid ✅" instead of null!
-                providerId = profile.InsuranceProviderId,
-                frontImagePath = GetFullUrl(profile.FrontImagePath),
-                backImagePath = GetFullUrl(profile.BackImagePath)
+                data = new
+                {
+                    profile.CardHolderName,
+                    profile.CardHolderId,
+                    profile.Status
+                }
             });
         }
 
+        // ميثود مساعدة لحفظ الصور
         private async Task<string> SaveInsuranceImage(string userId, string side, IFormFile file)
         {
             var uploadsRoot = Path.Combine(_env.ContentRootPath, "Uploads", "InsuranceCards", userId);
@@ -186,8 +261,6 @@ namespace SalamatyAPI.Controllers
 
             return Path.Combine("Uploads", "InsuranceCards", userId, fileName).Replace("\\", "/");
         }
-
-
         [HttpPost("scan")]
         public async Task<IActionResult> ScanInsuranceCard([FromForm] UploadInsuranceCardDto request)
         {
@@ -277,7 +350,7 @@ namespace SalamatyAPI.Controllers
                             ScannedName = extractedName,
                             ScannedValidDate = extractedValidDate,
                             ScannedPolicy = extractedPolicy,
-                            ScannedStatus = extractedStatus ,
+                            ScannedStatus = extractedStatus,
                             ScannedProvider = extractedProvider// <-- Now the mobile app knows if it's expired!
                         }
                     });
