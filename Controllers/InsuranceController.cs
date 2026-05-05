@@ -118,73 +118,7 @@ namespace SalamatyAPI.Controllers
             });
         }
 
-        //[HttpPost("information")]
-        //[RequestSizeLimit(10_000_000)]
 
-        //public async Task<IActionResult> SubmitInsuranceInformation([FromQuery] string userId, [FromForm] SubmitInsuranceInfoDto dto)
-        //{
-        //    var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
-
-
-        //    var profile = await _context.InsuranceProfiles.FirstOrDefaultAsync(p => p.UserId == userId);
-
-        //    if (profile == null)
-        //    {
-        //        profile = new InsuranceProfile { UserId = userId, InsuranceProviderId = dto.ProviderId };
-        //        _context.InsuranceProfiles.Add(profile);
-        //    }
-        //    else
-        //    {
-        //        profile.InsuranceProviderId = dto.ProviderId;
-        //    }
-
-        //    profile.CardHolderId = dto.CardHolderId;
-        //    profile.CardHolderName = dto.FullName;
-        //    profile.PolicyNumber = dto.PolicyNumber;
-        //    profile.ValidUntil = dto.ValidUntil;
-        //    profile.Status = dto.Status; // <--- هذا هو السطر الذي كان مفقوداً !!!
-
-        //    if (dto.FrontImage != null)
-        //        profile.FrontImagePath = await SaveInsuranceImage(userId, "front", dto.FrontImage);
-
-        //    if (dto.BackImage != null)
-        //        profile.BackImagePath = await SaveInsuranceImage(userId, "back", dto.BackImage);
-
-        //    await _context.SaveChangesAsync();
-
-        //    string GetFullUrl(string path)
-        //    {
-        //        if (string.IsNullOrEmpty(path)) return null;
-        //        return path.StartsWith("/") ? baseUrl + path : $"{baseUrl}/{path}";
-        //    }
-
-        //    return Ok(new
-        //    {
-        //        message = "Insurance information saved successfully.",
-        //        cardHolderName = profile.CardHolderName,
-        //        cardHolderId = profile.CardHolderId,
-        //        policyNumber = profile.PolicyNumber,
-        //        validUntil = profile.ValidUntil,
-        //        status = profile.Status, // <-- Now it will return "Valid ✅" instead of null!
-        //        providerId = profile.InsuranceProviderId,
-        //        frontImagePath = GetFullUrl(profile.FrontImagePath),
-        //        backImagePath = GetFullUrl(profile.BackImagePath)
-        //    });
-        //}
-
-        //private async Task<string> SaveInsuranceImage(string userId, string side, IFormFile file)
-        //{
-        //    var uploadsRoot = Path.Combine(_env.ContentRootPath, "Uploads", "InsuranceCards", userId);
-        //    Directory.CreateDirectory(uploadsRoot);
-
-        //    var fileName = $"{side}_{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
-        //    var fullPath = Path.Combine(uploadsRoot, fileName);
-
-        //    await using var stream = new FileStream(fullPath, FileMode.Create);
-        //    await file.CopyToAsync(stream);
-
-        //    return Path.Combine("Uploads", "InsuranceCards", userId, fileName).Replace("\\", "/");
-        //}
 
         [HttpPost("information")]
         [RequestSizeLimit(10_000_000)]
