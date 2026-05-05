@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\HP\\OneDrive\\Desktop\\SalamatyAPP_Project\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|c:\\users\\hp\\onedrive\\desktop\\salamatyapp_project\\dtos\\insurance\\submitinsuranceinfodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|solutionrelative:dtos\\insurance\\submitinsuranceinfodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|c:\\users\\hp\\onedrive\\desktop\\salamatyapp_project\\controllers\\insurancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|solutionrelative:controllers\\insurancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -17,10 +21,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|c:\\users\\hp\\onedrive\\desktop\\salamatyapp_project\\dtos\\insurance\\scannerresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|solutionrelative:dtos\\insurance\\scannerresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|c:\\users\\hp\\onedrive\\desktop\\salamatyapp_project\\dtos\\insurance\\submitinsuranceinfodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|solutionrelative:dtos\\insurance\\submitinsuranceinfodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4DBC5DB7-9216-F844-0595-17411834334E}|Salamaty.API.csproj|c:\\users\\hp\\onedrive\\desktop\\salamatyapp_project\\dtos\\profiledtos\\userprofiledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -182,7 +182,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 18,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Document",
@@ -311,15 +311,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "SubmitInsuranceInfoDto.cs",
               "DocumentMoniker": "C:\\Users\\HP\\OneDrive\\Desktop\\SalamatyAPP_Project\\DTOs\\Insurance\\SubmitInsuranceInfoDto.cs",
               "RelativeDocumentMoniker": "DTOs\\Insurance\\SubmitInsuranceInfoDto.cs",
               "ToolTip": "C:\\Users\\HP\\OneDrive\\Desktop\\SalamatyAPP_Project\\DTOs\\Insurance\\SubmitInsuranceInfoDto.cs",
               "RelativeToolTip": "DTOs\\Insurance\\SubmitInsuranceInfoDto.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAACQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-01T17:21:37.396Z"
+              "WhenOpened": "2026-05-01T17:21:37.396Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -359,7 +360,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "ScannerResponseDto.cs",
               "DocumentMoniker": "C:\\Users\\HP\\OneDrive\\Desktop\\SalamatyAPP_Project\\DTOs\\Insurance\\ScannerResponseDto.cs",
               "RelativeDocumentMoniker": "DTOs\\Insurance\\ScannerResponseDto.cs",
@@ -395,16 +396,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "InsuranceController.cs",
               "DocumentMoniker": "C:\\Users\\HP\\OneDrive\\Desktop\\SalamatyAPP_Project\\Controllers\\InsuranceController.cs",
               "RelativeDocumentMoniker": "Controllers\\InsuranceController.cs",
               "ToolTip": "C:\\Users\\HP\\OneDrive\\Desktop\\SalamatyAPP_Project\\Controllers\\InsuranceController.cs",
               "RelativeToolTip": "Controllers\\InsuranceController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAB8BAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-06T14:59:32.719Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-06T14:59:32.719Z"
             },
             {
               "$type": "Document",
@@ -564,7 +564,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "InsuranceProfile.cs",
               "DocumentMoniker": "C:\\Users\\HP\\OneDrive\\Desktop\\SalamatyAPP_Project\\Models\\InsuranceProfile.cs",
               "RelativeDocumentMoniker": "Models\\InsuranceProfile.cs",
@@ -660,7 +660,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Favorite.cs",
               "DocumentMoniker": "C:\\Users\\HP\\OneDrive\\Desktop\\SalamatyAPP_Project\\Models\\Favorite.cs",
               "RelativeDocumentMoniker": "Models\\Favorite.cs",
