@@ -27,9 +27,11 @@ namespace SalamatyAPI.Dtos.Insurance
         public string? Status { get; set; }
 
         // "Insurance Front" image
+        [Required(ErrorMessage = "The Front Image of the insurance card is absolutely required.")]
         public IFormFile? FrontImage { get; set; }
 
         // "Insurance Back Side" image
+        [Required(ErrorMessage = "The Back Image of the insurance card is absolutely required.")]
         public IFormFile? BackImage { get; set; }
         public string? FullName { get; set; }
     }
