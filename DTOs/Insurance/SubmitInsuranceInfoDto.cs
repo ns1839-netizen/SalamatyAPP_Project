@@ -33,6 +33,8 @@ namespace SalamatyAPI.Dtos.Insurance
         // "Insurance Back Side" image
         [Required(ErrorMessage = "The Back Image of the insurance card is absolutely required.")]
         public IFormFile? BackImage { get; set; }
+
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Name must contain English letters and spaces only.")]
         public string? FullName { get; set; }
     }
 }
