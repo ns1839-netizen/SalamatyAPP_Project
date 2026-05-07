@@ -24,6 +24,15 @@ namespace Salamaty.API.Services.AuthServices
 
             try
             {
+                // قبل الـ ConnectAsync، ضيفي السطور دي عشان تتأكدي إن البيانات مقروءة
+                var smtpServer = config["EmailSettings:SmtpServer"];
+                var senderEmail = config["EmailSettings:Sender"];
+                var password = config["EmailSettings:Password"];
+
+                if (string.IsNullOrEmpty(smtpServer) || string.IsNullOrEmpty(senderEmail) || string.IsNullOrEmpty(password))
+                {
+                    throw new Exception("Email settings are missing in appsettings.json! Check the keys names.");
+                }
                 await client.ConnectAsync(
                     config["EmailSettings:SmtpServer"],
                     int.Parse(config["EmailSettings:Port"] ?? "587"),
@@ -35,6 +44,7 @@ namespace Salamaty.API.Services.AuthServices
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"[EMAIL ERROR]: {ex.Message}");
                 throw new Exception($"Email sending failed: {ex.Message}");
             }
             finally
