@@ -39,8 +39,20 @@ namespace SalamatyAPI.Controllers
                 if (type != InsuranceServiceType.All)
                 {
                     string selectedType = type.ToString().ToLower();
-                    query = query.Where(s => s.Type != null &&
-                                             s.Type.ToLower().Contains(selectedType));
+
+                    // Handle the "Pharmacy" vs "Pharmacies" spelling issue
+                    if (selectedType == "pharmacy")
+                    {
+                        query = query.Where(s => s.Type != null &&
+                                                (s.Type.ToLower() == "pharmacy" ||
+                                                 s.Type.ToLower() == "pharmacies"));
+                    }
+                    else
+                    {
+                        // For Hospital and Lab, your normal Contains() logic works perfectly
+                        query = query.Where(s => s.Type != null &&
+                                                 s.Type.ToLower().Contains(selectedType));
+                    }
                 }
 
                 var services = await query.ToListAsync();
