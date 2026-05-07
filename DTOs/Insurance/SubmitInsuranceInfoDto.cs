@@ -4,9 +4,6 @@ using System.ComponentModel.DataAnnotations;
 namespace SalamatyAPI.Dtos.Insurance
 {
 
-    /// <summary>
-    /// Used by the "Insurance information" screen.
-    /// </summary>
     public class SubmitInsuranceInfoDto
     {
         public int ProviderId { get; set; }

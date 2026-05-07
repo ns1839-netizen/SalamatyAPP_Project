@@ -79,6 +79,7 @@ namespace Salamaty.API.Controllers
                 f.Governorate,
                 Distance = Math.Round(CalculateDistance(userLat, userLon, f.Latitude, f.Longitude), 1),
                 LocationUrl = $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(f.Name)}+{f.Latitude},{f.Longitude}"
+
             })
             .OrderBy(f => f.Distance)
             .Take(3)
