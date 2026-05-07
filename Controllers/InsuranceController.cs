@@ -126,7 +126,7 @@ namespace SalamatyAPI.Controllers
         {
             var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
 
-            // 1. التأكد أن الـ Provider موجود في الداتابيز لمنع الـ Null Reference لاحقاً
+            // 1. التأكد أن الـ Provider موجود فعلياً لمنع الـ Crash
             var providerExists = await _context.InsuranceProviders.AnyAsync(p => p.Id == dto.ProviderId);
             if (!providerExists)
             {
@@ -145,39 +145,41 @@ namespace SalamatyAPI.Controllers
                 profile.InsuranceProviderId = dto.ProviderId;
             }
 
-            // 2. تحديث البيانات (استخدام الـ ?? لمنع تخزين NULL)
+            // 2. تحديث البيانات مع حماية الـ NULL (Null Coalescing Operator)
             profile.CardHolderId = dto.CardHolderId ?? "N/A";
             profile.CardHolderName = dto.FullName ?? "Unknown";
             profile.PolicyNumber = dto.PolicyNumber ?? "Not Found";
             profile.ValidUntil = dto.ValidUntil ?? "Not Found";
             profile.Status = dto.Status ?? "Valid ✅";
 
-            // 3. رفع الصور
+            // 3. معالجة الصور
             if (dto.FrontImage != null)
                 profile.FrontImagePath = await SaveInsuranceImage(userId, "front", dto.FrontImage);
 
             if (dto.BackImage != null)
                 profile.BackImagePath = await SaveInsuranceImage(userId, "back", dto.BackImage);
 
-            try
+            await _context.SaveChangesAsync();
+
+            // دالة مساعدة لتركيب الـ URL الكامل للصور
+            string GetFullUrl(string path)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { success = false, message = "Database save failed", details = ex.InnerException?.Message ?? ex.Message });
+                if (string.IsNullOrEmpty(path)) return null;
+                return path.StartsWith("/") ? baseUrl + path : $"{baseUrl}/{path}";
             }
 
+            // 4. الـ Response الكامل كما كان في الكود الأصلي مع القيم المؤمنة
             return Ok(new
             {
-                success = true,
                 message = "Insurance information saved successfully.",
-                data = new
-                {
-                    profile.CardHolderName,
-                    profile.CardHolderId,
-                    profile.Status
-                }
+                cardHolderName = profile.CardHolderName,
+                cardHolderId = profile.CardHolderId,
+                policyNumber = profile.PolicyNumber,
+                validUntil = profile.ValidUntil,
+                status = profile.Status,
+                providerId = profile.InsuranceProviderId,
+                frontImagePath = GetFullUrl(profile.FrontImagePath),
+                backImagePath = GetFullUrl(profile.BackImagePath)
             });
         }
 
