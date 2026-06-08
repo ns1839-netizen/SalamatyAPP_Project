@@ -1,13 +1,262 @@
-﻿using System.Net.Http.Headers;
+﻿//using System.Net.Http.Headers;
+//using System.Text.Json;
+//using System.Text.Json.Serialization;
+//using Microsoft.EntityFrameworkCore;
+//using Salamaty.API.Models;
+//using SalamatyAPI.Data;
+//using SalamatyAPI.Models;
+
+//namespace Salamaty.API.Services.PrescriptionServices
+//{
+//    public class AIScanResponse
+//    {
+//        [JsonPropertyName("medicines")]
+//        public List<AIMedicineResult>? Medicines { get; set; } = new();
+//    }
+
+//    public class AIMedicineResult
+//    {
+//        [JsonPropertyName("matched_drug")]
+//        public string? MatchedDrug { get; set; }
+
+//        [JsonPropertyName("match_score")]
+//        public double MatchScore { get; set; }
+
+//        [JsonPropertyName("final_confidence")]
+//        public double FinalConfidence { get; set; }
+//    }
+
+//    public class ScanResultDto
+//    {
+//        public List<string> ExtractedMedicines { get; set; } = new();
+//        public List<DetectedMedicineDto> AvailableMedicines { get; set; } = new();
+//        public List<DetectedMedicineDto> NotAvailableMedicines { get; set; } = new();
+//    }
+
+//    public class PrescriptionService : IPrescriptionService
+//    {
+//        private readonly ApplicationDbContext _context;
+//        private readonly IWebHostEnvironment _webHostEnvironment;
+//        private readonly HttpClient _httpClient;
+//        private readonly IHttpContextAccessor _httpContextAccessor;
+
+//        public PrescriptionService(
+//            ApplicationDbContext context,
+//            IWebHostEnvironment webHostEnvironment,
+//            HttpClient httpClient,
+//            IHttpContextAccessor httpContextAccessor)
+//        {
+//            _context = context;
+//            _webHostEnvironment = webHostEnvironment;
+//            _httpClient = httpClient;
+//            _httpContextAccessor = httpContextAccessor;
+//        }
+
+//        public async Task<ScanResultDto> ScanPrescriptionAsync(IFormFile prescriptionImage, string userId)
+//        {
+//            var finalResult = new ScanResultDto();
+
+//            if (prescriptionImage == null || string.IsNullOrEmpty(userId)) return finalResult;
+
+//            string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(prescriptionImage.FileName);
+//            string aiUrl = "https://ai-team-salamaty-slamaty-prescription-api.hf.space/api/scan";
+//            string aiSearchUrl = "https://ai-team-salamaty-salamaty-medicine-ai.hf.space/search_medicine";
+
+//            var request = _httpContextAccessor.HttpContext?.Request;
+//            var baseUrl = request != null ? $"{request.Scheme}://{request.Host}" : "http://salamaty.runasp.net";
+
+//            // خط دفاع عالي: سحب قائمة الأدوية المحلية في أول ثانية قبل بدء اتصال الـ AI الطويل تلافياً لقطع الشبكة
+//            List<Product> allProducts = new List<Product>();
+//            try
+//            {
+//                allProducts = await _context.Products.ToListAsync();
+//            }
+//            catch (Exception dbLoadEx)
+//            {
+//                Console.WriteLine($">>>> Initial DB Load Failed (Will use fallback): {dbLoadEx.Message}");
+//            }
+
+//            try
+//            {
+//                // 1. حفظ الصورة محلياً
+//                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Prescriptions");
+//                if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
+//                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+//                using (var fileStream = new FileStream(filePath, FileMode.Create)) { await prescriptionImage.CopyToAsync(fileStream); }
+
+//                // 2. طلب الـ AI Scan
+//                using var aiClient = new HttpClient();
+//                aiClient.Timeout = TimeSpan.FromMinutes(15);
+
+//                using var requestContent = new MultipartFormDataContent();
+//                var imageStream = prescriptionImage.OpenReadStream();
+//                var streamContent = new StreamContent(imageStream);
+//                streamContent.Headers.ContentType = new MediaTypeHeaderValue(prescriptionImage.ContentType);
+//                requestContent.Add(streamContent, "file", prescriptionImage.FileName);
+
+//                var response = await aiClient.PostAsync(aiUrl, requestContent);
+//                if (!response.IsSuccessStatusCode) return finalResult;
+
+//                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+//                var aiResult = await response.Content.ReadFromJsonAsync<AIScanResponse>(options);
+
+//                if (aiResult?.Medicines == null) return finalResult;
+
+//                // 3. الفلترة المرنة (Confidence >= 50%)
+//                var rawMedicines = aiResult.Medicines
+//                    .Where(m => m.FinalConfidence >= 50 && !string.IsNullOrWhiteSpace(m.MatchedDrug))
+//                    .Select(m => m.MatchedDrug!.Trim())
+//                    .Distinct()
+//                    .ToList();
+
+//                if (!rawMedicines.Any()) return finalResult;
+
+//                finalResult.ExtractedMedicines = rawMedicines;
+
+//                foreach (var aiOriginalName in finalResult.ExtractedMedicines)
+//                {
+//                    string cleanAiName = aiOriginalName.ToLower().Replace(" ", "").Trim();
+
+//                    // مطابقة الأحرف والمسافات محلياً من القائمة الجاهزة في الـ Memory
+//                    var localProduct = allProducts.FirstOrDefault(p =>
+//                    {
+//                        string cleanDbName = (p.Name ?? "").ToLower().Replace(" ", "").Trim();
+//                        return cleanDbName == cleanAiName || cleanAiName.Contains(cleanDbName) || cleanDbName.Contains(cleanAiName);
+//                    });
+
+//                    if (localProduct != null)
+//                    {
+//                        finalResult.AvailableMedicines.Add(new DetectedMedicineDto
+//                        {
+//                            Id = localProduct.Id,
+//                            Name = localProduct.Name ?? aiOriginalName,
+//                            Price = localProduct.Price.GetValueOrDefault(),
+//                            ImageUrl = string.IsNullOrEmpty(localProduct.ImageUrl) ? "" : $"{baseUrl}/{localProduct.ImageUrl.Replace("\\", "/")}",
+//                            IsAvailable = true
+//                        });
+//                    }
+//                    else
+//                    {
+//                        // 4. خطة الإنقاذ لايف: الدواء مش متسجل محلياً ⬅️ نسأل الـ search_medicine الـ Endpoint التانية
+//                        string searchName = aiOriginalName.Split(' ')[0]
+//                            .Replace("0", "").Replace("1", "").Replace("2", "").Replace("3", "")
+//                            .Replace("4", "").Replace("5", "").Replace("6", "").Replace("7", "")
+//                            .Replace("8", "").Replace("9", "")
+//                            .Replace("mg", "", StringComparison.OrdinalIgnoreCase).Trim();
+
+//                        if (cleanAiName.Contains("multirelax")) searchName = "Multi relax";
+
+//                        bool foundInAiSearch = false;
+
+//                        try
+//                        {
+//                            var searchPayload = new { drug_name = searchName };
+//                            var searchResponse = await aiClient.PostAsJsonAsync(aiSearchUrl, searchPayload);
+
+//                            if (searchResponse.IsSuccessStatusCode)
+//                            {
+//                                var searchJsonString = await searchResponse.Content.ReadAsStringAsync();
+//                                using var searchDoc = JsonDocument.Parse(searchJsonString);
+//                                var searchRoot = searchDoc.RootElement;
+
+//                                // قراءة الـ Object المليان داتا الراجع من الـ AI
+//                                string extName = searchRoot.TryGetProperty("name", out var nameProp) ? nameProp.GetString() ?? aiOriginalName : aiOriginalName;
+//                                decimal extPrice = searchRoot.TryGetProperty("price", out var priceProp) ? priceProp.GetDecimal() : 22.5m;
+//                                string extDesc = searchRoot.TryGetProperty("description", out var descProp) ? descProp.GetString() ?? "" : "";
+//                                string extUses = searchRoot.TryGetProperty("uses", out var usesProp) ? usesProp.GetString() ?? "" : "";
+//                                string extSide = searchRoot.TryGetProperty("sideeffect", out var sideProp) ? sideProp.GetString() ?? "" : "";
+//                                string extCat = searchRoot.TryGetProperty("category", out var catProp) ? catProp.GetString() ?? "" : "";
+
+//                                // 🔥 خطوة الحسم: نقله فوراً لقائمة الـ AvailableMedicines ليعرض للمريض لايف حالا بالبيانات الراجعة
+//                                // بكدة نضمن عرض السعر والوصف حتى لو سيرفر قاعدة البيانات أونلاين فصل شبكة!
+//                                var detectedMed = new DetectedMedicineDto
+//                                {
+//                                    Id = 0,
+//                                    Name = extName,
+//                                    Price = extPrice,
+//                                    ImageUrl = "",
+//                                    IsAvailable = true
+//                                };
+//                                finalResult.AvailableMedicines.Add(detectedMed);
+//                                foundInAiSearch = true;
+
+//                                // محاولة حفظ الدواء في الخلفية كـ Cache (لو نجحت تمام، لو ضربت بسبب الشبكة الأبلكيشن مش هيعلق)
+//                                try
+//                                {
+//                                    var newProduct = new Product
+//                                    {
+//                                        Name = extName,
+//                                        Price = extPrice,
+//                                        Description = extDesc,
+//                                        Uses = extUses,
+//                                        SideEffects = extSide,
+//                                        Category = extCat
+//                                    };
+
+//                                    _context.Products.Add(newProduct);
+//                                    await _context.SaveChangesAsync();
+//                                    detectedMed.Id = newProduct.Id; // تحديث الـ ID
+//                                    _context.Entry(newProduct).State = EntityState.Detached;
+//                                }
+//                                catch (Exception dbProductEx)
+//                                {
+//                                    Console.WriteLine($">>>> Background Database Caching Skipped due to network drop: {dbProductEx.Message}");
+//                                    _context.ChangeTracker.Clear(); // تنظيف فوري لإنقاذ الـ Context
+//                                }
+//                            }
+//                        }
+//                        catch (Exception searchEx)
+//                        {
+//                            Console.WriteLine($">>>> Internal search_medicine failed for {aiOriginalName}: {searchEx.Message}");
+//                        }
+
+//                        if (!foundInAiSearch)
+//                        {
+//                            finalResult.NotAvailableMedicines.Add(new DetectedMedicineDto
+//                            {
+//                                Name = aiOriginalName,
+//                                IsAvailable = false
+//                            });
+//                        }
+//                    }
+//                }
+
+//                // 5. حفظ الهيستوري والروشتات (معزول ومحمي تماماً من كراش الشبكة والـ UserId)
+//                try
+//                {
+//                    var history = new Prescription
+//                    {
+//                        UserId = userId,
+//                        ImagePath = "/Prescriptions/" + uniqueFileName,
+//                        ScanDate = DateTime.UtcNow,
+//                        DetectedMedicines = string.Join(", ", finalResult.ExtractedMedicines)
+//                    };
+//                    _context.Prescriptions.Add(history);
+//                    await _context.SaveChangesAsync();
+//                }
+//                catch (Exception dbEx)
+//                {
+//                    Console.WriteLine($">>>> History Save Skipped due to database connection dropped: {dbEx.Message}");
+//                    _context.ChangeTracker.Clear();
+//                }
+//            }
+//            catch (Exception ex) { Console.WriteLine($"[Critical Service Error]: {ex.Message}"); }
+
+//            return finalResult;
+//        }
+//    }
+//}
+
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Salamaty.API.Models;
 using SalamatyAPI.Data;
+using SalamatyAPI.Models;
 
 namespace Salamaty.API.Services.PrescriptionServices
 {
-    // 1. الكلاسات المساعدة (خارج كلاس السيرفيس لسهولة الوصول)
     public class AIScanResponse
     {
         [JsonPropertyName("medicines")]
@@ -22,7 +271,6 @@ namespace Salamaty.API.Services.PrescriptionServices
         [JsonPropertyName("match_score")]
         public double MatchScore { get; set; }
 
-        // التعديل الجديد: استقبال الـ final_confidence من الـ AI
         [JsonPropertyName("final_confidence")]
         public double FinalConfidence { get; set; }
     }
@@ -61,9 +309,21 @@ namespace Salamaty.API.Services.PrescriptionServices
 
             string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(prescriptionImage.FileName);
             string aiUrl = "https://ai-team-salamaty-slamaty-prescription-api.hf.space/api/scan";
+            string aiSearchUrl = "https://ai-team-salamaty-salamaty-medicine-ai.hf.space/search_medicine";
 
             var request = _httpContextAccessor.HttpContext?.Request;
             var baseUrl = request != null ? $"{request.Scheme}://{request.Host}" : "http://salamaty.runasp.net";
+
+            // خط دفاع Production: سحب قائمة الأدوية المتوفرة لتفادي الـ Network Drops
+            var allProducts = new List<Product>();
+            try
+            {
+                allProducts = await _context.Products.ToListAsync();
+            }
+            catch (Exception dbLoadEx)
+            {
+                Console.WriteLine($">>>> Production DB initial load skipped: {dbLoadEx.Message}");
+            }
 
             try
             {
@@ -73,14 +333,17 @@ namespace Salamaty.API.Services.PrescriptionServices
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create)) { await prescriptionImage.CopyToAsync(fileStream); }
 
-                // 2. طلب الـ AI
+                // 2. طلب الـ AI Scan بوقت مفتوح ومقاوم للـ Timeout
+                using var aiClient = new HttpClient();
+                aiClient.Timeout = TimeSpan.FromMinutes(15);
+
                 using var requestContent = new MultipartFormDataContent();
                 var imageStream = prescriptionImage.OpenReadStream();
                 var streamContent = new StreamContent(imageStream);
                 streamContent.Headers.ContentType = new MediaTypeHeaderValue(prescriptionImage.ContentType);
                 requestContent.Add(streamContent, "file", prescriptionImage.FileName);
 
-                var response = await _httpClient.PostAsync(aiUrl, requestContent);
+                var response = await aiClient.PostAsync(aiUrl, requestContent);
                 if (!response.IsSuccessStatusCode) return finalResult;
 
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
@@ -88,50 +351,145 @@ namespace Salamaty.API.Services.PrescriptionServices
 
                 if (aiResult?.Medicines == null) return finalResult;
 
-                // 3. المطابقة المثالية (Exact Match Only) بناءً على FinalConfidence
-                // التعديل هنا: استخدام FinalConfidence >= 70
-                var cleanAiNames = aiResult.Medicines
-                    .Where(m => m.FinalConfidence >= 70 && !string.IsNullOrWhiteSpace(m.MatchedDrug))
-                    .Select(m => m.MatchedDrug!.ToLower().Replace(" ", "").Trim())
-                    .Distinct().ToList();
-
-                if (!cleanAiNames.Any()) return finalResult;
-
-                // وضع الأسماء الأصلية للعرض (أيضاً بناءً على الشرط الجديد)
-                finalResult.ExtractedMedicines = aiResult.Medicines
-                    .Where(m => m.FinalConfidence >= 70 && !string.IsNullOrWhiteSpace(m.MatchedDrug))
-                    .Select(m => m.MatchedDrug ?? "")
-                    .Distinct().ToList();
-
-                // سحب الأدوية للمطابقة
-                var allProducts = await _context.Products.ToListAsync();
-
-                var matchedProducts = allProducts.Where(p =>
-                {
-                    var cleanDbName = (p.Name ?? "").ToLower().Replace(" ", "");
-                    return cleanAiNames.Contains(cleanDbName);
-                }).Select(p => new DetectedMedicineDto
-                {
-                    Id = p.Id,
-                    Name = p.Name ?? "Unknown",
-                    Price = p.Price.GetValueOrDefault(),
-                    ImageUrl = string.IsNullOrEmpty(p.ImageUrl)
-                               ? ""
-                               : $"{baseUrl}/{p.ImageUrl.Replace("\\", "/")}",
-                    IsAvailable = true
-                }).ToList();
-
-                finalResult.AvailableMedicines = matchedProducts;
-
-                // 5. تحديد غير المتاح بالمطابقة الدقيقة
-                finalResult.NotAvailableMedicines = finalResult.ExtractedMedicines
-                    .Where(aiOriginal => !matchedProducts.Any(db =>
-                        (db.Name ?? "").ToLower().Replace(" ", "") == aiOriginal.ToLower().Replace(" ", "")
-                    ))
-                    .Select(aiName => new DetectedMedicineDto { Name = aiName, IsAvailable = false })
+                // 3. فلترة مرنة (Confidence >= 50%) لضمان لقط خط الروشتة المتهز
+                var rawMedicines = aiResult.Medicines
+                    .Where(m => m.FinalConfidence >= 50 && !string.IsNullOrWhiteSpace(m.MatchedDrug))
+                    .Select(m => m.MatchedDrug!.Trim())
+                    .Distinct()
                     .ToList();
 
-                // 6. الهيستوري
+                if (!rawMedicines.Any()) return finalResult;
+
+                finalResult.ExtractedMedicines = rawMedicines;
+
+                foreach (var aiOriginalName in finalResult.ExtractedMedicines)
+                {
+                    string cleanAiName = aiOriginalName.ToLower().Replace(" ", "").Trim();
+
+                    // مطابقة الأحرف والمسافات محلياً من القائمة الجاهزة في الـ Memory
+                    var localProduct = allProducts.FirstOrDefault(p =>
+                    {
+                        string cleanDbName = (p.Name ?? "").ToLower().Replace(" ", "").Trim();
+                        return cleanDbName == cleanAiName || cleanAiName.Contains(cleanDbName) || cleanDbName.Contains(cleanAiName);
+                    });
+
+                    if (localProduct != null)
+                    {
+                        finalResult.AvailableMedicines.Add(new DetectedMedicineDto
+                        {
+                            Id = localProduct.Id,
+                            Name = localProduct.Name ?? aiOriginalName,
+                            Price = localProduct.Price.GetValueOrDefault(),
+                            ImageUrl = string.IsNullOrEmpty(localProduct.ImageUrl) ? "" : $"{baseUrl}/{localProduct.ImageUrl.Replace("\\", "/")}",
+                            IsAvailable = true
+                        });
+                    }
+                    else
+                    {
+                        // 4. خطة الإنقاذ والربط اللايف: الدواء مش متسجل محلياً ⬅️ نسأل الـ search_medicine الـ Space التانية
+                        string searchName = aiOriginalName.Split(' ')[0]
+                            .Replace("0", "").Replace("1", "").Replace("2", "").Replace("3", "")
+                            .Replace("4", "").Replace("5", "").Replace("6", "").Replace("7", "")
+                            .Replace("8", "").Replace("9", "")
+                            .Replace("mg", "", StringComparison.OrdinalIgnoreCase).Trim();
+
+                        if (cleanAiName.Contains("multirelax")) searchName = "Multi relax";
+
+                        bool foundInAiSearch = false;
+
+                        try
+                        {
+                            var searchPayload = new { drug_name = searchName };
+                            var searchResponse = await aiClient.PostAsJsonAsync(aiSearchUrl, searchPayload);
+
+                            if (searchResponse.IsSuccessStatusCode)
+                            {
+                                var searchJsonString = await searchResponse.Content.ReadAsStringAsync();
+                                using var searchDoc = JsonDocument.Parse(searchJsonString);
+                                var searchRoot = searchDoc.RootElement;
+
+                                // قراءة الـ Object الحقيقي الراجع من الـ AI بالكامل
+                                string extName = searchRoot.TryGetProperty("name", out var nameProp) ? nameProp.GetString() ?? aiOriginalName : aiOriginalName;
+                                decimal extPrice = searchRoot.TryGetProperty("price", out var priceProp) ? priceProp.GetDecimal() : 22.5m;
+                                string extDesc = searchRoot.TryGetProperty("description", out var descProp) ? descProp.GetString() ?? "" : "";
+                                string extUses = searchRoot.TryGetProperty("uses", out var usesProp) ? usesProp.GetString() ?? "" : "";
+                                string extSide = searchRoot.TryGetProperty("sideeffect", out var sideProp) ? sideProp.GetString() ?? "" : "";
+                                string extCat = searchRoot.TryGetProperty("category", out var catProp) ? catProp.GetString() ?? "" : "";
+
+                                // قراءة لستة البدايل المسترجعة من الـ JSON
+                                List<string> extAlternativesList = new List<string>();
+                                if (searchRoot.TryGetProperty("alternatives", out var altProp) && altProp.ValueKind == JsonValueKind.Array)
+                                {
+                                    foreach (var altItem in altProp.EnumerateArray())
+                                    {
+                                        extAlternativesList.Add(altItem.GetString() ?? "");
+                                    }
+                                }
+
+                                // تحويل اللستة لنص مجمع مفصول بفاصلة لعمود الداتابيز القديم لضمان رجوع البيانات
+                                string extAlternativesString = string.Join(", ", extAlternativesList);
+
+                                // 🔥 خطوة الحسم في الـ Production: وضع الداتا فوراً للمريض لايف بالبيانات الراجعة والسعر الحقيقي
+                                var detectedMed = new DetectedMedicineDto
+                                {
+                                    Id = 0,
+                                    Name = extName,
+                                    Price = extPrice,
+                                    ImageUrl = "",
+                                    IsAvailable = true
+                                };
+                                finalResult.AvailableMedicines.Add(detectedMed);
+                                foundInAiSearch = true;
+
+                                // محاولة حفظ الدواء في الخلفية كـ Cache (محمي بالكامل من أي كراش شبكة)
+                                try
+                                {
+                                    var newProduct = new Product
+                                    {
+                                        Name = extName,
+                                        Price = extPrice,
+                                        Description = extDesc,
+                                        Uses = extUses,
+                                        SideEffects = extSide,
+                                        Category = extCat,
+                                        Alternatives = extAlternativesString // 👈 حفظ النص المجمع في العمود الأساسي اللي ظاهر في الـ Adminer
+                                    };
+
+                                    _context.Products.Add(newProduct);
+                                    await _context.SaveChangesAsync(); // الحفظ الفوري والمنفصل للدواء
+
+                                    detectedMed.Id = newProduct.Id; // تحديث الـ ID الحقيقي
+                                    _context.Entry(newProduct).State = EntityState.Detached; // فصل التتبع لسلامة الـ Memory
+                                }
+                                catch (Exception dbProductEx)
+                                {
+                                    Console.WriteLine($">>>> Background Database Caching Skipped safely: {dbProductEx.Message}");
+                                    _context.ChangeTracker.Clear(); // تنظيف فوري لإنقاذ الـ Context
+                                }
+                            }
+                            else
+                            {
+                                string errBody = await searchResponse.Content.ReadAsStringAsync();
+                                Console.WriteLine($">>>> AI Search returned status {searchResponse.StatusCode}. Body: {errBody}");
+                            }
+                        }
+                        catch (Exception searchEx)
+                        {
+                            Console.WriteLine($">>>> Internal search_medicine failed for {aiOriginalName}: {searchEx.Message}");
+                        }
+
+                        if (!foundInAiSearch)
+                        {
+                            finalResult.NotAvailableMedicines.Add(new DetectedMedicineDto
+                            {
+                                Name = aiOriginalName,
+                                IsAvailable = false
+                            });
+                        }
+                    }
+                }
+
+                // 5. حفظ الهيستوري والروشتات (معزول ومحمي تماماً من الـ Rollback والـ Foreign Key Errors للـ User الوهمي)
                 try
                 {
                     var history = new Prescription
@@ -144,13 +502,15 @@ namespace Salamaty.API.Services.PrescriptionServices
                     _context.Prescriptions.Add(history);
                     await _context.SaveChangesAsync();
                 }
-                catch (Exception dbEx) { Console.WriteLine($">>>> History Save Failed: {dbEx.Message}"); }
+                catch (Exception dbEx)
+                {
+                    Console.WriteLine($">>>> Production History Save Skipped safely (DB Locked/Offline): {dbEx.Message}");
+                    _context.ChangeTracker.Clear(); // تنظيف الـ Tracker لضمان سلامة الأبلكيشن
+                }
             }
-            catch (Exception ex) { Console.WriteLine($"[Critical Service Error]: {ex.Message}"); }
+            catch (Exception ex) { Console.WriteLine($"[Critical Production Service Error]: {ex.Message}"); }
 
             return finalResult;
         }
     }
 }
-
-
