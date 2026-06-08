@@ -269,7 +269,6 @@
 //}
 
 
-
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -337,6 +336,9 @@ namespace Salamaty.API.Services.PrescriptionServices
             var request = _httpContextAccessor.HttpContext?.Request;
             var baseUrl = request != null ? $"{request.Scheme}://{request.Host}" : "http://salamaty.runasp.net";
 
+            // مسار الصورة الافتراضية
+            string defaultImagePath = "medicine_images/images.jpg";
+
             var allProducts = new List<Product>();
             try
             {
@@ -396,12 +398,17 @@ namespace Salamaty.API.Services.PrescriptionServices
 
                     if (localProduct != null)
                     {
+                        // هندلة المنتجات المحلية: لو الـ ImageUrl متخزن بـ NULL أو فاضي، ياخذ برضه الـ Default Image المحددة
+                        string finalLocalImg = string.IsNullOrEmpty(localProduct.ImageUrl)
+                            ? $"{baseUrl}/{defaultImagePath}"
+                            : $"{baseUrl}/{localProduct.ImageUrl.Replace("\\", "/")}";
+
                         finalResult.AvailableMedicines.Add(new DetectedMedicineDto
                         {
                             Id = localProduct.Id,
                             Name = localProduct.Name ?? aiOriginalName,
                             Price = localProduct.Price.GetValueOrDefault(),
-                            ImageUrl = string.IsNullOrEmpty(localProduct.ImageUrl) ? "" : $"{baseUrl}/{localProduct.ImageUrl.Replace("\\", "/")}",
+                            ImageUrl = finalLocalImg,
                             IsAvailable = true
                         });
                     }
@@ -429,7 +436,6 @@ namespace Salamaty.API.Services.PrescriptionServices
                                 using var searchDoc = JsonDocument.Parse(searchJsonString);
                                 var searchRoot = searchDoc.RootElement;
 
-                                // 💡 حظر الـ NULL من القراءة واستبدالها بـ "" فوراً
                                 string extName = searchRoot.TryGetProperty("name", out var nameProp) ? nameProp.GetString() ?? aiOriginalName : aiOriginalName;
                                 decimal extPrice = searchRoot.TryGetProperty("price", out var priceProp) ? priceProp.GetDecimal() : 22.5m;
                                 string extDesc = searchRoot.TryGetProperty("description", out var descProp) ? descProp.GetString() ?? "" : "";
@@ -444,12 +450,13 @@ namespace Salamaty.API.Services.PrescriptionServices
                                 }
                                 string extAlternativesString = string.Join(", ", extAlternativesList);
 
+                                // 💡 هنا التعديل: تركيب مسار الصورة الافتراضية كامل للدواء الجديد لايف
                                 var detectedMed = new DetectedMedicineDto
                                 {
                                     Id = 0,
                                     Name = extName,
                                     Price = extPrice,
-                                    ImageUrl = "",
+                                    ImageUrl = $"{baseUrl}/{defaultImagePath}", // 👈 الصورة الافتراضية المجهزة
                                     IsAvailable = true
                                 };
                                 finalResult.AvailableMedicines.Add(detectedMed);
@@ -462,14 +469,13 @@ namespace Salamaty.API.Services.PrescriptionServices
                                     {
                                         Name = extName,
                                         Price = extPrice,
-                                        // 💡 تأمين الحفظ في الداتابيز بحيث لو الـ AI باعت حقل فاضي ينزل كـ "" وليس NULL
                                         Description = string.IsNullOrEmpty(extDesc) ? "" : extDesc,
                                         Uses = string.IsNullOrEmpty(extUses) ? "" : extUses,
                                         SideEffects = string.IsNullOrEmpty(extSide) ? "" : extSide,
                                         Category = string.IsNullOrEmpty(extCat) ? "" : extCat,
                                         Alternatives = string.IsNullOrEmpty(extAlternativesString) ? "" : extAlternativesString,
-                                        ImageUrl = "",
-                                        Pharmacies = "" // منع الـ NULL هنا برضه
+                                        ImageUrl = defaultImagePath, // 👈 حفظ مسار الصورة الافتراضية في قاعدة البيانات لحظر الـ NULL
+                                        Pharmacies = ""
                                     };
 
                                     context.Products.Add(newProduct);
